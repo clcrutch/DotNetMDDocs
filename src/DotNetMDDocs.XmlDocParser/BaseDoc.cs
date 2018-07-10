@@ -45,6 +45,8 @@ namespace DotNetMDDocs.XmlDocParser
                 {
                     safeName = safeName.Replace(invalid, '_');
                 }
+                safeName = safeName.Replace('(', '_');
+                safeName = safeName.Replace(')', '_');
 
                 return safeName;
             }

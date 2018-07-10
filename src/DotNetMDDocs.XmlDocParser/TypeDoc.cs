@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mono.Cecil;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -9,7 +10,8 @@ namespace DotNetMDDocs.XmlDocParser
 {
     public class TypeDoc : BaseDoc
     {
-        public string Namespace { get; set; }
+        public InheritanceDoc InheritanceHierarchy { get; private set; }
+        public string Namespace { get; private set; }
         public IEnumerable<MethodDoc> Constructors { get; private set; }
         public IEnumerable<PropertyDoc> Properties { get; private set; }
         public IEnumerable<MethodDoc> Methods { get; private set; }
@@ -17,7 +19,7 @@ namespace DotNetMDDocs.XmlDocParser
 
         public string FullName => $"{Namespace}.{Name}";
 
-        public TypeDoc(XElement xElement, XDocument xDocument)
+        public TypeDoc(XElement xElement, XDocument xDocument, AssemblyDefinition assembly)
             : base("T", xElement, string.Empty)
         {
             Namespace = xElement.Attribute("name").Value.Substring("T:".Length);
@@ -29,6 +31,31 @@ namespace DotNetMDDocs.XmlDocParser
             Properties = GetProperties(xDocument);
             Methods = GetMethods(xDocument);
             Fields = GetFields(xDocument);
+
+            InheritanceHierarchy = GetInheritanceHierarchy(assembly);
+        }
+
+        private InheritanceDoc GetInheritanceHierarchy(AssemblyDefinition assembly)
+        {
+            var type = assembly.MainModule.GetType(Namespace, Name);
+
+            return GetInheritanceHierarchy(type);
+        }
+
+        private InheritanceDoc GetInheritanceHierarchy(TypeDefinition type)
+        {
+            InheritanceDoc baseClass = null;
+            if (type != null && type.BaseType != null)
+                baseClass = GetInheritanceHierarchy(type.BaseType.Resolve());
+
+            var @return = new InheritanceDoc
+            {
+                BaseClass = baseClass,
+                Name = type?.Name ?? Name,
+                Namespace = type?.Namespace ?? Namespace
+            };
+
+            return @return;
         }
 
         private IEnumerable<MethodDoc> GetConstructors(XDocument xDocument)

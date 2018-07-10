@@ -55,12 +55,16 @@ namespace DotNetMDDocs
                 Text = $" {document.Assembly.Name} (in {document.Assembly.Name}.dll){Environment.NewLine}"
             });
 
+            OnBeforeSyntax(md);
+
             md.AddElement(new MDH2
             {
                 Text = "Syntax"
             });
 
-            OnSyntaxGenerate(md);
+            OnAfterSyntax(md);
+
+            OnBeforeRemarks(md);
 
             if (!string.IsNullOrWhiteSpace(type.Remarks))
             {
@@ -75,19 +79,22 @@ namespace DotNetMDDocs
                 });
             }
 
-            OnGenerate(md);
-
             return md.Generate();
         }
 
         protected abstract string GetHeader();
 
-        protected virtual void OnGenerate(MDDocument md)
+        protected virtual void OnAfterSyntax(MDDocument md)
         {
 
         }
 
-        protected virtual void OnSyntaxGenerate(MDDocument md)
+        protected virtual void OnBeforeRemarks(MDDocument md)
+        {
+
+        }
+
+        protected virtual void OnBeforeSyntax(MDDocument md)
         {
 
         }

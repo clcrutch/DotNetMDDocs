@@ -21,7 +21,7 @@ namespace DotNetMDDocs
             return $"{type.Name}.{method.Name} {(method.IsConstructor ? "Constructor" : "Method")}";
         }
 
-        protected override void OnSyntaxGenerate(MDDocument md)
+        protected override void OnAfterSyntax(MDDocument md)
         {
             md.AddElement(new MDH5
             {

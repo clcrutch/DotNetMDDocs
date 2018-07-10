@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mono.Cecil;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -14,12 +15,15 @@ namespace DotNetMDDocs.XmlDocParser
         public AssemblyDoc Assembly { get; set; }
         public TypeDoc[] Types { get; set; }
 
-        public Document(string filepath)
+        public Document(string filepath, string dllPath)
         {
             var xDocument = XDocument.Load(filepath);
 
-            Assembly = ParseAssemblyDoc(xDocument);
-            Types = ParseTypeDocs(xDocument);
+            using (var assembly = AssemblyDefinition.ReadAssembly(dllPath))
+            {
+                Assembly = ParseAssemblyDoc(xDocument);
+                Types = ParseTypeDocs(xDocument, assembly);
+            }
         }
 
         private AssemblyDoc ParseAssemblyDoc(XDocument xDocument)
@@ -34,7 +38,7 @@ namespace DotNetMDDocs.XmlDocParser
             return assemblyDoc;
         }
 
-        private TypeDoc[] ParseTypeDocs(XDocument xDocument)
+        private TypeDoc[] ParseTypeDocs(XDocument xDocument, AssemblyDefinition assembly)
         {
             var members = (from e in xDocument.Root.Elements()
                            where e.Name == "members"
@@ -45,7 +49,7 @@ namespace DotNetMDDocs.XmlDocParser
                               select e;
 
             var types = from t in typeMembers
-                        select new TypeDoc(t, xDocument);
+                        select new TypeDoc(t, xDocument, assembly);
 
             return types.ToArray();
         }

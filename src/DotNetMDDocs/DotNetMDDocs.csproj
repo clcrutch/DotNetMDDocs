@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetMDDocs.Markdown\DotNetMDDocs.Markdown.csproj" />
+    <ProjectReference Include="..\DotNetMDDocs.XmlDocParser\DotNetMDDocs.XmlDocParser.csproj" />
+  </ItemGroup>
+
+</Project>

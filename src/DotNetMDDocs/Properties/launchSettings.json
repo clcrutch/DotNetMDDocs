@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "DotNetMDDocs": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\git\\Nerdbank.GitVersioning\\bin\\NerdBank.GitVersioning\\Debug\\netcoreapp1.0\\NerdBank.GitVersioning.xml"
+    }
+  }
+}

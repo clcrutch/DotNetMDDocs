@@ -118,7 +118,7 @@ namespace DotNetMDDocs
 
         protected override string GetHeader()
         {
-            return $"{type.Name} Class";
+            return $"{type.Name} {(type.IsInterface ? "Interface" : "Class")}";
         }
     }
 }

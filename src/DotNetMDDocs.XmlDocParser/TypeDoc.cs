@@ -1,4 +1,5 @@
-﻿using Mono.Cecil;
+﻿using DotNetMDDocs.XmlDocParser.Extensions;
+using Mono.Cecil;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +11,8 @@ namespace DotNetMDDocs.XmlDocParser
 {
     public class TypeDoc : BaseDoc
     {
+        public bool IsInterface { get; private set; }
+
         public InheritanceDoc InheritanceHierarchy { get; private set; }
         public string CodeSyntax { get; private set; }
         public string Namespace { get; private set; }
@@ -36,8 +39,9 @@ namespace DotNetMDDocs.XmlDocParser
             var type = assembly.MainModule.GetType(Namespace, Name);
 
             InheritanceHierarchy = GetInheritanceHierarchy(type);
-
             CodeSyntax = GetCodeSyntax(type);
+
+            IsInterface = type?.IsInterface ?? false;
         }
 
         private InheritanceDoc GetInheritanceHierarchy(TypeDefinition type)
@@ -62,13 +66,45 @@ namespace DotNetMDDocs.XmlDocParser
                 return string.Empty;
 
             var stringBuilder = new StringBuilder();
-            
+
             foreach (var attribute in type.CustomAttributes)
             {
-                stringBuilder.AppendLine($"[{attribute.AttributeType.Name}]");
+                stringBuilder.Append($"[{attribute.AttributeType.Name}");
+
+                if (attribute.HasConstructorArguments)
+                {
+                    var ctorArgs = (from c in attribute.ConstructorArguments
+                                    select c.ToCodeString()).ToArray();
+
+                    stringBuilder.Append($"({string.Join(", ", ctorArgs)})");
+                }
+
+                stringBuilder.AppendLine("]");
             }
 
-            stringBuilder.Append($"public class {type.Name}");
+            stringBuilder.Append($"public {(type.IsInterface ? "interface" : "class")} {type.Name}");
+
+            bool hasBaseType = type.BaseType != null && type.BaseType.FullName != "System.Object";
+
+            if (hasBaseType || type.HasInterfaces)
+            {
+                stringBuilder.Append(" : ");
+
+                bool hasAppendedType = false;
+                if (hasBaseType)
+                {
+                    stringBuilder.Append(type.BaseType.DisplayName());
+                    hasAppendedType = true;
+                }
+
+                foreach (var @interface in type.Interfaces)
+                {
+                    if (hasAppendedType)
+                        stringBuilder.Append(", ");
+
+                    stringBuilder.Append(@interface.InterfaceType.DisplayName());
+                }
+            }
 
             return stringBuilder.ToString();
         }

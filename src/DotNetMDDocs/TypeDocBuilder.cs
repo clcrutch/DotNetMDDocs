@@ -11,10 +11,12 @@ namespace DotNetMDDocs
     public class TypeDocBuilder : DocBuilder
     {
         private int currInheritanceLevel = 1;
+        private readonly string rootName;
 
-        public TypeDocBuilder(TypeDoc type, Document document)
+        public TypeDocBuilder(TypeDoc type, Document document, string rootName)
             : base(type, document)
         {
+            this.rootName = rootName;
         }
 
         protected override void OnBeforeSyntax(MDDocument md)
@@ -65,9 +67,9 @@ namespace DotNetMDDocs
             AddTables(type, md);
         }
 
-        private static void AddTables(TypeDoc type, MDDocument md)
+        private void AddTables(TypeDoc type, MDDocument md)
         {
-            var path = $"docs/{type.FullName.Replace(".", "/")}";
+            var path = $"{rootName}/{type.FullName.Replace(".", "/")}";
 
             AddTable("Constructors", $"{path}/Constructors", type.Constructors, md);
 
@@ -78,7 +80,7 @@ namespace DotNetMDDocs
             AddTable("Fields", $"{path}/Fields", type.Fields, md);
         }
 
-        private static void AddTable(string tableName, string path, IEnumerable<BaseDoc> items, MDDocument md)
+        private void AddTable(string tableName, string path, IEnumerable<BaseDoc> items, MDDocument md)
         {
             if (!items.Any())
                 return;

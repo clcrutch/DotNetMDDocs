@@ -11,6 +11,7 @@ namespace DotNetMDDocs.XmlDocParser
     public class TypeDoc : BaseDoc
     {
         public InheritanceDoc InheritanceHierarchy { get; private set; }
+        public string CodeSyntax { get; private set; }
         public string Namespace { get; private set; }
         public IEnumerable<MethodDoc> Constructors { get; private set; }
         public IEnumerable<PropertyDoc> Properties { get; private set; }
@@ -32,14 +33,11 @@ namespace DotNetMDDocs.XmlDocParser
             Methods = GetMethods(xDocument);
             Fields = GetFields(xDocument);
 
-            InheritanceHierarchy = GetInheritanceHierarchy(assembly);
-        }
-
-        private InheritanceDoc GetInheritanceHierarchy(AssemblyDefinition assembly)
-        {
             var type = assembly.MainModule.GetType(Namespace, Name);
 
-            return GetInheritanceHierarchy(type);
+            InheritanceHierarchy = GetInheritanceHierarchy(type);
+
+            CodeSyntax = GetCodeSyntax(type);
         }
 
         private InheritanceDoc GetInheritanceHierarchy(TypeDefinition type)
@@ -56,6 +54,23 @@ namespace DotNetMDDocs.XmlDocParser
             };
 
             return @return;
+        }
+
+        private string GetCodeSyntax(TypeDefinition type)
+        {
+            if (type == null)
+                return string.Empty;
+
+            var stringBuilder = new StringBuilder();
+            
+            foreach (var attribute in type.CustomAttributes)
+            {
+                stringBuilder.AppendLine($"[{attribute.AttributeType.Name}]");
+            }
+
+            stringBuilder.Append($"public class {type.Name}");
+
+            return stringBuilder.ToString();
         }
 
         private IEnumerable<MethodDoc> GetConstructors(XDocument xDocument)

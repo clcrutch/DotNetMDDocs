@@ -43,11 +43,20 @@ namespace DotNetMDDocs
 
             md.AddElement(new MDText
             {
-                Text = $"{stringBuilder.ToString()}{inheritanceDoc.Namespace}{inheritanceDoc.Name}"
+                Text = $"{stringBuilder.ToString()}{inheritanceDoc.Namespace}.{inheritanceDoc.Name}"
             });
             md.AddElement(new MDText
             {
                 Text = Environment.NewLine
+            });
+        }
+
+        protected override void OnAfterSyntax(MDDocument md)
+        {
+            md.AddElement(new MDCode
+            {
+                Code = type.CodeSyntax,
+                Language = "csharp"
             });
         }
 

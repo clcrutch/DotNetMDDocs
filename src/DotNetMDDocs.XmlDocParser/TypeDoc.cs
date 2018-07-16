@@ -14,7 +14,6 @@ namespace DotNetMDDocs.XmlDocParser
         public bool IsInterface { get; private set; }
 
         public InheritanceDoc InheritanceHierarchy { get; private set; }
-        public string CodeSyntax { get; private set; }
         public string Namespace { get; private set; }
         public IEnumerable<MethodDoc> Constructors { get; private set; }
         public IEnumerable<PropertyDoc> Properties { get; private set; }
@@ -31,12 +30,12 @@ namespace DotNetMDDocs.XmlDocParser
 
             Name = Name.Replace($"{Namespace}.", string.Empty);
 
+            var type = assembly.MainModule.GetType(Namespace, Name);
+
             Constructors = GetConstructors(xDocument);
-            Properties = GetProperties(xDocument);
+            Properties = GetProperties(xDocument, type);
             Methods = GetMethods(xDocument);
             Fields = GetFields(xDocument);
-
-            var type = assembly.MainModule.GetType(Namespace, Name);
 
             InheritanceHierarchy = GetInheritanceHierarchy(type);
             CodeSyntax = GetCodeSyntax(type);
@@ -67,20 +66,7 @@ namespace DotNetMDDocs.XmlDocParser
 
             var stringBuilder = new StringBuilder();
 
-            foreach (var attribute in type.CustomAttributes)
-            {
-                stringBuilder.Append($"[{attribute.AttributeType.Name}");
-
-                if (attribute.HasConstructorArguments)
-                {
-                    var ctorArgs = (from c in attribute.ConstructorArguments
-                                    select c.ToCodeString()).ToArray();
-
-                    stringBuilder.Append($"({string.Join(", ", ctorArgs)})");
-                }
-
-                stringBuilder.AppendLine("]");
-            }
+            stringBuilder.Append(GetSyntaxAttributes(type));
 
             stringBuilder.Append($"public {(type.IsInterface ? "interface" : "class")} {type.Name}");
 
@@ -116,10 +102,10 @@ namespace DotNetMDDocs.XmlDocParser
                     select new MethodDoc(m, FullName)).ToArray();
         }
 
-        private IEnumerable<PropertyDoc> GetProperties(XDocument xDocument)
+        private IEnumerable<PropertyDoc> GetProperties(XDocument xDocument, TypeDefinition typeDefinition)
         {
             return (from m in GetMembers("P", xDocument)
-                    select new PropertyDoc(m, FullName)).ToArray();
+                    select new PropertyDoc(m, FullName, typeDefinition)).ToArray();
         }
 
         private IEnumerable<MethodDoc> GetMethods(XDocument xDocument)

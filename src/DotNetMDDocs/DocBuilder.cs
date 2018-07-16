@@ -9,11 +9,13 @@ namespace DotNetMDDocs
     public abstract class DocBuilder
     {
         protected readonly TypeDoc type;
+        protected readonly BaseDoc baseDoc;
         protected readonly Document document;
 
-        public DocBuilder(TypeDoc type, Document document)
+        public DocBuilder(TypeDoc type, BaseDoc baseDoc, Document document)
         {
             this.type = type;
+            this.baseDoc = baseDoc;
             this.document = document;
         }
 
@@ -27,11 +29,11 @@ namespace DotNetMDDocs
                 Text = GetHeader()
             });
 
-            if (!string.IsNullOrEmpty(type.Summary))
+            if (!string.IsNullOrEmpty(baseDoc.Summary))
             {
                 md.AddElement(new MDQuote
                 {
-                    Quote = type.Summary
+                    Quote = baseDoc.Summary
                 });
             }
 
@@ -42,7 +44,7 @@ namespace DotNetMDDocs
 
             md.AddElement(new MDText
             {
-                Text = $" {type.Namespace}{Environment.NewLine}"
+                Text = $" {type.Namespace}{Environment.NewLine}{Environment.NewLine}"
             });
 
             md.AddElement(new MDBold
@@ -62,11 +64,17 @@ namespace DotNetMDDocs
                 Text = "Syntax"
             });
 
+            md.AddElement(new MDCode
+            {
+                Code = baseDoc.CodeSyntax,
+                Language = "csharp"
+            });
+
             OnAfterSyntax(md);
 
             OnBeforeRemarks(md);
 
-            if (!string.IsNullOrWhiteSpace(type.Remarks))
+            if (!string.IsNullOrWhiteSpace(baseDoc.Remarks))
             {
                 md.AddElement(new MDH2
                 {
@@ -75,7 +83,7 @@ namespace DotNetMDDocs
 
                 md.AddElement(new MDText
                 {
-                    Text = type.Remarks
+                    Text = baseDoc.Remarks
                 });
             }
 

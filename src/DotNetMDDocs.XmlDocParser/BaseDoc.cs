@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DotNetMDDocs.XmlDocParser.Extensions;
+using Mono.Cecil;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,6 +19,7 @@ namespace DotNetMDDocs.XmlDocParser
         public virtual string Name { get; protected set; }
         public string Summary { get; protected set; }
         public string Remarks { get; protected set; }
+        public string CodeSyntax { get; protected set; }
 
         public string SafeName
         {
@@ -69,6 +72,28 @@ namespace DotNetMDDocs.XmlDocParser
                             .Replace(Environment.NewLine, " ")
                             .Replace("\n", " ")
                             .Trim()).SingleOrDefault();
+        }
+
+        protected virtual string GetSyntaxAttributes(IMemberDefinition memberDefinition)
+        {
+            var stringBuilder = new StringBuilder();
+
+            foreach (var attribute in memberDefinition.CustomAttributes)
+            {
+                stringBuilder.Append($"[{attribute.AttributeType.Name}");
+
+                //if (attribute.HasConstructorArguments)
+                //{
+                //    var ctorArgs = (from c in attribute.ConstructorArguments
+                //                    select c.ToCodeString()).ToArray();
+
+                //    stringBuilder.Append($"({string.Join(", ", ctorArgs)})");
+                //}
+
+                stringBuilder.Append("]");
+            }
+
+            return stringBuilder.ToString();
         }
     }
 }

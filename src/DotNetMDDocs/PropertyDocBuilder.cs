@@ -11,7 +11,7 @@ namespace DotNetMDDocs
         private readonly PropertyDoc property;
 
         public PropertyDocBuilder(PropertyDoc property, TypeDoc type, Document document)
-             : base(type, document)
+             : base(type, property, document)
         {
             this.property = property;
         }

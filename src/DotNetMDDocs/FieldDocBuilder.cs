@@ -11,7 +11,7 @@ namespace DotNetMDDocs
         private readonly FieldDoc field;
 
         public FieldDocBuilder(FieldDoc field, TypeDoc type, Document document)
-             : base(type, document)
+             : base(type, field, document)
         {
             this.field = field;
         }

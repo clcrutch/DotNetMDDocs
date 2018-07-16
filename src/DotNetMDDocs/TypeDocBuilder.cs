@@ -14,7 +14,7 @@ namespace DotNetMDDocs
         private readonly string rootName;
 
         public TypeDocBuilder(TypeDoc type, Document document, string rootName)
-            : base(type, document)
+            : base(type, type, document)
         {
             this.rootName = rootName;
         }
@@ -49,16 +49,7 @@ namespace DotNetMDDocs
             });
             md.AddElement(new MDText
             {
-                Text = Environment.NewLine
-            });
-        }
-
-        protected override void OnAfterSyntax(MDDocument md)
-        {
-            md.AddElement(new MDCode
-            {
-                Code = type.CodeSyntax,
-                Language = "csharp"
+                Text = $"{Environment.NewLine}{Environment.NewLine}"
             });
         }
 
@@ -106,7 +97,7 @@ namespace DotNetMDDocs
                 row.Cells.Add(new MDLink
                 {
                     Text = item.Name,
-                    Url = $"/{path}/{HttpUtility.UrlEncode(item.SafeName)}.md"
+                    Url = $"/{path}/{HttpUtility.UrlEncode(item.SafeName).Replace("+", "%20")}.md"
                 });
                 row.Cells.Add(new MDText
                 {

@@ -11,7 +11,7 @@ namespace DotNetMDDocs
         private readonly MethodDoc method;
 
         public MethodDocBuilder(MethodDoc method, TypeDoc type, Document document)
-             : base(type, document)
+             : base(type, method, document)
         {
             this.method = method;
         }
@@ -36,15 +36,15 @@ namespace DotNetMDDocs
                 });
                 md.AddElement(new MDText
                 {
-                    Text = $"{Environment.NewLine}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                    Text = $"{Environment.NewLine}{Environment.NewLine}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                 });
                 md.AddElement(new MDText
                 {
-                    Text = $"Type: {param.Type}{Environment.NewLine}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                    Text = $"Type: {param.Type}{Environment.NewLine}{Environment.NewLine}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                 });
                 md.AddElement(new MDText
                 {
-                    Text = $"{param.Summary}{Environment.NewLine}"
+                    Text = $"{param.Summary}{Environment.NewLine}{Environment.NewLine}"
                 });
                 md.AddElement(new MDText
                 {

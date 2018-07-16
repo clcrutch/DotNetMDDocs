@@ -1,38 +1,55 @@
-﻿using System;
+﻿// <copyright file="MethodDoc.cs" company="Chris Crutchfield">
+// Copyright (C) 2017  Chris Crutchfield
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// </copyright>
+
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 
 namespace DotNetMDDocs.XmlDocParser
 {
     public class MethodDoc : BaseDoc
     {
-        public bool IsConstructor { get; private set; }
-        public IEnumerable<ParamDoc> Params { get; private set; }
-
         public MethodDoc(XElement xElement, string baseName)
             : base("M", xElement, $"{baseName}.")
         {
-            if (!Name.EndsWith(")"))
-                Name = $"{Name}()";
-
-            if (Name.Contains("#ctor"))
+            if (!this.Name.EndsWith(")"))
             {
-                Name = Name.Replace("#ctor", baseName.Substring(baseName.LastIndexOf('.') + 1));
-
-                IsConstructor = true;
+                this.Name = $"{this.Name}()";
             }
 
-            var methodName = Name.Substring(0, Name.IndexOf('('));
-            var paramList = Name.Replace(methodName, string.Empty);
+            if (this.Name.Contains("#ctor"))
+            {
+                this.Name = this.Name.Replace("#ctor", baseName.Substring(baseName.LastIndexOf('.') + 1));
+
+                this.IsConstructor = true;
+            }
+
+            var methodName = this.Name.Substring(0, this.Name.IndexOf('('));
+            var paramList = this.Name.Replace(methodName, string.Empty);
             paramList = paramList.Substring(1, paramList.Length - 2);
 
-            Name = $"{methodName}({string.Join(", ", paramList.Split(','))})";
+            this.Name = $"{methodName}({string.Join(", ", paramList.Split(','))})";
 
-            Params = GetParams(paramList.Split(','), xElement);
+            this.Params = this.GetParams(paramList.Split(','), xElement);
         }
+
+        public bool IsConstructor { get; private set; }
+
+        public IEnumerable<ParamDoc> Params { get; private set; }
 
         private IEnumerable<ParamDoc> GetParams(string[] parameterTypes, XElement xElement)
         {

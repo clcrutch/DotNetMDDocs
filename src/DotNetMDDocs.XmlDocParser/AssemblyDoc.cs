@@ -1,4 +1,4 @@
-﻿// <copyright file="FieldDocBuilder.cs" company="Chris Crutchfield">
+﻿// <copyright file="AssemblyDoc.cs" company="Chris Crutchfield">
 // Copyright (C) 2017  Chris Crutchfield
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,23 +15,13 @@
 // along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 // </copyright>
 
-using DotNetMDDocs.XmlDocParser;
+using System.Xml.Serialization;
 
-namespace DotNetMDDocs
+namespace DotNetMDDocs.XmlDocParser
 {
-    public class FieldDocBuilder : DocBuilder
+    public class AssemblyDoc
     {
-        private readonly FieldDoc field;
-
-        public FieldDocBuilder(FieldDoc field, TypeDoc type, Document document)
-             : base(type, field, document)
-        {
-            this.field = field;
-        }
-
-        protected override string GetHeader()
-        {
-            return $"{this.Type.Name}.{this.field.Name} Field";
-        }
+        [XmlElement(ElementName = "name")]
+        public string Name { get; set; }
     }
 }

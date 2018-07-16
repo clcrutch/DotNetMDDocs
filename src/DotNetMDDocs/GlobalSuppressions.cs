@@ -1,4 +1,4 @@
-﻿// <copyright file="FieldDocBuilder.cs" company="Chris Crutchfield">
+﻿// <copyright file="GlobalSuppressions.cs" company="Chris Crutchfield">
 // Copyright (C) 2017  Chris Crutchfield
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,23 +15,4 @@
 // along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 // </copyright>
 
-using DotNetMDDocs.XmlDocParser;
-
-namespace DotNetMDDocs
-{
-    public class FieldDocBuilder : DocBuilder
-    {
-        private readonly FieldDoc field;
-
-        public FieldDocBuilder(FieldDoc field, TypeDoc type, Document document)
-             : base(type, field, document)
-        {
-            this.field = field;
-        }
-
-        protected override string GetHeader()
-        {
-            return $"{this.Type.Name}.{this.field.Name} Field";
-        }
-    }
-}
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1652:Enable XML documentation output", Justification = "No xml output.")]

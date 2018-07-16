@@ -1,59 +1,81 @@
-﻿using DotNetMDDocs.XmlDocParser.Extensions;
-using Mono.Cecil;
-using System;
+﻿// <copyright file="TypeDoc.cs" company="Chris Crutchfield">
+// Copyright (C) 2017  Chris Crutchfield
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// </copyright>
+
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using DotNetMDDocs.XmlDocParser.Extensions;
+using Mono.Cecil;
 
 namespace DotNetMDDocs.XmlDocParser
 {
     public class TypeDoc : BaseDoc
     {
-        public bool IsInterface { get; private set; }
-
-        public InheritanceDoc InheritanceHierarchy { get; private set; }
-        public string Namespace { get; private set; }
-        public IEnumerable<MethodDoc> Constructors { get; private set; }
-        public IEnumerable<PropertyDoc> Properties { get; private set; }
-        public IEnumerable<MethodDoc> Methods { get; private set; }
-        public IEnumerable<FieldDoc> Fields { get; private set; }
-
-        public string FullName => $"{Namespace}.{Name}";
-
         public TypeDoc(XElement xElement, XDocument xDocument, AssemblyDefinition assembly)
             : base("T", xElement, string.Empty)
         {
-            Namespace = xElement.Attribute("name").Value.Substring("T:".Length);
-            Namespace = Namespace.Substring(0, Namespace.LastIndexOf('.'));
+            this.Namespace = xElement.Attribute("name").Value.Substring("T:".Length);
+            this.Namespace = this.Namespace.Substring(0, this.Namespace.LastIndexOf('.'));
 
-            Name = Name.Replace($"{Namespace}.", string.Empty);
+            this.Name = this.Name.Replace($"{this.Namespace}.", string.Empty);
 
-            var type = assembly.MainModule.GetType(Namespace, Name);
+            var type = assembly.MainModule.GetType(this.Namespace, this.Name);
 
-            Constructors = GetConstructors(xDocument);
-            Properties = GetProperties(xDocument, type);
-            Methods = GetMethods(xDocument);
-            Fields = GetFields(xDocument);
+            this.Constructors = this.GetConstructors(xDocument);
+            this.Properties = this.GetProperties(xDocument, type);
+            this.Methods = this.GetMethods(xDocument);
+            this.Fields = this.GetFields(xDocument);
 
-            InheritanceHierarchy = GetInheritanceHierarchy(type);
-            CodeSyntax = GetCodeSyntax(type);
+            this.InheritanceHierarchy = this.GetInheritanceHierarchy(type);
+            this.CodeSyntax = this.GetCodeSyntax(type);
 
-            IsInterface = type?.IsInterface ?? false;
+            this.IsInterface = type?.IsInterface ?? false;
         }
+
+        public bool IsInterface { get; private set; }
+
+        public InheritanceDoc InheritanceHierarchy { get; private set; }
+
+        public string Namespace { get; private set; }
+
+        public IEnumerable<MethodDoc> Constructors { get; private set; }
+
+        public IEnumerable<PropertyDoc> Properties { get; private set; }
+
+        public IEnumerable<MethodDoc> Methods { get; private set; }
+
+        public IEnumerable<FieldDoc> Fields { get; private set; }
+
+        public string FullName => $"{this.Namespace}.{this.Name}";
 
         private InheritanceDoc GetInheritanceHierarchy(TypeDefinition type)
         {
             InheritanceDoc baseClass = null;
             if (type != null && type.BaseType != null)
-                baseClass = GetInheritanceHierarchy(type.BaseType.Resolve());
+            {
+                baseClass = this.GetInheritanceHierarchy(type.BaseType.Resolve());
+            }
 
             var @return = new InheritanceDoc
             {
                 BaseClass = baseClass,
-                Name = type?.Name ?? Name,
-                Namespace = type?.Namespace ?? Namespace
+                Name = type?.Name ?? this.Name,
+                Namespace = type?.Namespace ?? this.Namespace
             };
 
             return @return;
@@ -62,11 +84,13 @@ namespace DotNetMDDocs.XmlDocParser
         private string GetCodeSyntax(TypeDefinition type)
         {
             if (type == null)
+            {
                 return string.Empty;
+            }
 
             var stringBuilder = new StringBuilder();
 
-            stringBuilder.Append(GetSyntaxAttributes(type));
+            stringBuilder.Append(this.GetSyntaxAttributes(type));
 
             stringBuilder.Append($"public {(type.IsInterface ? "interface" : "class")} {type.Name}");
 
@@ -86,7 +110,9 @@ namespace DotNetMDDocs.XmlDocParser
                 foreach (var @interface in type.Interfaces)
                 {
                     if (hasAppendedType)
+                    {
                         stringBuilder.Append(", ");
+                    }
 
                     stringBuilder.Append(@interface.InterfaceType.DisplayName());
                 }
@@ -97,28 +123,28 @@ namespace DotNetMDDocs.XmlDocParser
 
         private IEnumerable<MethodDoc> GetConstructors(XDocument xDocument)
         {
-            return (from m in GetMembers("M", xDocument)
+            return (from m in this.GetMembers("M", xDocument)
                     where m.Attribute("name").Value.Contains("#ctor")
-                    select new MethodDoc(m, FullName)).ToArray();
+                    select new MethodDoc(m, this.FullName)).ToArray();
         }
 
         private IEnumerable<PropertyDoc> GetProperties(XDocument xDocument, TypeDefinition typeDefinition)
         {
-            return (from m in GetMembers("P", xDocument)
-                    select new PropertyDoc(m, FullName, typeDefinition)).ToArray();
+            return (from m in this.GetMembers("P", xDocument)
+                    select new PropertyDoc(m, this.FullName, typeDefinition)).ToArray();
         }
 
         private IEnumerable<MethodDoc> GetMethods(XDocument xDocument)
         {
-            return (from m in GetMembers("M", xDocument)
+            return (from m in this.GetMembers("M", xDocument)
                     where !m.Attribute("name").Value.Contains("#ctor")
-                    select new MethodDoc(m, FullName)).ToArray();
+                    select new MethodDoc(m, this.FullName)).ToArray();
         }
 
         private IEnumerable<FieldDoc> GetFields(XDocument xDocument)
         {
-            return (from m in GetMembers("F", xDocument)
-                    select new FieldDoc(m, FullName)).ToArray();
+            return (from m in this.GetMembers("F", xDocument)
+                    select new FieldDoc(m, this.FullName)).ToArray();
         }
 
         private IEnumerable<XElement> GetMembers(string identifier, XDocument xDocument)
@@ -128,7 +154,7 @@ namespace DotNetMDDocs.XmlDocParser
                            select e).Single();
 
             return from e in members.Elements()
-                   where e.Name == "member" && e.Attribute("name").Value.StartsWith($"{identifier}:{FullName}.")
+                   where e.Name == "member" && e.Attribute("name").Value.StartsWith($"{identifier}:{this.FullName}.")
                    select e;
         }
     }

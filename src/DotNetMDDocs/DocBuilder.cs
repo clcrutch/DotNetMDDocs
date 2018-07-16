@@ -1,23 +1,40 @@
-﻿using DotNetMDDocs.Markdown;
-using DotNetMDDocs.XmlDocParser;
+﻿// <copyright file="DocBuilder.cs" company="Chris Crutchfield">
+// Copyright (C) 2017  Chris Crutchfield
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// </copyright>
+
 using System;
-using System.Collections.Generic;
-using System.Text;
+using DotNetMDDocs.Markdown;
+using DotNetMDDocs.XmlDocParser;
 
 namespace DotNetMDDocs
 {
     public abstract class DocBuilder
     {
-        protected readonly TypeDoc type;
-        protected readonly BaseDoc baseDoc;
-        protected readonly Document document;
-
         public DocBuilder(TypeDoc type, BaseDoc baseDoc, Document document)
         {
-            this.type = type;
-            this.baseDoc = baseDoc;
-            this.document = document;
+            this.Type = type;
+            this.BaseDoc = baseDoc;
+            this.Document = document;
         }
+
+        protected TypeDoc Type { get; private set; }
+
+        protected BaseDoc BaseDoc { get; private set; }
+
+        protected Document Document { get; private set; }
 
         public string Generate()
         {
@@ -26,14 +43,14 @@ namespace DotNetMDDocs
             // Add the header.
             md.AddElement(new MDH1
             {
-                Text = GetHeader()
+                Text = this.GetHeader()
             });
 
-            if (!string.IsNullOrEmpty(baseDoc.Summary))
+            if (!string.IsNullOrEmpty(this.BaseDoc.Summary))
             {
                 md.AddElement(new MDQuote
                 {
-                    Quote = baseDoc.Summary
+                    Quote = this.BaseDoc.Summary
                 });
             }
 
@@ -44,7 +61,7 @@ namespace DotNetMDDocs
 
             md.AddElement(new MDText
             {
-                Text = $" {type.Namespace}{Environment.NewLine}{Environment.NewLine}"
+                Text = $" {this.Type.Namespace}{Environment.NewLine}{Environment.NewLine}"
             });
 
             md.AddElement(new MDBold
@@ -54,10 +71,10 @@ namespace DotNetMDDocs
 
             md.AddElement(new MDText
             {
-                Text = $" {document.Assembly.Name} (in {document.Assembly.Name}.dll){Environment.NewLine}"
+                Text = $" {this.Document.Assembly.Name} (in {this.Document.Assembly.Name}.dll){Environment.NewLine}"
             });
 
-            OnBeforeSyntax(md);
+            this.OnBeforeSyntax(md);
 
             md.AddElement(new MDH2
             {
@@ -66,15 +83,15 @@ namespace DotNetMDDocs
 
             md.AddElement(new MDCode
             {
-                Code = baseDoc.CodeSyntax,
+                Code = this.BaseDoc.CodeSyntax,
                 Language = "csharp"
             });
 
-            OnAfterSyntax(md);
+            this.OnAfterSyntax(md);
 
-            OnBeforeRemarks(md);
+            this.OnBeforeRemarks(md);
 
-            if (!string.IsNullOrWhiteSpace(baseDoc.Remarks))
+            if (!string.IsNullOrWhiteSpace(this.BaseDoc.Remarks))
             {
                 md.AddElement(new MDH2
                 {
@@ -83,7 +100,7 @@ namespace DotNetMDDocs
 
                 md.AddElement(new MDText
                 {
-                    Text = baseDoc.Remarks
+                    Text = this.BaseDoc.Remarks
                 });
             }
 
@@ -94,17 +111,14 @@ namespace DotNetMDDocs
 
         protected virtual void OnAfterSyntax(MDDocument md)
         {
-
         }
 
         protected virtual void OnBeforeRemarks(MDDocument md)
         {
-
         }
 
         protected virtual void OnBeforeSyntax(MDDocument md)
         {
-
         }
     }
 }

@@ -1,14 +1,26 @@
-﻿using DotNetMDDocs.XmlDocParser.Extensions;
-using Mono.Cecil;
+﻿// <copyright file="BaseDoc.cs" company="Chris Crutchfield">
+// Copyright (C) 2017  Chris Crutchfield
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// </copyright>
+
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Web;
 using System.Xml.Linq;
+using Mono.Cecil;
 
 namespace DotNetMDDocs.XmlDocParser
 {
@@ -16,62 +28,70 @@ namespace DotNetMDDocs.XmlDocParser
     {
         private string safeName;
 
+        public BaseDoc(string identifier, XElement xElement, string baseName)
+        {
+            this.Name = xElement.Attribute("name").Value.Substring($"{identifier}:{baseName}".Length);
+
+            this.Summary = (from e in xElement.Elements()
+                            where e.Name == "summary"
+                            select e.Value
+                                .Replace(Environment.NewLine, " ")
+                                .Replace("\n", " ")
+                                .Trim()).SingleOrDefault();
+
+            this.Remarks = (from e in xElement.Elements()
+                            where e.Name == "remarks"
+                            select e.Value
+                                .Replace(Environment.NewLine, " ")
+                                .Replace("\n", " ")
+                                .Trim()).SingleOrDefault();
+        }
+
         public virtual string Name { get; protected set; }
+
         public string Summary { get; protected set; }
+
         public string Remarks { get; protected set; }
+
         public string CodeSyntax { get; protected set; }
 
         public string SafeName
         {
             get
             {
-                if (!string.IsNullOrWhiteSpace(safeName)) return safeName;
+                if (!string.IsNullOrWhiteSpace(this.safeName))
+                {
+                    return this.safeName;
+                }
 
-                safeName = Name;
+                this.safeName = this.Name;
 
                 // Windows breaks if we don't keep the file name short.
-                if (safeName.Length > 50)
+                if (this.safeName.Length > 50)
                 {
                     int hash = 0;
-                    foreach (var c in safeName.ToCharArray())
+                    foreach (var c in this.safeName.ToCharArray())
                     {
                         hash += c;
                     }
+
                     hash %= 99999;
 
                     // Take the first part of the string so that we can recognize it.
                     // Hope that the hash is enough to make it unique.
-                    safeName = $"{safeName.Substring(0, 45)}{hash}";
+                    this.safeName = $"{this.safeName.Substring(0, 45)}{hash}";
                 }
 
                 foreach (var invalid in Path.GetInvalidFileNameChars())
                 {
-                    safeName = safeName.Replace(invalid, '_');
+                    this.safeName = this.safeName.Replace(invalid, '_');
                 }
-                safeName = safeName.Replace('(', '_');
-                safeName = safeName.Replace(')', '_');
 
-                return safeName;
+                this.safeName = this.safeName.Replace('(', '_');
+                this.safeName = this.safeName.Replace(')', '_');
+
+                return this.safeName;
             }
-        }
-
-        public BaseDoc(string identifier, XElement xElement, string baseName)
-        {
-            Name = xElement.Attribute("name").Value.Substring($"{identifier}:{baseName}".Length);
-
-            Summary = (from e in xElement.Elements()
-                       where e.Name == "summary"
-                       select e.Value
-                            .Replace(Environment.NewLine, " ")
-                            .Replace("\n", " ")
-                            .Trim()).SingleOrDefault();
-
-            Remarks = (from e in xElement.Elements()
-                       where e.Name == "remarks"
-                       select e.Value
-                            .Replace(Environment.NewLine, " ")
-                            .Replace("\n", " ")
-                            .Trim()).SingleOrDefault();
         }
 
         protected virtual string GetSyntaxAttributes(IMemberDefinition memberDefinition)
@@ -82,14 +102,13 @@ namespace DotNetMDDocs.XmlDocParser
             {
                 stringBuilder.Append($"[{attribute.AttributeType.Name}");
 
-                //if (attribute.HasConstructorArguments)
-                //{
+                // if (attribute.HasConstructorArguments)
+                // {
                 //    var ctorArgs = (from c in attribute.ConstructorArguments
                 //                    select c.ToCodeString()).ToArray();
 
-                //    stringBuilder.Append($"({string.Join(", ", ctorArgs)})");
-                //}
-
+                // stringBuilder.Append($"({string.Join(", ", ctorArgs)})");
+                // }
                 stringBuilder.Append("]");
             }
 

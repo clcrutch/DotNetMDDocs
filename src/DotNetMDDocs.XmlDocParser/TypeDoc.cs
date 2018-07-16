@@ -39,12 +39,13 @@ namespace DotNetMDDocs.XmlDocParser
             this.Constructors = this.GetConstructors(xDocument);
             this.Properties = this.GetProperties(xDocument, type);
             this.Methods = this.GetMethods(xDocument);
-            this.Fields = this.GetFields(xDocument);
+            this.Fields = this.GetFields(xDocument, type);
 
             this.InheritanceHierarchy = this.GetInheritanceHierarchy(type);
-            this.CodeSyntax = this.GetCodeSyntax(type);
 
             this.IsInterface = type?.IsInterface ?? false;
+
+            this.Initialize(type);
         }
 
         public bool IsInterface { get; private set; }
@@ -63,6 +64,46 @@ namespace DotNetMDDocs.XmlDocParser
 
         public string FullName => $"{this.Namespace}.{this.Name}";
 
+        protected override string GetSyntaxDeclaration(IMemberDefinition memberDefinition)
+        {
+            if (memberDefinition is TypeDefinition type)
+            {
+                var stringBuilder = new StringBuilder();
+
+                stringBuilder.Append(this.GetSyntaxAttributes(type));
+
+                stringBuilder.Append($"public {(type.IsInterface ? "interface" : "class")} {type.Name}");
+
+                bool hasBaseType = type.BaseType != null && type.BaseType.FullName != "System.Object";
+
+                if (hasBaseType || type.HasInterfaces)
+                {
+                    stringBuilder.Append(" : ");
+
+                    bool hasAppendedType = false;
+                    if (hasBaseType)
+                    {
+                        stringBuilder.Append(type.BaseType.DisplayName());
+                        hasAppendedType = true;
+                    }
+
+                    foreach (var @interface in type.Interfaces)
+                    {
+                        if (hasAppendedType)
+                        {
+                            stringBuilder.Append(", ");
+                        }
+
+                        stringBuilder.Append(@interface.InterfaceType.DisplayName());
+                    }
+                }
+
+                return stringBuilder.ToString();
+            }
+
+            return string.Empty;
+        }
+
         private InheritanceDoc GetInheritanceHierarchy(TypeDefinition type)
         {
             InheritanceDoc baseClass = null;
@@ -79,46 +120,6 @@ namespace DotNetMDDocs.XmlDocParser
             };
 
             return @return;
-        }
-
-        private string GetCodeSyntax(TypeDefinition type)
-        {
-            if (type == null)
-            {
-                return string.Empty;
-            }
-
-            var stringBuilder = new StringBuilder();
-
-            stringBuilder.Append(this.GetSyntaxAttributes(type));
-
-            stringBuilder.Append($"public {(type.IsInterface ? "interface" : "class")} {type.Name}");
-
-            bool hasBaseType = type.BaseType != null && type.BaseType.FullName != "System.Object";
-
-            if (hasBaseType || type.HasInterfaces)
-            {
-                stringBuilder.Append(" : ");
-
-                bool hasAppendedType = false;
-                if (hasBaseType)
-                {
-                    stringBuilder.Append(type.BaseType.DisplayName());
-                    hasAppendedType = true;
-                }
-
-                foreach (var @interface in type.Interfaces)
-                {
-                    if (hasAppendedType)
-                    {
-                        stringBuilder.Append(", ");
-                    }
-
-                    stringBuilder.Append(@interface.InterfaceType.DisplayName());
-                }
-            }
-
-            return stringBuilder.ToString();
         }
 
         private IEnumerable<MethodDoc> GetConstructors(XDocument xDocument)
@@ -141,10 +142,10 @@ namespace DotNetMDDocs.XmlDocParser
                     select new MethodDoc(m, this.FullName)).ToArray();
         }
 
-        private IEnumerable<FieldDoc> GetFields(XDocument xDocument)
+        private IEnumerable<FieldDoc> GetFields(XDocument xDocument, TypeDefinition typeDefinition)
         {
             return (from m in this.GetMembers("F", xDocument)
-                    select new FieldDoc(m, this.FullName)).ToArray();
+                    select new FieldDoc(m, this.FullName, typeDefinition)).ToArray();
         }
 
         private IEnumerable<XElement> GetMembers(string identifier, XDocument xDocument)

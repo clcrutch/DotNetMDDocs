@@ -29,38 +29,36 @@ namespace DotNetMDDocs.XmlDocParser
         {
             var propertyDefinition = typeDefinition?.Properties.SingleOrDefault(p => p.Name == this.Name);
 
-            this.CodeSyntax = this.GetCodeSyntax(propertyDefinition);
+            this.Initialize(propertyDefinition);
         }
 
-        private string GetCodeSyntax(PropertyDefinition propertyDefinition)
+        protected override string GetSyntaxDeclaration(IMemberDefinition memberDefinition)
         {
-            if (propertyDefinition == null)
+            if (memberDefinition is PropertyDefinition propertyDefinition)
             {
-                return string.Empty;
+                var stringBuilder = new StringBuilder();
+
+                stringBuilder.Append("public ");
+                stringBuilder.Append(propertyDefinition.PropertyType.Name);
+                stringBuilder.Append(" ");
+                stringBuilder.Append(propertyDefinition.Name);
+                stringBuilder.Append(" { ");
+                if (propertyDefinition.GetMethod?.IsPublic ?? false)
+                {
+                    stringBuilder.Append("get; ");
+                }
+
+                if (propertyDefinition.SetMethod?.IsPublic ?? false)
+                {
+                    stringBuilder.Append("set; ");
+                }
+
+                stringBuilder.Append("}");
+
+                return stringBuilder.ToString();
             }
 
-            var stringBuilder = new StringBuilder();
-
-            stringBuilder.Append(this.GetSyntaxAttributes(propertyDefinition));
-
-            stringBuilder.Append("public ");
-            stringBuilder.Append(propertyDefinition.PropertyType.Name);
-            stringBuilder.Append(" ");
-            stringBuilder.Append(propertyDefinition.Name);
-            stringBuilder.Append(" { ");
-            if (propertyDefinition.GetMethod?.IsPublic ?? false)
-            {
-                stringBuilder.Append("get; ");
-            }
-
-            if (propertyDefinition.SetMethod?.IsPublic ?? false)
-            {
-                stringBuilder.Append("set; ");
-            }
-
-            stringBuilder.Append("}");
-
-            return stringBuilder.ToString();
+            return string.Empty;
         }
     }
 }

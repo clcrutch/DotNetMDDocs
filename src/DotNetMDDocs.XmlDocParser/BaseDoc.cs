@@ -94,6 +94,36 @@ namespace DotNetMDDocs.XmlDocParser
             }
         }
 
+        protected virtual void Initialize(IMemberDefinition memberDefinition)
+        {
+            if (memberDefinition == null)
+            {
+                return;
+            }
+
+            this.CodeSyntax = this.GetCodeSyntax(memberDefinition);
+        }
+
+        protected virtual string GetCodeSyntax(IMemberDefinition memberDefinition)
+        {
+            var stringBuilder = new StringBuilder();
+
+            var attributes = this.GetSyntaxAttributes(memberDefinition);
+            var declaration = this.GetSyntaxDeclaration(memberDefinition);
+
+            if (!string.IsNullOrWhiteSpace(attributes))
+            {
+                stringBuilder.AppendLine(attributes);
+            }
+
+            if (!string.IsNullOrWhiteSpace(declaration))
+            {
+                stringBuilder.AppendLine(declaration);
+            }
+
+            return stringBuilder.ToString().Trim();
+        }
+
         protected virtual string GetSyntaxAttributes(IMemberDefinition memberDefinition)
         {
             var stringBuilder = new StringBuilder();
@@ -113,6 +143,11 @@ namespace DotNetMDDocs.XmlDocParser
             }
 
             return stringBuilder.ToString();
+        }
+
+        protected virtual string GetSyntaxDeclaration(IMemberDefinition memberDefinition)
+        {
+            return string.Empty;
         }
     }
 }

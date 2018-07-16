@@ -15,15 +15,39 @@
 // along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 // </copyright>
 
+using System.Linq;
+using System.Text;
 using System.Xml.Linq;
+using Mono.Cecil;
 
 namespace DotNetMDDocs.XmlDocParser
 {
     public class FieldDoc : BaseDoc
     {
-        public FieldDoc(XElement xElement, string baseName)
+        public FieldDoc(XElement xElement, string baseName, TypeDefinition typeDefinition)
             : base("F", xElement, $"{baseName}.")
         {
+            var fieldDefinition = typeDefinition?.Fields.SingleOrDefault(p => p.Name == this.Name);
+
+            this.Initialize(fieldDefinition);
+        }
+
+        protected override string GetSyntaxDeclaration(IMemberDefinition memberDefinition)
+        {
+            if (memberDefinition is FieldDefinition fieldDefinition)
+            {
+                var stringBuilder = new StringBuilder();
+
+                stringBuilder.Append("private ");
+                stringBuilder.Append(fieldDefinition.FieldType.Name);
+                stringBuilder.Append(" ");
+                stringBuilder.Append(fieldDefinition.Name);
+                stringBuilder.Append(";");
+
+                return stringBuilder.ToString();
+            }
+
+            return string.Empty;
         }
     }
 }

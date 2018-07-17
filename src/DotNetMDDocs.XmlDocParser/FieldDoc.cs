@@ -38,7 +38,7 @@ namespace DotNetMDDocs.XmlDocParser
             {
                 var stringBuilder = new StringBuilder();
 
-                stringBuilder.Append("private ");
+                stringBuilder.Append("public ");
                 stringBuilder.Append(fieldDefinition.FieldType.Name);
                 stringBuilder.Append(" ");
                 stringBuilder.Append(fieldDefinition.Name);

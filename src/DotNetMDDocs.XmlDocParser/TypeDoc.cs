@@ -36,9 +36,9 @@ namespace DotNetMDDocs.XmlDocParser
 
             var type = assembly.MainModule.GetType(this.Namespace, this.Name);
 
-            this.Constructors = this.GetConstructors(xDocument);
+            this.Constructors = this.GetConstructors(xDocument, type);
             this.Properties = this.GetProperties(xDocument, type);
-            this.Methods = this.GetMethods(xDocument);
+            this.Methods = this.GetMethods(xDocument, type);
             this.Fields = this.GetFields(xDocument, type);
 
             this.InheritanceHierarchy = this.GetInheritanceHierarchy(type);
@@ -122,11 +122,11 @@ namespace DotNetMDDocs.XmlDocParser
             return @return;
         }
 
-        private IEnumerable<MethodDoc> GetConstructors(XDocument xDocument)
+        private IEnumerable<MethodDoc> GetConstructors(XDocument xDocument, TypeDefinition typeDefinition)
         {
             return (from m in this.GetMembers("M", xDocument)
                     where m.Attribute("name").Value.Contains("#ctor")
-                    select new MethodDoc(m, this.FullName)).ToArray();
+                    select new MethodDoc(m, this.FullName, typeDefinition)).ToArray();
         }
 
         private IEnumerable<PropertyDoc> GetProperties(XDocument xDocument, TypeDefinition typeDefinition)
@@ -135,11 +135,11 @@ namespace DotNetMDDocs.XmlDocParser
                     select new PropertyDoc(m, this.FullName, typeDefinition)).ToArray();
         }
 
-        private IEnumerable<MethodDoc> GetMethods(XDocument xDocument)
+        private IEnumerable<MethodDoc> GetMethods(XDocument xDocument, TypeDefinition typeDefinition)
         {
             return (from m in this.GetMembers("M", xDocument)
                     where !m.Attribute("name").Value.Contains("#ctor")
-                    select new MethodDoc(m, this.FullName)).ToArray();
+                    select new MethodDoc(m, this.FullName, typeDefinition)).ToArray();
         }
 
         private IEnumerable<FieldDoc> GetFields(XDocument xDocument, TypeDefinition typeDefinition)

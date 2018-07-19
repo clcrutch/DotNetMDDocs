@@ -21,7 +21,6 @@ namespace DotNetMDDocs.XmlDocParser
 {
     public class AssemblyDoc
     {
-        [XmlElement(ElementName = "name")]
         public string Name { get; set; }
     }
 }

@@ -16,6 +16,7 @@
 // </copyright>
 
 using System;
+using DotNetDocs;
 using DotNetMDDocs.Markdown;
 using DotNetMDDocs.XmlDocParser;
 
@@ -23,18 +24,18 @@ namespace DotNetMDDocs
 {
     public abstract class DocBuilder
     {
-        public DocBuilder(TypeDoc type, BaseDoc baseDoc, Document document)
+        public DocBuilder(DocumentationBase documentation, TypeDocumentation typeDocumentation, AssemblyDocumentation assemblyDocumentation)
         {
-            this.Type = type;
-            this.BaseDoc = baseDoc;
-            this.Document = document;
+            this.AssemblyDocumentation = assemblyDocumentation;
+            this.Documentation = documentation;
+            this.TypeDocumentation = typeDocumentation;
         }
 
-        protected TypeDoc Type { get; private set; }
+        protected AssemblyDocumentation AssemblyDocumentation { get; private set; }
 
-        protected BaseDoc BaseDoc { get; private set; }
+        protected DocumentationBase Documentation { get; private set; }
 
-        protected Document Document { get; private set; }
+        protected TypeDocumentation TypeDocumentation { get; private set; }
 
         public string Generate()
         {
@@ -46,11 +47,11 @@ namespace DotNetMDDocs
                 Text = this.GetHeader()
             });
 
-            if (!string.IsNullOrEmpty(this.BaseDoc.Summary))
+            if (!string.IsNullOrEmpty(this.Documentation.Summary))
             {
                 md.AddElement(new MDQuote
                 {
-                    Quote = this.BaseDoc.Summary
+                    Quote = this.Documentation.Summary
                 });
             }
 
@@ -61,7 +62,7 @@ namespace DotNetMDDocs
 
             md.AddElement(new MDText
             {
-                Text = $" {this.Type.Namespace}{Environment.NewLine}{Environment.NewLine}"
+                Text = $" {this.TypeDocumentation.Namespace}{Environment.NewLine}{Environment.NewLine}"
             });
 
             md.AddElement(new MDBold
@@ -71,7 +72,7 @@ namespace DotNetMDDocs
 
             md.AddElement(new MDText
             {
-                Text = $" {this.Document.Assembly.Name} (in {this.Document.Assembly.Name}.dll){Environment.NewLine}"
+                Text = $" {this.AssemblyDocumentation.Name} (in {this.AssemblyDocumentation.FileName}){Environment.NewLine}"
             });
 
             this.OnBeforeSyntax(md);
@@ -83,7 +84,7 @@ namespace DotNetMDDocs
 
             md.AddElement(new MDCode
             {
-                Code = this.BaseDoc.CodeSyntax,
+                Code = this.Documentation.Declaration,
                 Language = "csharp"
             });
 
@@ -91,7 +92,7 @@ namespace DotNetMDDocs
 
             this.OnBeforeRemarks(md);
 
-            if (!string.IsNullOrWhiteSpace(this.BaseDoc.Remarks))
+            if (!string.IsNullOrWhiteSpace(this.Documentation.Remarks))
             {
                 md.AddElement(new MDH2
                 {
@@ -100,7 +101,7 @@ namespace DotNetMDDocs
 
                 md.AddElement(new MDText
                 {
-                    Text = this.BaseDoc.Remarks
+                    Text = this.Documentation.Remarks
                 });
             }
 

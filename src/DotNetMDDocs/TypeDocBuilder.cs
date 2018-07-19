@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using DotNetDocs;
 using DotNetMDDocs.Markdown;
 using DotNetMDDocs.XmlDocParser;
 
@@ -27,18 +28,20 @@ namespace DotNetMDDocs
 {
     public class TypeDocBuilder : DocBuilder
     {
+        public const string SPACE = "&nbsp;";
+
         private readonly string rootName;
         private int currInheritanceLevel = 1;
 
-        public TypeDocBuilder(TypeDoc type, Document document, string rootName)
-            : base(type, type, document)
+        public TypeDocBuilder(TypeDocumentation typeDocumentation, AssemblyDocumentation assemblyDocumentation, string rootName)
+            : base(typeDocumentation, typeDocumentation, assemblyDocumentation)
         {
             this.rootName = rootName;
         }
 
         protected override string GetHeader()
         {
-            return $"{this.Type.Name} {(this.Type.IsInterface ? "Interface" : "Class")}";
+            return $"{this.TypeDocumentation.Name} {((this.TypeDocumentation.TypeAttributes & System.Reflection.TypeAttributes.Interface) == System.Reflection.TypeAttributes.Interface ? "Interface" : "Class")}";
         }
 
         protected override void OnBeforeSyntax(MDDocument md)
@@ -48,12 +51,12 @@ namespace DotNetMDDocs
                 Text = "Inheritance Hierarchy"
             });
 
-            this.RenderInheritanceLevel(this.Type.InheritanceHierarchy, md);
+            // this.RenderInheritanceLevel(this.Type.InheritanceHierarchy, md);
         }
 
         protected override void OnBeforeRemarks(MDDocument md)
         {
-            this.AddTables(this.Type, md);
+            this.AddTables(this.TypeDocumentation, md);
         }
 
         private void RenderInheritanceLevel(InheritanceDoc inheritanceDoc, MDDocument md)
@@ -66,7 +69,10 @@ namespace DotNetMDDocs
             var stringBuilder = new StringBuilder();
             for (int i = 0; i < this.currInheritanceLevel; i++)
             {
-                stringBuilder.Append("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                for (int j = 0; j < 8; j++)
+                {
+                    stringBuilder.Append(SPACE);
+                }
             }
 
             this.currInheritanceLevel++;
@@ -81,20 +87,20 @@ namespace DotNetMDDocs
             });
         }
 
-        private void AddTables(TypeDoc type, MDDocument md)
+        private void AddTables(TypeDocumentation type, MDDocument md)
         {
             var path = $"{this.rootName}/{type.FullName.Replace(".", "/")}";
 
-            this.AddTable("Constructors", $"{path}/Constructors", type.Constructors, md);
+            this.AddTable("Constructors", $"{path}/Constructors", type.ConstructorDocumentations, md);
 
-            this.AddTable("Properties", $"{path}/Properties", type.Properties, md);
+            this.AddTable("Properties", $"{path}/Properties", type.PropertyDocumentations, md);
 
-            this.AddTable("Methods", $"{path}/Methods", type.Methods, md);
+            this.AddTable("Methods", $"{path}/Methods", type.MethodDocumentations, md);
 
-            this.AddTable("Fields", $"{path}/Fields", type.Fields, md);
+            this.AddTable("Fields", $"{path}/Fields", type.FieldDocumentations, md);
         }
 
-        private void AddTable(string tableName, string path, IEnumerable<BaseDoc> items, MDDocument md)
+        private void AddTable(string tableName, string path, IEnumerable<DocumentationBase> items, MDDocument md)
         {
             if (!items.Any())
             {

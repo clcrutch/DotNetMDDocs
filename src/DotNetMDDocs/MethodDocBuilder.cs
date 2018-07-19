@@ -16,6 +16,7 @@
 // </copyright>
 
 using System;
+using DotNetDocs;
 using DotNetMDDocs.Markdown;
 using DotNetMDDocs.XmlDocParser;
 
@@ -23,17 +24,18 @@ namespace DotNetMDDocs
 {
     public class MethodDocBuilder : DocBuilder
     {
-        private readonly MethodDoc method;
+        public const string SPACE = "&nbsp;";
 
-        public MethodDocBuilder(MethodDoc method, TypeDoc type, Document document)
-             : base(type, method, document)
+        public MethodDocBuilder(MethodDocumentation methodDocumentation, TypeDocumentation typeDocumentation, AssemblyDocumentation assemblyDocumentation)
+             : base(methodDocumentation, typeDocumentation, assemblyDocumentation)
         {
-            this.method = method;
         }
+
+        private MethodDocumentation MethodDocumentation => (MethodDocumentation)this.Documentation;
 
         protected override string GetHeader()
         {
-            return $"{this.Type.Name}.{this.method.Name} {(this.method.IsConstructor ? "Constructor" : "Method")}";
+            return $"{this.TypeDocumentation.Name}.{this.MethodDocumentation.Name} {(this.MethodDocumentation.IsConstructor ? "Constructor" : "Method")}";
         }
 
         protected override void OnAfterSyntax(MDDocument md)
@@ -43,7 +45,7 @@ namespace DotNetMDDocs
                 Text = "Parameters"
             });
 
-            foreach (var param in this.method.Params)
+            /*foreach (var param in this.method.Params)
             {
                 md.AddElement(new MDItalics
                 {
@@ -51,11 +53,11 @@ namespace DotNetMDDocs
                 });
                 md.AddElement(new MDText
                 {
-                    Text = $"{Environment.NewLine}{Environment.NewLine}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                    Text = $"{Environment.NewLine}{Environment.NewLine}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}"
                 });
                 md.AddElement(new MDText
                 {
-                    Text = $"Type: {param.Type}{Environment.NewLine}{Environment.NewLine}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                    Text = $"Type: {param.Type}{Environment.NewLine}{Environment.NewLine}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}"
                 });
                 md.AddElement(new MDText
                 {
@@ -65,7 +67,7 @@ namespace DotNetMDDocs
                 {
                     Text = $"{Environment.NewLine}"
                 });
-            }
+            }*/
         }
     }
 }

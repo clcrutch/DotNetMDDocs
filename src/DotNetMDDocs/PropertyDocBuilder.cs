@@ -15,23 +15,23 @@
 // along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 // </copyright>
 
+using DotNetDocs;
 using DotNetMDDocs.XmlDocParser;
 
 namespace DotNetMDDocs
 {
     public class PropertyDocBuilder : DocBuilder
     {
-        private readonly PropertyDoc property;
-
-        public PropertyDocBuilder(PropertyDoc property, TypeDoc type, Document document)
-             : base(type, property, document)
+        public PropertyDocBuilder(PropertyDocumentation propertyDocumentation, TypeDocumentation typeDocumentation, AssemblyDocumentation assemblyDocumentation)
+             : base(propertyDocumentation, typeDocumentation, assemblyDocumentation)
         {
-            this.property = property;
         }
+
+        private PropertyDocumentation PropertyDocumentation => (PropertyDocumentation)this.Documentation;
 
         protected override string GetHeader()
         {
-            return $"{this.Type.Name}.{this.property.Name} Property";
+            return $"{this.TypeDocumentation.Name}.{this.PropertyDocumentation.Name} Property";
         }
     }
 }

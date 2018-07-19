@@ -19,7 +19,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using DotNetDocs;
 using DotNetMDDocs.XmlDocParser;
 using McMaster.Extensions.CommandLineUtils;
 
@@ -52,12 +54,19 @@ namespace DotNetMDDocs
             var dllPath = Path.Combine(Path.GetDirectoryName(this.XmlPath), $"{Path.GetFileNameWithoutExtension(this.XmlPath)}.dll");
 
             var document = new Document(xmlpath, dllPath);
+            var assemblyDocumentation = AssemblyDocumentation.Parse(dllPath, xmlpath);
 
             var docs = Directory.CreateDirectory(this.DocumentPath);
 
-            foreach (var type in document.Types)
+            foreach (var typeDocumentation in assemblyDocumentation.Types)
             {
-                var rootDir = Directory.CreateDirectory(Path.Combine(docs.FullName, Path.Combine(type.Namespace.Split('.'))));
+                var type = document.Types.FirstOrDefault(x => x.FullName == typeDocumentation.FullName);
+                if (type == null)
+                {
+                    break;
+                }
+
+                var rootDir = Directory.CreateDirectory(Path.Combine(docs.FullName, Path.Combine(typeDocumentation.Namespace.Split('.'))));
                 var typeDir = new DirectoryInfo(Path.Combine(rootDir.FullName, type.SafeName));
 
                 if (typeDir.Exists)
@@ -67,37 +76,37 @@ namespace DotNetMDDocs
 
                 typeDir.Create();
 
-                var typeDocBuilder = new TypeDocBuilder(type, document, docs.Name);
+                var typeDocBuilder = new TypeDocBuilder(typeDocumentation, assemblyDocumentation, docs.Name);
                 using (var stream = File.CreateText(Path.Combine(rootDir.FullName, $"{type.SafeName}.md")))
                 {
                     await stream.WriteAsync(typeDocBuilder.Generate());
                 }
 
                 // Constructors
-                var constructorsTask = this.GenerateDocsAsync<MethodDocBuilder>(type.Constructors, type, document, typeDir, "Constructors");
+                var constructorsTask = this.GenerateDocsAsync<MethodDocBuilder>(typeDocumentation.ConstructorDocumentations, typeDocumentation, assemblyDocumentation, typeDir, "Constructors");
 
                 // Properties
-                var propertiesTask = this.GenerateDocsAsync<PropertyDocBuilder>(type.Properties, type, document, typeDir, "Properties");
+                var propertiesTask = this.GenerateDocsAsync<PropertyDocBuilder>(typeDocumentation.PropertyDocumentations, typeDocumentation, assemblyDocumentation, typeDir, "Properties");
 
                 // Methods
-                var methodsTask = this.GenerateDocsAsync<MethodDocBuilder>(type.Methods, type, document, typeDir, "Methods");
+                var methodsTask = this.GenerateDocsAsync<MethodDocBuilder>(typeDocumentation.MethodDocumentations, typeDocumentation, assemblyDocumentation, typeDir, "Methods");
 
                 // Fields
-                var fieldsTask = this.GenerateDocsAsync<FieldDocBuilder>(type.Fields, type, document, typeDir, "Fields");
+                var fieldsTask = this.GenerateDocsAsync<FieldDocBuilder>(typeDocumentation.FieldDocumentations, typeDocumentation, assemblyDocumentation, typeDir, "Fields");
 
                 // Allow all the tasks to execute in parallel.
                 await Task.WhenAll(constructorsTask, propertiesTask, methodsTask, fieldsTask);
             }
         }
 
-        private async Task GenerateDocsAsync<TBuilder>(IEnumerable<BaseDoc> docs, TypeDoc type, Document document, DirectoryInfo typeDir, string dirName)
+        private async Task GenerateDocsAsync<TBuilder>(IEnumerable<DocumentationBase> documentations, TypeDocumentation typeDocumentation, AssemblyDocumentation assemblyDocumentation, DirectoryInfo typeDir, string dirName)
             where TBuilder : DocBuilder
         {
             var docDir = Directory.CreateDirectory(Path.Combine(typeDir.FullName, dirName));
-            foreach (var doc in docs)
+            foreach (var documentation in documentations)
             {
-                var docBuilder = (TBuilder)Activator.CreateInstance(typeof(TBuilder), doc, type, document);
-                using (var stream = File.CreateText(Path.Combine(docDir.FullName, $"{doc.SafeName}.md")))
+                var docBuilder = (TBuilder)Activator.CreateInstance(typeof(TBuilder), documentation, typeDocumentation, assemblyDocumentation);
+                using (var stream = File.CreateText(Path.Combine(docDir.FullName, $"{documentation.SafeName}.md")))
                 {
                     await stream.WriteAsync(docBuilder.Generate());
                 }

@@ -15,23 +15,23 @@
 // along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 // </copyright>
 
+using DotNetDocs;
 using DotNetMDDocs.XmlDocParser;
 
 namespace DotNetMDDocs
 {
     public class FieldDocBuilder : DocBuilder
     {
-        private readonly FieldDoc field;
-
-        public FieldDocBuilder(FieldDoc field, TypeDoc type, Document document)
-             : base(type, field, document)
+        public FieldDocBuilder(FieldDocumentation fieldDocumentation, TypeDocumentation typeDocumentation, AssemblyDocumentation assemblyDocumentation)
+             : base(fieldDocumentation, typeDocumentation, assemblyDocumentation)
         {
-            this.field = field;
         }
+
+        private FieldDocumentation FieldDocumentation => (FieldDocumentation)this.Documentation;
 
         protected override string GetHeader()
         {
-            return $"{this.Type.Name}.{this.field.Name} Field";
+            return $"{this.TypeDocumentation.Name}.{this.FieldDocumentation.Name} Field";
         }
     }
 }

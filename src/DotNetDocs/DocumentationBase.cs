@@ -15,7 +15,7 @@ namespace DotNetDocs
         protected IMemberDefinition MemberDefinition { get; private set; }
         protected XElement XElement { get; private set; }
 
-        public virtual string Declaration { get; } = string.Empty;
+        public virtual string Declaration { get; protected set; }
         public virtual string FullName => MemberDefinition?.FullName;
         public virtual string Name => MemberDefinition?.Name;
         public virtual string Remarks => XElement?.Descendants().FirstOrDefault(x => x.Name == "remarks")?.Value?.Trim();

@@ -2,7 +2,7 @@
   "profiles": {
     "DotNetMDDocs": {
       "commandName": "Project",
-      "commandLineArgs": "--xml-path C:\\git\\Nerdbank.GitVersioning\\bin\\NerdBank.GitVersioning\\Debug\\netcoreapp1.0\\NerdBank.GitVersioning.xml --document-path doc"
+      "commandLineArgs": "--xml-path C:\\git\\Nerdbank.GitVersioning\\bin\\NerdBank.GitVersioning\\Debug\\net45\\NerdBank.GitVersioning.xml --document-path doc"
     }
   }
 }

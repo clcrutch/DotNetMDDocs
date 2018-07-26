@@ -8,4 +8,8 @@
     <PackageReference Include="Mono.Cecil" Version="0.10.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ICSharpCode.Decompiler\ICSharpCode.Decompiler.csproj" />
+  </ItemGroup>
+
 </Project>

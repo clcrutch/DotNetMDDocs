@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using ICSharpCode.Decompiler.Metadata;
+using ICSharpCode.Decompiler.TypeSystem;
 using Mono.Cecil;
 
 using TypeAttributes = System.Reflection.TypeAttributes;
@@ -36,6 +38,11 @@ namespace DotNetDocs
             FieldDocumentations = GetFieldDocumentations(typeDefinition, xElement.Document);
             PropertyDocumentations = GetPropertyDocumentations(typeDefinition, xElement.Document);
             MethodDocumentations = GetMethodDocumentations(typeDefinition, xElement.Document);
+
+            var name = new FullTypeName(FullName);
+            this.Declaration = this.DeclaringAssembly.Decompiler.DecompileTypeAsString(name);
+            this.Declaration = this.Declaration.Substring(this.Declaration.IndexOf('{') + 1);
+            this.Declaration = this.Declaration.Substring(0, this.Declaration.IndexOf('{')).Trim();
         }
 
         private bool IsSameOverload(MethodDefinition methodDefinition, XElement xElement) => 

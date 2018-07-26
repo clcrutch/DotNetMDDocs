@@ -1,4 +1,7 @@
-﻿using Mono.Cecil;
+﻿using ICSharpCode.Decompiler;
+using ICSharpCode.Decompiler.CSharp;
+using ICSharpCode.Decompiler.Metadata;
+using Mono.Cecil;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,6 +15,8 @@ namespace DotNetDocs
         protected AssemblyDefinition AssemblyDefinition { get; private set; }
 
         protected FileInfo AssemblyFileInfo { get; private set; }
+
+        public CSharpDecompiler Decompiler { get; private set; }
 
         public string FileName => AssemblyFileInfo?.Name;
 
@@ -30,10 +35,17 @@ namespace DotNetDocs
 
         protected AssemblyDocumentation(AssemblyDefinition assemblyDefinition, XDocument xDocument, FileInfo assemblyFileInfo)
         {
-            AssemblyDefinition = assemblyDefinition;
-            Types = GetTypeDocumentations(assemblyDefinition, xDocument);
+            this.Decompiler = new CSharpDecompiler(assemblyFileInfo.FullName, new DecompilerSettings
+            {
+                DecompileMemberBodies = false,
+                UsingStatement = false,
+                ShowXmlDocumentation = false
+            });
 
+            AssemblyDefinition = assemblyDefinition;
             this.AssemblyFileInfo = assemblyFileInfo;
+
+            Types = GetTypeDocumentations(assemblyDefinition, xDocument);
         }
 
         public void Dispose()

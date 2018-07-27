@@ -50,6 +50,7 @@ namespace DotNetDocs
             {
                 DecompileMemberBodies = false,
                 UsingStatement = false,
+                UsingDeclarations = false,
                 ShowXmlDocumentation = false
             });
 

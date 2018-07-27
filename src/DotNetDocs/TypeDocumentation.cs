@@ -148,6 +148,10 @@ namespace DotNetDocs
                     x.Name == "member" &&
                     x.Attribute("name").Value.StartsWith("P:") &&
                     x.Attribute("name").Value.EndsWith($"{FullName}.{p.Name}")
-             ))).ToArray();
+                ), (from p2 in this.ReflectionTypeDefinition.GetProperties()
+                    where this.DeclaringAssembly.PEFile.Metadata.GetString(this.DeclaringAssembly.PEFile.Metadata.GetPropertyDefinition(p2).Name) == p.Name
+                    select p2).Single(),
+                 this)
+             ).ToArray();
     }
 }

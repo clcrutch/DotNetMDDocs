@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Xml.Linq;
 using Mono.Cecil;
+
+using FieldDefinition = Mono.Cecil.FieldDefinition;
 
 namespace DotNetDocs
 {
@@ -11,7 +14,7 @@ namespace DotNetDocs
     {
         protected TypeDocumentation DeclaringType { get; private set; }
 
-        public FieldDocumentation(FieldDefinition fieldDefinition, XElement xElement, System.Reflection.Metadata.EntityHandle handle, TypeDocumentation declaringType)
+        public FieldDocumentation(FieldDefinition fieldDefinition, XElement xElement, EntityHandle handle, TypeDocumentation declaringType)
             : base(fieldDefinition, xElement)
         {
             DeclaringType = declaringType;

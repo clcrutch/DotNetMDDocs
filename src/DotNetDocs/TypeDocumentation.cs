@@ -27,12 +27,22 @@ namespace DotNetDocs
 
         public PropertyDocumentation[] PropertyDocumentations { get; private set; }
 
+        public System.Reflection.Metadata.TypeDefinition ReflectionTypeDefinition { get; private set; }
+
         public TypeAttributes TypeAttributes => (TypeAttributes)TypeDefinition.Attributes;
 
         protected internal TypeDocumentation(TypeDefinition typeDefinition, XElement xElement, AssemblyDocumentation declaringAssembly)
             : base(typeDefinition, xElement)
         {
             DeclaringAssembly = declaringAssembly;
+
+            var typeDefs = from t in declaringAssembly.PEFile.Metadata.TypeDefinitions
+                           select declaringAssembly.PEFile.Metadata.GetTypeDefinition(t);
+
+            this.ReflectionTypeDefinition = (from t in typeDefs
+                                             where declaringAssembly.PEFile.Metadata.GetString(t.Namespace) == Namespace &&
+                                                declaringAssembly.PEFile.Metadata.GetString(t.Name) == Name
+                                             select t).Single();
 
             ConstructorDocumentations = GetConstructorDocumentations(typeDefinition, xElement.Document);
             FieldDocumentations = GetFieldDocumentations(typeDefinition, xElement.Document);
@@ -95,7 +105,11 @@ namespace DotNetDocs
                     x.Name == "member" &&
                     x.Attribute("name").Value.StartsWith("F:") &&
                     x.Attribute("name").Value.EndsWith($"{FullName}.{f.Name}")
-             ))).ToArray();
+                 ), (from f2 in this.ReflectionTypeDefinition.GetFields()
+                     where this.DeclaringAssembly.PEFile.Metadata.GetString(this.DeclaringAssembly.PEFile.Metadata.GetFieldDefinition(f2).Name) == f.Name
+                     select f2).Single(),
+                 this)
+             ).ToArray();
 
         private MethodDocumentation[] GetMethodDocumentations(TypeDefinition typeDefinition, XDocument xDocument) =>
             (from m in typeDefinition.Methods

@@ -22,18 +22,29 @@ namespace DotNetDocs
 
         public string Name => AssemblyDefinition?.Name?.Name;
 
+        public PEFile PEFile { get; private set; }
+
         public TypeDocumentation[] Types { get; private set; }
 
         public static AssemblyDocumentation Parse(string assemblyPath, string xmlPath)
         {
+            PEFile peFile = null;
+            var assemblyFileInfo = new FileInfo(assemblyPath);
+
+            using (var stream = File.Open(assemblyFileInfo.FullName, FileMode.Open))
+            {
+                peFile = new PEFile(assemblyFileInfo.Name, stream);
+            }
+
             return new AssemblyDocumentation(
                 AssemblyDefinition.ReadAssembly(assemblyPath),
+                peFile,
                 XDocument.Load(xmlPath),
-                new FileInfo(assemblyPath)
+                assemblyFileInfo
             );
         }
 
-        protected AssemblyDocumentation(AssemblyDefinition assemblyDefinition, XDocument xDocument, FileInfo assemblyFileInfo)
+        protected AssemblyDocumentation(AssemblyDefinition assemblyDefinition, PEFile peFile, XDocument xDocument, FileInfo assemblyFileInfo)
         {
             this.Decompiler = new CSharpDecompiler(assemblyFileInfo.FullName, new DecompilerSettings
             {
@@ -44,6 +55,7 @@ namespace DotNetDocs
 
             AssemblyDefinition = assemblyDefinition;
             this.AssemblyFileInfo = assemblyFileInfo;
+            this.PEFile = peFile;
 
             Types = GetTypeDocumentations(assemblyDefinition, xDocument);
         }
@@ -51,6 +63,7 @@ namespace DotNetDocs
         public void Dispose()
         {
             AssemblyDefinition?.Dispose();
+            PEFile?.Dispose();
         }
 
         private TypeDocumentation[] GetTypeDocumentations(AssemblyDefinition assemblyDefinition, XDocument xDocument) => 

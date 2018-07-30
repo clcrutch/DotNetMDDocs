@@ -43,48 +43,48 @@ namespace DotNetMDDocs
             // Add the header.
             md.AddElement(new MDH1
             {
-                Text = this.GetHeader()
+                Text = this.GetHeader(),
             });
 
             if (!string.IsNullOrEmpty(this.Documentation.Summary))
             {
                 md.AddElement(new MDQuote
                 {
-                    Quote = this.Documentation.Summary
+                    Quote = this.Documentation.Summary,
                 });
             }
 
             md.AddElement(new MDBold
             {
-                Text = "Namespace:"
+                Text = "Namespace:",
             });
 
             md.AddElement(new MDText
             {
-                Text = $" {this.TypeDocumentation.Namespace}{Environment.NewLine}{Environment.NewLine}"
+                Text = $" {this.TypeDocumentation.Namespace}{Environment.NewLine}{Environment.NewLine}",
             });
 
             md.AddElement(new MDBold
             {
-                Text = "Assembly:"
+                Text = "Assembly:",
             });
 
             md.AddElement(new MDText
             {
-                Text = $" {this.AssemblyDocumentation.Name} (in {this.AssemblyDocumentation.FileName}){Environment.NewLine}"
+                Text = $" {this.AssemblyDocumentation.Name} (in {this.AssemblyDocumentation.FileName}){Environment.NewLine}",
             });
 
             this.OnBeforeSyntax(md);
 
             md.AddElement(new MDH2
             {
-                Text = "Syntax"
+                Text = "Syntax",
             });
 
             md.AddElement(new MDCode
             {
                 Code = this.Documentation.Declaration,
-                Language = "csharp"
+                Language = "csharp",
             });
 
             this.OnAfterSyntax(md);
@@ -95,12 +95,12 @@ namespace DotNetMDDocs
             {
                 md.AddElement(new MDH2
                 {
-                    Text = "Remarks"
+                    Text = "Remarks",
                 });
 
                 md.AddElement(new MDText
                 {
-                    Text = this.Documentation.Remarks
+                    Text = this.Documentation.Remarks,
                 });
             }
 

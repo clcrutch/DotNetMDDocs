@@ -1,24 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// <copyright file="TypeDocumentation.cs" company="Chris Crutchfield">
+// Copyright (C) 2017  Chris Crutchfield
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// </copyright>
+
 using System.Linq;
 using System.Reflection.Metadata;
-using System.Text;
 using System.Xml.Linq;
-using ICSharpCode.Decompiler.Metadata;
 using ICSharpCode.Decompiler.TypeSystem;
 using Mono.Cecil;
 
-using TypeAttributes = System.Reflection.TypeAttributes;
-
-using TypeDefinition = Mono.Cecil.TypeDefinition;
-using FieldDefinition = Mono.Cecil.FieldAttributes;
-using PropertyDefinition = Mono.Cecil.PropertyDefinition;
 using MethodDefinition = Mono.Cecil.MethodDefinition;
+using TypeAttributes = System.Reflection.TypeAttributes;
+using TypeDefinition = Mono.Cecil.TypeDefinition;
 
 namespace DotNetDocs
 {
     public class TypeDocumentation : DocumentationBase
     {
+        protected internal TypeDocumentation(TypeDefinition typeDefinition, XElement xElement, AssemblyDocumentation declaringAssembly)
+            : base(typeDefinition, xElement)
+        {
+            this.DeclaringAssembly = declaringAssembly;
+
+            var typeDefs = from t in declaringAssembly.PEFile.Metadata.TypeDefinitions
+                           select declaringAssembly.PEFile.Metadata.GetTypeDefinition(t);
+
+            this.ReflectionTypeDefinition = (from t in typeDefs
+                                             where declaringAssembly.PEFile.Metadata.GetString(t.Namespace) == this.Namespace &&
+                                                declaringAssembly.PEFile.Metadata.GetString(t.Name) == this.Name
+                                             select t).Single();
+
+            this.ConstructorDocumentations = this.GetConstructorDocumentations(typeDefinition, xElement.Document);
+            this.FieldDocumentations = this.GetFieldDocumentations(typeDefinition, xElement.Document);
+            this.PropertyDocumentations = this.GetPropertyDocumentations(typeDefinition, xElement.Document);
+            this.MethodDocumentations = this.GetMethodDocumentations(typeDefinition, xElement.Document);
+
+            var name = new FullTypeName(this.FullName);
+            this.Declaration = this.DeclaringAssembly.Decompiler.DecompileTypeAsString(name);
+            this.Declaration = this.Declaration.Substring(this.Declaration.IndexOf('{') + 1);
+            this.Declaration = this.Declaration.Substring(0, this.Declaration.IndexOf('{')).Trim();
+        }
+
         public TypeDefinition TypeDefinition => (TypeDefinition)MemberDefinition;
 
         public MethodDocumentation[] ConstructorDocumentations { get; private set; }
@@ -37,54 +71,28 @@ namespace DotNetDocs
 
         public TypeAttributes TypeAttributes => (TypeAttributes)TypeDefinition.Attributes;
 
-        protected internal TypeDocumentation(TypeDefinition typeDefinition, XElement xElement, AssemblyDocumentation declaringAssembly)
-            : base(typeDefinition, xElement)
-        {
-            DeclaringAssembly = declaringAssembly;
-
-            var typeDefs = from t in declaringAssembly.PEFile.Metadata.TypeDefinitions
-                           select declaringAssembly.PEFile.Metadata.GetTypeDefinition(t);
-
-            this.ReflectionTypeDefinition = (from t in typeDefs
-                                             where declaringAssembly.PEFile.Metadata.GetString(t.Namespace) == Namespace &&
-                                                declaringAssembly.PEFile.Metadata.GetString(t.Name) == Name
-                                             select t).Single();
-
-            ConstructorDocumentations = GetConstructorDocumentations(typeDefinition, xElement.Document);
-            FieldDocumentations = GetFieldDocumentations(typeDefinition, xElement.Document);
-            PropertyDocumentations = GetPropertyDocumentations(typeDefinition, xElement.Document);
-            MethodDocumentations = GetMethodDocumentations(typeDefinition, xElement.Document);
-
-            var name = new FullTypeName(FullName);
-            this.Declaration = this.DeclaringAssembly.Decompiler.DecompileTypeAsString(name);
-            this.Declaration = this.Declaration.Substring(this.Declaration.IndexOf('{') + 1);
-            this.Declaration = this.Declaration.Substring(0, this.Declaration.IndexOf('{')).Trim();
-        }
-
         private MethodDocumentation[] GetConstructorDocumentations(TypeDefinition typeDefinition, XDocument xDocument) =>
             (from m in typeDefinition.Methods
-             where (m.IsConstructor &&
-                   (m.Attributes & MethodAttributes.Public) == MethodAttributes.Public ||
+             where ((m.IsConstructor &&
+                   (m.Attributes & MethodAttributes.Public) == MethodAttributes.Public) ||
                    (m.Attributes & MethodAttributes.Family) == MethodAttributes.Family) &&
                     xDocument.Descendants().Any(x =>
                         x.Name == "member" &&
                         x.Attribute("name").Value.StartsWith("M:") &&
-                        x.Attribute("name").Value.Contains($"{FullName}.#ctor") && 
-                        IsSameOverload(m, x)
-                    )
+                        x.Attribute("name").Value.Contains($"{this.FullName}.#ctor") &&
+                        this.IsSameOverload(m, x))
              select new MethodDocumentation(
                  m,
                  xDocument.Descendants().Single(x =>
                     x.Name == "member" &&
                     x.Attribute("name").Value.StartsWith("M:") &&
-                    x.Attribute("name").Value.Contains($"{FullName}.#ctor") &&
-                    IsSameOverload(m, x)
-                ), (from m2 in this.ReflectionTypeDefinition.GetMethods()
-                    where this.DeclaringAssembly.PEFile.Metadata.GetString(this.DeclaringAssembly.PEFile.Metadata.GetMethodDefinition(m2).Name) == m.Name
-                        & IsSameOverload(m2, m)
-                    select m2).First(),
-                this)
-            ).ToArray();
+                    x.Attribute("name").Value.Contains($"{this.FullName}.#ctor") &&
+                    this.IsSameOverload(m, x)), (from m2 in this.ReflectionTypeDefinition.GetMethods()
+                                                 where this.DeclaringAssembly.PEFile.Metadata.GetString(this.DeclaringAssembly.PEFile.Metadata.GetMethodDefinition(m2).Name) == m.Name
+                                                    & this.IsSameOverload(m2, m)
+                                                 select m2).First(),
+                 this))
+            .ToArray();
 
         private FieldDocumentation[] GetFieldDocumentations(TypeDefinition typeDefinition, XDocument xDocument) =>
             (from f in typeDefinition.Fields
@@ -93,44 +101,41 @@ namespace DotNetDocs
                     xDocument.Descendants().Any(x =>
                         x.Name == "member" &&
                         x.Attribute("name").Value.StartsWith("F:") &&
-                        x.Attribute("name").Value.EndsWith($"{FullName}.{f.Name}")
-                    )
+                        x.Attribute("name").Value.EndsWith($"{this.FullName}.{f.Name}"))
              select new FieldDocumentation(
-                 f, 
+                 f,
                  xDocument.Descendants().Single(x =>
                     x.Name == "member" &&
                     x.Attribute("name").Value.StartsWith("F:") &&
-                    x.Attribute("name").Value.EndsWith($"{FullName}.{f.Name}")
-                 ), (from f2 in this.ReflectionTypeDefinition.GetFields()
-                     where this.DeclaringAssembly.PEFile.Metadata.GetString(this.DeclaringAssembly.PEFile.Metadata.GetFieldDefinition(f2).Name) == f.Name
-                     select f2).Single(),
-                 this)
-             ).ToArray();
+                    x.Attribute("name").Value.EndsWith($"{this.FullName}.{f.Name}")), (from f2 in this.ReflectionTypeDefinition.GetFields()
+                                                                                       where this.DeclaringAssembly.PEFile.Metadata.GetString(
+                                                                                           this.DeclaringAssembly.PEFile.Metadata.GetFieldDefinition(f2).Name) == f.Name
+                                                                                       select f2).Single(),
+                 this))
+             .ToArray();
 
         private MethodDocumentation[] GetMethodDocumentations(TypeDefinition typeDefinition, XDocument xDocument) =>
             (from m in typeDefinition.Methods
-             where (!m.IsConstructor &&
-                   (m.Attributes & MethodAttributes.Public) == MethodAttributes.Public ||
+             where ((!m.IsConstructor &&
+                   (m.Attributes & MethodAttributes.Public) == MethodAttributes.Public) ||
                    (m.Attributes & MethodAttributes.Family) == MethodAttributes.Family) &&
                     xDocument.Descendants().Any(x =>
                         x.Name == "member" &&
                         x.Attribute("name").Value.StartsWith("M:") &&
-                        x.Attribute("name").Value.Contains($"{FullName}.{m.Name}") &&
-                        IsSameOverload(m, x)
-                    )
+                        x.Attribute("name").Value.Contains($"{this.FullName}.{m.Name}") &&
+                        this.IsSameOverload(m, x))
              select new MethodDocumentation(
                  m,
                  xDocument.Descendants().Single(x =>
                     x.Name == "member" &&
                     x.Attribute("name").Value.StartsWith("M:") &&
-                    x.Attribute("name").Value.Contains($"{FullName}.{m.Name}") &&
-                    IsSameOverload(m, x)
-                ), (from m2 in this.ReflectionTypeDefinition.GetMethods()
-                    where this.DeclaringAssembly.PEFile.Metadata.GetString(this.DeclaringAssembly.PEFile.Metadata.GetMethodDefinition(m2).Name) == m.Name &
-                        IsSameOverload(m2, m)
-                    select m2).First(),
-                this)
-             ).ToArray();
+                    x.Attribute("name").Value.Contains($"{this.FullName}.{m.Name}") &&
+                    this.IsSameOverload(m, x)), (from m2 in this.ReflectionTypeDefinition.GetMethods()
+                                            where this.DeclaringAssembly.PEFile.Metadata.GetString(this.DeclaringAssembly.PEFile.Metadata.GetMethodDefinition(m2).Name) == m.Name &
+                                                this.IsSameOverload(m2, m)
+                                            select m2).First(),
+                 this))
+             .ToArray();
 
         private PropertyDocumentation[] GetPropertyDocumentations(TypeDefinition typeDefinition, XDocument xDocument) =>
             (from p in typeDefinition.Properties
@@ -141,19 +146,17 @@ namespace DotNetDocs
                     xDocument.Descendants().Any(x =>
                         x.Name == "member" &&
                         x.Attribute("name").Value.StartsWith("P:") &&
-                        x.Attribute("name").Value.EndsWith($"{FullName}.{p.Name}")
-                    )
+                        x.Attribute("name").Value.EndsWith($"{this.FullName}.{p.Name}"))
              select new PropertyDocumentation(
                  p,
                  xDocument.Descendants().Single(x =>
                     x.Name == "member" &&
                     x.Attribute("name").Value.StartsWith("P:") &&
-                    x.Attribute("name").Value.EndsWith($"{FullName}.{p.Name}")
-                ), (from p2 in this.ReflectionTypeDefinition.GetProperties()
+                    x.Attribute("name").Value.EndsWith($"{this.FullName}.{p.Name}")), (from p2 in this.ReflectionTypeDefinition.GetProperties()
                     where this.DeclaringAssembly.PEFile.Metadata.GetString(this.DeclaringAssembly.PEFile.Metadata.GetPropertyDefinition(p2).Name) == p.Name
                     select p2).Single(),
-                 this)
-             ).ToArray();
+                 this))
+             .ToArray();
 
         private bool IsSameOverload(MethodDefinition methodDefinition, XElement xElement) =>
             methodDefinition.HasParameters == xElement.Descendants().Any(x => x.Name == "param") &&
@@ -161,27 +164,25 @@ namespace DotNetDocs
             methodDefinition.Parameters.Select(p => p.Name).SequenceEqual(
                 from x in xElement.Descendants()
                 where x.Name == "param"
-                select x.Attribute("name").Value
-            ) &&
+                select x.Attribute("name").Value) &&
             methodDefinition.Parameters.Select(p => p.ParameterType.FullName).SequenceEqual(
                 xElement.Attribute("name").Value.Substring(
                     xElement.Attribute("name").Value.IndexOf('(') + 1,
-                    xElement.Attribute("name").Value.Length - xElement.Attribute("name").Value.IndexOf('(') - 2
-                ).Split(',')
-            );
+                    xElement.Attribute("name").Value.Length - xElement.Attribute("name").Value.IndexOf('(') - 2)
+                .Split(','));
 
         private bool IsSameOverload(MethodDefinitionHandle methodDefinitionHandle, MethodDefinition methodDefinition)
         {
-            var m2 = DeclaringAssembly.PEFile.Metadata.GetMethodDefinition(methodDefinitionHandle);
+            var m2 = this.DeclaringAssembly.PEFile.Metadata.GetMethodDefinition(methodDefinitionHandle);
             var parameterHandles = m2.GetParameters();
 
             var parameters = (from p in parameterHandles
-                              select DeclaringAssembly.PEFile.Metadata.GetParameter(p)).ToArray();
+                              select this.DeclaringAssembly.PEFile.Metadata.GetParameter(p)).ToArray();
 
             return methodDefinition.HasParameters && parameterHandles.Any() &&
                 methodDefinition.Parameters.Count == parameterHandles.Count &&
                 (from p in parameters
-                 select DeclaringAssembly.PEFile.Metadata.GetString(p.Name)).SequenceEqual(from p in methodDefinition.Parameters
+                 select this.DeclaringAssembly.PEFile.Metadata.GetString(p.Name)).SequenceEqual(from p in methodDefinition.Parameters
                                                                                            select p.Name);
         }
     }

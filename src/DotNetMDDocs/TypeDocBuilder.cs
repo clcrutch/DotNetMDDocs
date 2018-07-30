@@ -48,7 +48,7 @@ namespace DotNetMDDocs
         {
             md.AddElement(new MDH2
             {
-                Text = "Inheritance Hierarchy"
+                Text = "Inheritance Hierarchy",
             });
 
             this.RenderInheritanceLevel(this.TypeDocumentation.TypeDefinition, md);
@@ -81,11 +81,11 @@ namespace DotNetMDDocs
 
             md.AddElement(new MDText
             {
-                Text = $"{stringBuilder.ToString()}{typeDefinition.FullName}"
+                Text = $"{stringBuilder.ToString()}{typeDefinition.FullName}",
             });
             md.AddElement(new MDText
             {
-                Text = $"{Environment.NewLine}{Environment.NewLine}"
+                Text = $"{Environment.NewLine}{Environment.NewLine}",
             });
         }
 
@@ -111,17 +111,17 @@ namespace DotNetMDDocs
 
             md.AddElement(new MDH2
             {
-                Text = tableName
+                Text = tableName,
             });
 
             var table = new MDTable();
             table.Header.Cells.Add(new MDText
             {
-                Text = "Name"
+                Text = "Name",
             });
             table.Header.Cells.Add(new MDText
             {
-                Text = "Description"
+                Text = "Description",
             });
 
             foreach (var item in items)
@@ -130,11 +130,11 @@ namespace DotNetMDDocs
                 row.Cells.Add(new MDLink
                 {
                     Text = item.Name,
-                    Url = $"/{path}/{HttpUtility.UrlEncode(item.SafeName).Replace("+", "%20")}.md"
+                    Url = $"/{path}/{HttpUtility.UrlEncode(item.SafeName).Replace("+", "%20")}.md",
                 });
                 row.Cells.Add(new MDText
                 {
-                    Text = item.Summary
+                    Text = item.Summary,
                 });
                 table.Rows.Add(row);
             }

@@ -41,7 +41,7 @@ namespace DotNetMDDocs
         {
             md.AddElement(new MDH5
             {
-                Text = "Parameters"
+                Text = "Parameters",
             });
 
             /*foreach (var param in this.method.Params)

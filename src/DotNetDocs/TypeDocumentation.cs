@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Xml.Linq;
 using ICSharpCode.Decompiler.Metadata;
@@ -8,6 +9,11 @@ using ICSharpCode.Decompiler.TypeSystem;
 using Mono.Cecil;
 
 using TypeAttributes = System.Reflection.TypeAttributes;
+
+using TypeDefinition = Mono.Cecil.TypeDefinition;
+using FieldDefinition = Mono.Cecil.FieldAttributes;
+using PropertyDefinition = Mono.Cecil.PropertyDefinition;
+using MethodDefinition = Mono.Cecil.MethodDefinition;
 
 namespace DotNetDocs
 {
@@ -55,21 +61,6 @@ namespace DotNetDocs
             this.Declaration = this.Declaration.Substring(0, this.Declaration.IndexOf('{')).Trim();
         }
 
-        private bool IsSameOverload(MethodDefinition methodDefinition, XElement xElement) => 
-            methodDefinition.HasParameters == xElement.Descendants().Any(x => x.Name == "param") &&
-            methodDefinition.Parameters.Count == xElement.Descendants().Count(x => x.Name == "param") &&
-            methodDefinition.Parameters.Select(p => p.Name).SequenceEqual(
-                from x in xElement.Descendants()
-                where x.Name == "param"
-                select x.Attribute("name").Value
-            ) &&
-            methodDefinition.Parameters.Select(p => p.ParameterType.FullName).SequenceEqual(
-                xElement.Attribute("name").Value.Substring(
-                    xElement.Attribute("name").Value.IndexOf('(') + 1,
-                    xElement.Attribute("name").Value.Length - xElement.Attribute("name").Value.IndexOf('(') - 2
-                ).Split(',')
-            );
-
         private MethodDocumentation[] GetConstructorDocumentations(TypeDefinition typeDefinition, XDocument xDocument) =>
             (from m in typeDefinition.Methods
              where (m.IsConstructor &&
@@ -88,7 +79,12 @@ namespace DotNetDocs
                     x.Attribute("name").Value.StartsWith("M:") &&
                     x.Attribute("name").Value.Contains($"{FullName}.#ctor") &&
                     IsSameOverload(m, x)
-             ))).ToArray();
+                ), (from m2 in this.ReflectionTypeDefinition.GetMethods()
+                    where this.DeclaringAssembly.PEFile.Metadata.GetString(this.DeclaringAssembly.PEFile.Metadata.GetMethodDefinition(m2).Name) == m.Name
+                        & IsSameOverload(m2, m)
+                    select m2).First(),
+                this)
+            ).ToArray();
 
         private FieldDocumentation[] GetFieldDocumentations(TypeDefinition typeDefinition, XDocument xDocument) =>
             (from f in typeDefinition.Fields
@@ -129,7 +125,12 @@ namespace DotNetDocs
                     x.Attribute("name").Value.StartsWith("M:") &&
                     x.Attribute("name").Value.Contains($"{FullName}.{m.Name}") &&
                     IsSameOverload(m, x)
-             ))).ToArray();
+                ), (from m2 in this.ReflectionTypeDefinition.GetMethods()
+                    where this.DeclaringAssembly.PEFile.Metadata.GetString(this.DeclaringAssembly.PEFile.Metadata.GetMethodDefinition(m2).Name) == m.Name &
+                        IsSameOverload(m2, m)
+                    select m2).First(),
+                this)
+             ).ToArray();
 
         private PropertyDocumentation[] GetPropertyDocumentations(TypeDefinition typeDefinition, XDocument xDocument) =>
             (from p in typeDefinition.Properties
@@ -153,5 +154,35 @@ namespace DotNetDocs
                     select p2).Single(),
                  this)
              ).ToArray();
+
+        private bool IsSameOverload(MethodDefinition methodDefinition, XElement xElement) =>
+            methodDefinition.HasParameters == xElement.Descendants().Any(x => x.Name == "param") &&
+            methodDefinition.Parameters.Count == xElement.Descendants().Count(x => x.Name == "param") &&
+            methodDefinition.Parameters.Select(p => p.Name).SequenceEqual(
+                from x in xElement.Descendants()
+                where x.Name == "param"
+                select x.Attribute("name").Value
+            ) &&
+            methodDefinition.Parameters.Select(p => p.ParameterType.FullName).SequenceEqual(
+                xElement.Attribute("name").Value.Substring(
+                    xElement.Attribute("name").Value.IndexOf('(') + 1,
+                    xElement.Attribute("name").Value.Length - xElement.Attribute("name").Value.IndexOf('(') - 2
+                ).Split(',')
+            );
+
+        private bool IsSameOverload(MethodDefinitionHandle methodDefinitionHandle, MethodDefinition methodDefinition)
+        {
+            var m2 = DeclaringAssembly.PEFile.Metadata.GetMethodDefinition(methodDefinitionHandle);
+            var parameterHandles = m2.GetParameters();
+
+            var parameters = (from p in parameterHandles
+                              select DeclaringAssembly.PEFile.Metadata.GetParameter(p)).ToArray();
+
+            return methodDefinition.HasParameters && parameterHandles.Any() &&
+                methodDefinition.Parameters.Count == parameterHandles.Count &&
+                (from p in parameters
+                 select DeclaringAssembly.PEFile.Metadata.GetString(p.Name)).SequenceEqual(from p in methodDefinition.Parameters
+                                                                                           select p.Name);
+        }
     }
 }

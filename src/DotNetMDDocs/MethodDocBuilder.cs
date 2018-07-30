@@ -44,29 +44,43 @@ namespace DotNetMDDocs
                 Text = "Parameters",
             });
 
-            /*foreach (var param in this.method.Params)
+            foreach (var param in this.MethodDocumentation.ParameterDocumentations)
             {
                 md.AddElement(new MDItalics
                 {
-                    Text = param.Name
+                    Text = param.Name,
                 });
                 md.AddElement(new MDText
                 {
-                    Text = $"{Environment.NewLine}{Environment.NewLine}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}"
+                    Text = $"{Environment.NewLine}{Environment.NewLine}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}",
                 });
                 md.AddElement(new MDText
                 {
-                    Text = $"Type: {param.Type}{Environment.NewLine}{Environment.NewLine}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}"
+                    Text = $"Type: {param.TypeName}{Environment.NewLine}{Environment.NewLine}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}{SPACE}",
                 });
                 md.AddElement(new MDText
                 {
-                    Text = $"{param.Summary}{Environment.NewLine}{Environment.NewLine}"
+                    Text = $"{param.Summary}{Environment.NewLine}{Environment.NewLine}",
                 });
                 md.AddElement(new MDText
                 {
-                    Text = $"{Environment.NewLine}"
+                    Text = $"{Environment.NewLine}",
                 });
-            }*/
+            }
+
+            md.AddElement(new MDH5
+            {
+                Text = "Return Value",
+            });
+
+            md.AddElement(new MDText
+            {
+                Text = $"Type: {this.MethodDocumentation.ReturnValueDocumentation.TypeName}{Environment.NewLine}{Environment.NewLine}",
+            });
+            md.AddElement(new MDText
+            {
+                Text = $"{this.MethodDocumentation.ReturnValueDocumentation.Summary}{Environment.NewLine}{Environment.NewLine}",
+            });
         }
     }
 }

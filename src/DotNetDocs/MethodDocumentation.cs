@@ -15,10 +15,11 @@
 // along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 // </copyright>
 
+using System;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Xml.Linq;
-
+using Mono.Cecil;
 using MethodDefinition = Mono.Cecil.MethodDefinition;
 
 namespace DotNetDocs
@@ -30,9 +31,16 @@ namespace DotNetDocs
         {
             this.DeclaringType = declaringType;
 
+            this.ParameterDocumentations = this.GetParameterDocumentations(methodDefinition, xElement);
+            this.ReturnValueDocumentation = new ReturnValueDocumentation(methodDefinition.MethodReturnType, (from x in xElement.Descendants()
+                                                                                                             where x.Name == "returns"
+                                                                                                             select x).SingleOrDefault());
+
             var declaringAssembly = declaringType.DeclaringAssembly;
             this.Declaration = declaringAssembly.Decompiler.DecompileAsString(handle).Trim();
         }
+
+        public bool IsConstructor => MethodDefinition?.IsConstructor ?? false;
 
         public override string Name
         {
@@ -45,10 +53,18 @@ namespace DotNetDocs
             }
         }
 
-        public bool IsConstructor => MethodDefinition?.IsConstructor ?? false;
+        public ParameterDocumentation[] ParameterDocumentations { get; private set; }
+
+        public ReturnValueDocumentation ReturnValueDocumentation { get; private set; }
 
         protected TypeDocumentation DeclaringType { get; private set; }
 
         protected MethodDefinition MethodDefinition => (MethodDefinition)MemberDefinition;
+
+        private ParameterDocumentation[] GetParameterDocumentations(MethodDefinition methodDefinition, XElement xElement) =>
+            (from p in methodDefinition.Parameters
+             select new ParameterDocumentation(p, (from x in xElement.Descendants()
+                                                   where x.Name == "param" && x.Attribute("name").Value == p.Name
+                                                   select x).SingleOrDefault())).ToArray();
     }
 }

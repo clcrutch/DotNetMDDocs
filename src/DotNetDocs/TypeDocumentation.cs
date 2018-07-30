@@ -19,7 +19,7 @@ namespace DotNetDocs
 {
     public class TypeDocumentation : DocumentationBase
     {
-        protected TypeDefinition TypeDefinition => (TypeDefinition)MemberDefinition;
+        public TypeDefinition TypeDefinition => (TypeDefinition)MemberDefinition;
 
         public MethodDocumentation[] ConstructorDocumentations { get; private set; }
 

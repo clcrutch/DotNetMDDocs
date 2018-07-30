@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetMDDocs", "DotNetMDDocs\DotNetMDDocs.csproj", "{5F41EF40-3E04-4C52-9063-D9627E1F5598}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetMDDocs.XmlDocParser", "DotNetMDDocs.XmlDocParser\DotNetMDDocs.XmlDocParser.csproj", "{59C9776A-36FC-4FFF-84C5-BE4826A491AF}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetMDDocs.Markdown", "DotNetMDDocs.Markdown\DotNetMDDocs.Markdown.csproj", "{388CEE4F-30B2-44A2-BD86-E33C3841B3C2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetDocs", "DotNetDocs\DotNetDocs.csproj", "{A064F727-C167-4547-8529-6004776C4321}"
@@ -23,10 +21,6 @@ Global
 		{5F41EF40-3E04-4C52-9063-D9627E1F5598}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F41EF40-3E04-4C52-9063-D9627E1F5598}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F41EF40-3E04-4C52-9063-D9627E1F5598}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59C9776A-36FC-4FFF-84C5-BE4826A491AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59C9776A-36FC-4FFF-84C5-BE4826A491AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59C9776A-36FC-4FFF-84C5-BE4826A491AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59C9776A-36FC-4FFF-84C5-BE4826A491AF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{388CEE4F-30B2-44A2-BD86-E33C3841B3C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{388CEE4F-30B2-44A2-BD86-E33C3841B3C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{388CEE4F-30B2-44A2-BD86-E33C3841B3C2}.Release|Any CPU.ActiveCfg = Release|Any CPU

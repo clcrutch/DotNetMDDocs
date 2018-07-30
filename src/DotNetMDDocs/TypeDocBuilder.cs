@@ -22,7 +22,7 @@ using System.Text;
 using System.Web;
 using DotNetDocs;
 using DotNetMDDocs.Markdown;
-using DotNetMDDocs.XmlDocParser;
+using Mono.Cecil;
 
 namespace DotNetMDDocs
 {
@@ -51,7 +51,7 @@ namespace DotNetMDDocs
                 Text = "Inheritance Hierarchy"
             });
 
-            // this.RenderInheritanceLevel(this.Type.InheritanceHierarchy, md);
+            this.RenderInheritanceLevel(this.TypeDocumentation.TypeDefinition, md);
         }
 
         protected override void OnBeforeRemarks(MDDocument md)
@@ -59,11 +59,13 @@ namespace DotNetMDDocs
             this.AddTables(this.TypeDocumentation, md);
         }
 
-        private void RenderInheritanceLevel(InheritanceDoc inheritanceDoc, MDDocument md)
+        private void RenderInheritanceLevel(TypeReference typeReference, MDDocument md)
         {
-            if (inheritanceDoc.BaseClass != null)
+            var typeDefinition = typeReference.Resolve();
+
+            if (typeDefinition.BaseType != null)
             {
-                this.RenderInheritanceLevel(inheritanceDoc.BaseClass, md);
+                this.RenderInheritanceLevel(typeDefinition.BaseType, md);
             }
 
             var stringBuilder = new StringBuilder();
@@ -79,7 +81,7 @@ namespace DotNetMDDocs
 
             md.AddElement(new MDText
             {
-                Text = $"{stringBuilder.ToString()}{inheritanceDoc.Namespace}.{inheritanceDoc.Name}"
+                Text = $"{stringBuilder.ToString()}{typeDefinition.FullName}"
             });
             md.AddElement(new MDText
             {

@@ -16,7 +16,6 @@
 // </copyright>
 
 using DotNetDocs;
-using DotNetMDDocs.XmlDocParser;
 
 namespace DotNetMDDocs
 {

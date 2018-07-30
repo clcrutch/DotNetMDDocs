@@ -22,7 +22,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using DotNetDocs;
-using DotNetMDDocs.XmlDocParser;
 using McMaster.Extensions.CommandLineUtils;
 
 namespace DotNetMDDocs
@@ -53,21 +52,14 @@ namespace DotNetMDDocs
             var xmlpath = this.XmlPath;
             var dllPath = Path.Combine(Path.GetDirectoryName(this.XmlPath), $"{Path.GetFileNameWithoutExtension(this.XmlPath)}.dll");
 
-            var document = new Document(xmlpath, dllPath);
             var assemblyDocumentation = AssemblyDocumentation.Parse(dllPath, xmlpath);
 
             var docs = Directory.CreateDirectory(this.DocumentPath);
 
             foreach (var typeDocumentation in assemblyDocumentation.Types)
             {
-                var type = document.Types.FirstOrDefault(x => x.FullName == typeDocumentation.FullName);
-                if (type == null)
-                {
-                    break;
-                }
-
                 var rootDir = Directory.CreateDirectory(Path.Combine(docs.FullName, Path.Combine(typeDocumentation.Namespace.Split('.'))));
-                var typeDir = new DirectoryInfo(Path.Combine(rootDir.FullName, type.SafeName));
+                var typeDir = new DirectoryInfo(Path.Combine(rootDir.FullName, typeDocumentation.SafeName));
 
                 if (typeDir.Exists)
                 {
@@ -77,7 +69,7 @@ namespace DotNetMDDocs
                 typeDir.Create();
 
                 var typeDocBuilder = new TypeDocBuilder(typeDocumentation, assemblyDocumentation, docs.Name);
-                using (var stream = File.CreateText(Path.Combine(rootDir.FullName, $"{type.SafeName}.md")))
+                using (var stream = File.CreateText(Path.Combine(rootDir.FullName, $"{typeDocumentation.SafeName}.md")))
                 {
                     await stream.WriteAsync(typeDocBuilder.Generate());
                 }

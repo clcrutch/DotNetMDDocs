@@ -23,7 +23,6 @@
   <ItemGroup>
     <ProjectReference Include="..\DotNetDocs\DotNetDocs.csproj" />
     <ProjectReference Include="..\DotNetMDDocs.Markdown\DotNetMDDocs.Markdown.csproj" />
-    <ProjectReference Include="..\DotNetMDDocs.XmlDocParser\DotNetMDDocs.XmlDocParser.csproj" />
   </ItemGroup>
 
 </Project>

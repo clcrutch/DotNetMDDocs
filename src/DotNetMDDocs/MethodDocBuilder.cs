@@ -18,7 +18,6 @@
 using System;
 using DotNetDocs;
 using DotNetMDDocs.Markdown;
-using DotNetMDDocs.XmlDocParser;
 
 namespace DotNetMDDocs
 {

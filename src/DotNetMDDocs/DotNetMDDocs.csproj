@@ -31,4 +31,10 @@
     <ProjectReference Include="..\DotNetMDDocs.Markdown\DotNetMDDocs.Markdown.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="DotNetMDDocs.targets">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

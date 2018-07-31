@@ -24,13 +24,21 @@ using MethodDefinition = Mono.Cecil.MethodDefinition;
 
 namespace DotNetDocs
 {
+    /// <summary>
+    /// Parses a method.
+    /// </summary>
     public class MethodDocumentation : DocumentationBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MethodDocumentation"/> class.
+        /// </summary>
+        /// <param name="methodDefinition">The <see cref="MethodDefinition"/> which to document.</param>
+        /// <param name="xElement">The XML element representing the XML comments for the current member.</param>
+        /// <param name="handle">The <see cref="EntityHandle"/> that represents the member to document.</param>
+        /// <param name="declaringType">The type which declares this member.</param>
         public MethodDocumentation(MethodDefinition methodDefinition, XElement xElement, EntityHandle handle, TypeDocumentation declaringType)
-            : base(methodDefinition, xElement)
+            : base(methodDefinition, xElement, declaringType)
         {
-            this.DeclaringType = declaringType;
-
             this.ParameterDocumentations = this.GetParameterDocumentations(methodDefinition, xElement);
             this.ReturnValueDocumentation = new ReturnValueDocumentation(methodDefinition.MethodReturnType, (from x in xElement.Descendants()
                                                                                                              where x.Name == "returns"
@@ -40,8 +48,12 @@ namespace DotNetDocs
             this.Declaration = declaringAssembly.Decompiler.DecompileAsString(handle).Trim();
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the current method is a constructor.
+        /// </summary>
         public bool IsConstructor => MethodDefinition?.IsConstructor ?? false;
 
+        /// <inheritdoc />
         public override string Name
         {
             get
@@ -53,12 +65,19 @@ namespace DotNetDocs
             }
         }
 
+        /// <summary>
+        /// Gets a list of the parameters this method takes.
+        /// </summary>
         public ParameterDocumentation[] ParameterDocumentations { get; private set; }
 
+        /// <summary>
+        /// Gets the return type of this method.
+        /// </summary>
         public ReturnValueDocumentation ReturnValueDocumentation { get; private set; }
 
-        protected TypeDocumentation DeclaringType { get; private set; }
-
+        /// <summary>
+        /// Gets the underlying <see cref="MethodDefinition"/> for the current documentation.
+        /// </summary>
         protected MethodDefinition MethodDefinition => (MethodDefinition)MemberDefinition;
 
         private ParameterDocumentation[] GetParameterDocumentations(MethodDefinition methodDefinition, XElement xElement) =>

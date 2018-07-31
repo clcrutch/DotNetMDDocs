@@ -20,18 +20,30 @@ using Mono.Cecil;
 
 namespace DotNetDocs
 {
+    /// <summary>
+    /// Parses a parameter.
+    /// </summary>
     public class ParameterDocumentation : MethodInputOutputDocumentation
     {
         private readonly ParameterDefinition parameterDefinition;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParameterDocumentation"/> class.
+        /// </summary>
+        /// <param name="parameterDefinition">The <see cref="ParameterDefinition"/> which to document.</param>
+        /// <param name="xElement">The XML element representing the XML comments for the current member.</param>
         public ParameterDocumentation(ParameterDefinition parameterDefinition, XElement xElement)
             : base(xElement)
         {
             this.parameterDefinition = parameterDefinition;
         }
 
+        /// <summary>
+        /// Gets the name for the current parameter.
+        /// </summary>
         public string Name => this.parameterDefinition.Name;
 
+        /// <inheritdoc />
         public override string TypeName => this.parameterDefinition.ParameterType.Name;
     }
 }

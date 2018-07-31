@@ -27,10 +27,19 @@ using TypeDefinition = Mono.Cecil.TypeDefinition;
 
 namespace DotNetDocs
 {
+    /// <summary>
+    /// Parses a type.
+    /// </summary>
     public class TypeDocumentation : DocumentationBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TypeDocumentation"/> class.
+        /// </summary>
+        /// <param name="typeDefinition">The <see cref="TypeDefinition"/> which to document.</param>
+        /// <param name="xElement">The XML element representing the XML comments for the current type.</param>
+        /// <param name="declaringAssembly">Type assembly which declares this type.</param>
         protected internal TypeDocumentation(TypeDefinition typeDefinition, XElement xElement, AssemblyDocumentation declaringAssembly)
-            : base(typeDefinition, xElement)
+            : base(typeDefinition, xElement, null)
         {
             this.DeclaringAssembly = declaringAssembly;
 
@@ -53,22 +62,49 @@ namespace DotNetDocs
             this.Declaration = this.Declaration.Substring(0, this.Declaration.IndexOf('{')).Trim();
         }
 
+        /// <summary>
+        /// Gets the underlying <see cref="TypeDefinition"/>.
+        /// </summary>
         public TypeDefinition TypeDefinition => (TypeDefinition)MemberDefinition;
 
+        /// <summary>
+        /// Gets a list of constructors for the current type.
+        /// </summary>
         public MethodDocumentation[] ConstructorDocumentations { get; private set; }
 
+        /// <summary>
+        /// Gets the assembly that declares the current type.
+        /// </summary>
         public AssemblyDocumentation DeclaringAssembly { get; private set; }
 
+        /// <summary>
+        /// Gets a list of fields for the current type.
+        /// </summary>
         public FieldDocumentation[] FieldDocumentations { get; private set; }
 
+        /// <summary>
+        /// Gets a list of methods for the current type.
+        /// </summary>
         public MethodDocumentation[] MethodDocumentations { get; private set; }
 
+        /// <summary>
+        /// Gets the namespace for the current type.
+        /// </summary>
         public string Namespace => TypeDefinition.Namespace;
 
+        /// <summary>
+        /// Gets a list of the properties for the current type.
+        /// </summary>
         public PropertyDocumentation[] PropertyDocumentations { get; private set; }
 
+        /// <summary>
+        /// Gets the underlying <see cref="System.Reflection.Metadata.TypeDefinition"/> for the type.
+        /// </summary>
         public System.Reflection.Metadata.TypeDefinition ReflectionTypeDefinition { get; private set; }
 
+        /// <summary>
+        /// Gets the <see cref="TypeAttributes"/> for the current type.
+        /// </summary>
         public TypeAttributes TypeAttributes => (TypeAttributes)TypeDefinition.Attributes;
 
         private MethodDocumentation[] GetConstructorDocumentations(TypeDefinition typeDefinition, XDocument xDocument) =>

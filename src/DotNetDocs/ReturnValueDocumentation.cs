@@ -21,16 +21,25 @@ using Mono.Cecil;
 
 namespace DotNetDocs
 {
+    /// <summary>
+    /// Parses a return value.
+    /// </summary>
     public class ReturnValueDocumentation : MethodInputOutputDocumentation
     {
         private readonly MethodReturnType methodReturnType;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReturnValueDocumentation"/> class.
+        /// </summary>
+        /// <param name="methodReturnType">The <see cref="MethodReturnType"/> which to document.</param>
+        /// <param name="xElement">The XML element representing the XML comments for the current member.</param>
         public ReturnValueDocumentation(MethodReturnType methodReturnType, XElement xElement)
             : base(xElement)
         {
             this.methodReturnType = methodReturnType;
         }
 
+        /// <inheritdoc />
         public override string TypeName => methodReturnType.ReturnType.Name;
     }
 }

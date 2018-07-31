@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup Condition="$(DocumentationRootFolder) = ''">
+    <DocumentationRootFolder Condition="$(OutputPath) != ''">$(OutputPath)docs</DocumentationRootFolder>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="$(OutputPath)|$(DocumentationRootFolder) == '|'">
+    <DocumentationRootFolder>bin\$(Configuration)\</DocumentationRootFolder>
+  
+    <DocumentationRootFolder Condition="$(AppendTargetFrameworkToOutputPath) != 'false'">$(DocumentationRootFolder)$(TargetFramework)\</DocumentationRootFolder>
+  
+    <DocumentationRootFolder>$(DocumentationRootFolder)docs</DocumentationRootFolder>
+  </PropertyGroup>
+    
+  <Target Name="GenerateDocumentation" AfterTargets="Build">  
+    <Exec Command="dotnet $(MSBuildThisFileDirectory)DotNetMDDocs.dll --assembly-path $(TargetPath) --document-path $(DocumentationRootFolder)" LogStandardErrorAsError="true" />
+  </Target>
+</Project>

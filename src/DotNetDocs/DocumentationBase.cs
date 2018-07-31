@@ -22,26 +22,54 @@ using Mono.Cecil;
 
 namespace DotNetDocs
 {
+    /// <summary>
+    /// Parses a generic <see cref="IMemberDefinition"/> and XML element.
+    /// </summary>
     public abstract class DocumentationBase
     {
         private string safeName;
 
-        public DocumentationBase(IMemberDefinition memberDefinition, XElement xElement)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DocumentationBase"/> class.
+        /// </summary>
+        /// <param name="memberDefinition">The <see cref="IMemberDefinition"/> which to document.</param>
+        /// <param name="xElement">The XML element representing the XML comments for the current member.</param>
+        /// <param name="declaringType">The type which declares this member.</param>
+        public DocumentationBase(IMemberDefinition memberDefinition, XElement xElement, TypeDocumentation declaringType)
         {
             this.MemberDefinition = memberDefinition;
             this.XElement = xElement;
+            this.DeclaringType = declaringType;
         }
 
+        /// <summary>
+        /// Gets or sets the code declaration for the current member.
+        /// </summary>
         public virtual string Declaration { get; protected set; }
 
+        /// <summary>
+        /// Gets the full name of the current member.
+        /// </summary>
         public virtual string FullName => MemberDefinition?.FullName;
 
+        /// <summary>
+        /// Gets the name for the current member.
+        /// </summary>
         public virtual string Name => MemberDefinition?.Name;
 
+        /// <summary>
+        /// Gets the remarks for the current member.
+        /// </summary>
         public virtual string Remarks => XElement?.Descendants().FirstOrDefault(x => x.Name == "remarks")?.Value?.Trim();
 
+        /// <summary>
+        /// Gets the summary for the current member.
+        /// </summary>
         public virtual string Summary => XElement?.Descendants().FirstOrDefault(x => x.Name == "summary")?.Value?.Trim();
 
+        /// <summary>
+        /// Gets the Markdown and file system safe name for the current member.
+        /// </summary>
         public string SafeName
         {
             get
@@ -81,8 +109,19 @@ namespace DotNetDocs
             }
         }
 
+        /// <summary>
+        /// Gets the Type which declares this field.
+        /// </summary>
+        protected TypeDocumentation DeclaringType { get; private set; }
+
+        /// <summary>
+        /// Gets the underlying <see cref="IMemberDefinition"/> for the current member.
+        /// </summary>
         protected IMemberDefinition MemberDefinition { get; private set; }
 
+        /// <summary>
+        /// Gets the XML element that represents the XML comments for the current member.
+        /// </summary>
         protected XElement XElement { get; private set; }
     }
 }

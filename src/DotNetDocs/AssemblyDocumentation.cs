@@ -26,8 +26,18 @@ using Mono.Cecil;
 
 namespace DotNetDocs
 {
+    /// <summary>
+    /// Parses a *.dll or *.exe file and generates it's documentation.
+    /// </summary>
     public class AssemblyDocumentation : IDisposable
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AssemblyDocumentation"/> class.
+        /// </summary>
+        /// <param name="assemblyDefinition">The reference to the <see cref="AssemblyDefinition"/> that the instance of <see cref="AssemblyDocumentation"/> documents.</param>
+        /// <param name="peFile">The reference to the <see cref="PEFile"/> that the instance of <see cref="AssemblyDocumentation"/> documents.</param>
+        /// <param name="xDocument">The reference to the XML document that represents the XML comment documentation for the assembly.</param>
+        /// <param name="assemblyFileInfo">A <see cref="FileInfo"/> object that points to the assembly in the file system.</param>
         protected AssemblyDocumentation(AssemblyDefinition assemblyDefinition, PEFile peFile, XDocument xDocument, FileInfo assemblyFileInfo)
         {
             this.Decompiler = new CSharpDecompiler(assemblyFileInfo.FullName, new DecompilerSettings
@@ -36,6 +46,7 @@ namespace DotNetDocs
                 UsingStatement = false,
                 UsingDeclarations = false,
                 ShowXmlDocumentation = false,
+                ThrowOnAssemblyResolveErrors = false,
             });
 
             this.AssemblyDefinition = assemblyDefinition;
@@ -45,20 +56,47 @@ namespace DotNetDocs
             this.Types = this.GetTypeDocumentations(assemblyDefinition, xDocument);
         }
 
+        /// <summary>
+        /// Gets an instance of the C# decompiler used to generate the declarations.
+        /// </summary>
         public CSharpDecompiler Decompiler { get; private set; }
 
+        /// <summary>
+        /// Gets the file name for the underlying assembly file.
+        /// </summary>
         public string FileName => AssemblyFileInfo?.Name;
 
+        /// <summary>
+        /// Gets the assembly name.
+        /// </summary>
         public string Name => AssemblyDefinition?.Name?.Name;
 
+        /// <summary>
+        /// Gets a representation of the underlying assembly from System.Reflection.Metadata.
+        /// </summary>
         public PEFile PEFile { get; private set; }
 
+        /// <summary>
+        /// Gets a list of all of the documented types.
+        /// </summary>
         public TypeDocumentation[] Types { get; private set; }
 
+        /// <summary>
+        /// Gets the representation of the underlying assembly from Mono.Cecil.
+        /// </summary>
         protected AssemblyDefinition AssemblyDefinition { get; private set; }
 
+        /// <summary>
+        /// Gets the <see cref="FileInfo"/> for the underlying assembly.
+        /// </summary>
         protected FileInfo AssemblyFileInfo { get; private set; }
 
+        /// <summary>
+        /// Parses the assembly given its assembly and XML paths.
+        /// </summary>
+        /// <param name="assemblyPath">The path to the assembly in the file system.</param>
+        /// <param name="xmlPath">The path to the XML representing the XML comments in the file system.</param>
+        /// <returns>The instance of <see cref="AssemblyDocumentation"/> that represents the assembly.</returns>
         public static AssemblyDocumentation Parse(string assemblyPath, string xmlPath)
         {
             PEFile peFile = null;
@@ -76,6 +114,9 @@ namespace DotNetDocs
                 assemblyFileInfo);
         }
 
+        /// <summary>
+        /// Disposes of the current instance.
+        /// </summary>
         public void Dispose()
         {
             this.AssemblyDefinition?.Dispose();

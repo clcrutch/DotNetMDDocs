@@ -9,7 +9,18 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
+    <DocumentationFile>bin\Release\netstandard2.0\DotNetDocs.xml</DocumentationFile>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard2.0\DotNetDocs.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="netstandard2.0\**" />
+    <EmbeddedResource Remove="netstandard2.0\**" />
+    <None Remove="netstandard2.0\**" />
+  </ItemGroup>
   
   <ItemGroup>
     <None Remove="stylecop.json" />

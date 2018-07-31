@@ -19,17 +19,33 @@ using System.Xml.Linq;
 
 namespace DotNetDocs
 {
+    /// <summary>
+    /// The base class for parameters and return values for a method.
+    /// </summary>
     public abstract class MethodInputOutputDocumentation
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MethodInputOutputDocumentation"/> class.
+        /// </summary>
+        /// <param name="xElement">The XML element representing the XML comments for the current member.</param>
         public MethodInputOutputDocumentation(XElement xElement)
         {
             this.XElement = xElement;
         }
 
+        /// <summary>
+        /// Gets the summary for the current member.
+        /// </summary>
         public virtual string Summary => XElement?.Value;
 
+        /// <summary>
+        /// Gets the type name for the current member.
+        /// </summary>
         public abstract string TypeName { get; }
 
+        /// <summary>
+        /// Gets the XML element that represents the XML comments for the current member.
+        /// </summary>
         protected XElement XElement { get; private set; }
     }
 }

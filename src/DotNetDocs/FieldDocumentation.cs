@@ -22,13 +22,21 @@ using FieldDefinition = Mono.Cecil.FieldDefinition;
 
 namespace DotNetDocs
 {
+    /// <summary>
+    /// Parses a field.
+    /// </summary>
     public class FieldDocumentation : DocumentationBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FieldDocumentation"/> class.
+        /// </summary>
+        /// <param name="fieldDefinition">The <see cref="FieldDefinition"/> which to document.</param>
+        /// <param name="xElement">The XML element representing the XML comments for the current member.</param>
+        /// <param name="handle">The <see cref="EntityHandle"/> that represents the member to document.</param>
+        /// <param name="declaringType">The type which declares this member.</param>
         public FieldDocumentation(FieldDefinition fieldDefinition, XElement xElement, EntityHandle handle, TypeDocumentation declaringType)
-            : base(fieldDefinition, xElement)
+            : base(fieldDefinition, xElement, declaringType)
         {
-            this.DeclaringType = declaringType;
-
             var declaringAssembly = declaringType.DeclaringAssembly;
             this.Declaration = declaringAssembly.Decompiler.DecompileAsString(handle).Trim();
 
@@ -37,7 +45,5 @@ namespace DotNetDocs
                 this.Declaration = $"{this.Declaration.Substring(0, this.Declaration.IndexOf('=')).Trim()};";
             }
         }
-
-        protected TypeDocumentation DeclaringType { get; private set; }
     }
 }

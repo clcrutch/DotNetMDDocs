@@ -22,17 +22,23 @@ using PropertyDefinition = Mono.Cecil.PropertyDefinition;
 
 namespace DotNetDocs
 {
+    /// <summary>
+    /// Parses a property.
+    /// </summary>
     public class PropertyDocumentation : DocumentationBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PropertyDocumentation"/> class.
+        /// </summary>
+        /// <param name="propertyDefinition">The <see cref="PropertyDefinition"/> which to document.</param>
+        /// <param name="xElement">The XML element representing the XML comments for the current member.</param>
+        /// <param name="handle">The <see cref="EntityHandle"/> that represents the member to document.</param>
+        /// <param name="declaringType">The type which declares this member.</param>
         public PropertyDocumentation(PropertyDefinition propertyDefinition, XElement xElement, EntityHandle handle, TypeDocumentation declaringType)
-            : base(propertyDefinition, xElement)
+            : base(propertyDefinition, xElement, declaringType)
         {
-            this.DeclaringType = declaringType;
-
             var declaringAssembly = declaringType.DeclaringAssembly;
             this.Declaration = declaringAssembly.Decompiler.DecompileAsString(handle).Trim();
         }
-
-        protected TypeDocumentation DeclaringType { get; private set; }
     }
 }

@@ -1,4 +1,6 @@
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
+
+#addin Cake.Git
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
 //////////////////////////////////////////////////////////////////////
@@ -12,6 +14,8 @@ var configuration = Argument("configuration", "Release");
 
 // Define directories.
 var buildDir = Directory("./src/DotNetMDDocs/DotNetMDDocs/bin") + Directory(configuration);
+var artifactsDir = Directory("./artifacts");
+var nugetDir = Directory("./nuget");
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -21,13 +25,8 @@ Task("Clean")
     .Does(() =>
 {
     CleanDirectory(buildDir);
-});
-
-Task("Restore-NuGet-Packages")
-    .IsDependentOn("Clean")
-    .Does(() =>
-{
-    NuGetRestore("./src/DotNetMDDocs.sln");
+    CleanDirectory(artifactsDir);
+    CleanDirectory(nugetDir);
 });
 
 Task("Build")
@@ -51,12 +50,55 @@ Task("Run-Unit-Tests")
         });
 });
 
+Task("Publish-Application")
+    .IsDependentOn("Run-Unit-Tests")
+    .Does(() =>
+{
+     var settings = new DotNetCorePublishSettings
+     {
+         Framework = "netcoreapp2.1",
+         Configuration = "Release",
+         OutputDirectory = "./artifacts/",
+         SelfContained = true,
+         Runtime = "win-x86"
+     };
+
+     DotNetCorePublish("./src/DotNetMDDocs/DotNetMDDocs.csproj", settings);
+});
+
+Task("Package-Nuget")
+    .IsDependentOn("Publish-Application")
+    .Does(() =>
+{
+    var settings = new NuGetPackSettings 
+    {
+        OutputDirectory = "./nuget"
+    };
+
+    NuGetPack("./src/DotNetMDDocs/DotNetMDDocs.nuspec", settings);
+});
+
+Task("Push-Nuget")
+    .WithCriteria(() => GitBranchCurrent(Directory(".")).FriendlyName == "master")
+    .WithCriteria(() => !string.IsNullOrWhiteSpace(EnvironmentVariable("NuGetApiKey")))
+    .IsDependentOn("Package-Nuget")
+    .Does(() =>
+{
+    var settings = new NuGetPushSettings
+    {
+        Source = "https://api.nuget.org/v3/index.json",
+        ApiKey = EnvironmentVariable("NuGetApiKey")
+    };
+
+    NuGetPush(GetFiles("./nuget/*.nupkg"), settings);
+});
+
 //////////////////////////////////////////////////////////////////////
 // TASK TARGETS
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
-    .IsDependentOn("Run-Unit-Tests");
+    .IsDependentOn("Push-Nuget");
 
 //////////////////////////////////////////////////////////////////////
 // EXECUTION

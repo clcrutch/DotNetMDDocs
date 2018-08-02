@@ -79,7 +79,6 @@ Task("Package-Nuget")
 });
 
 Task("Push-Nuget")
-    .WithCriteria(() => GitBranchCurrent(Directory(".")).FriendlyName == "master")
     .WithCriteria(() => !string.IsNullOrWhiteSpace(EnvironmentVariable("NuGetApiKey")))
     .IsDependentOn("Package-Nuget")
     .Does(() =>
@@ -93,7 +92,7 @@ Task("Push-Nuget")
     NuGetPush(GetFiles("./nuget/*.nupkg"), settings);
 });
 
-////////////////////////////////////////////////////////////////////// 
+//////////////////////////////////////////////////////////////////////
 // TASK TARGETS
 //////////////////////////////////////////////////////////////////////
 

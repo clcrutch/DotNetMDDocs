@@ -4,7 +4,7 @@
     <DocumentationRootFolder Condition="$(OutputPath) != ''">$(OutputPath)docs</DocumentationRootFolder>
   </PropertyGroup>
   
-  <PropertyGroup Condition="$(OutputPath)|$(DocumentationRootFolder) == '|'">
+  <PropertyGroup Condition="'$(OutputPath)|$(DocumentationRootFolder)' == '|'">
     <DocumentationRootFolder>bin\$(Configuration)\</DocumentationRootFolder>
   
     <DocumentationRootFolder Condition="$(AppendTargetFrameworkToOutputPath) != 'false'">$(DocumentationRootFolder)$(TargetFramework)\</DocumentationRootFolder>

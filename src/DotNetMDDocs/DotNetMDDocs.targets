@@ -13,6 +13,6 @@
   </PropertyGroup>
     
   <Target Name="GenerateDocumentation" AfterTargets="Build">  
-    <Exec Command="dotnet $(MSBuildThisFileDirectory)DotNetMDDocs.dll --assembly-path $(TargetPath) --document-path $(DocumentationRootFolder)" LogStandardErrorAsError="true" />
+    <Exec Command="$(MSBuildThisFileDirectory)..\tools\DotNetMDDocs.exe --assembly-path $(TargetPath) --document-path $(DocumentationRootFolder)" LogStandardErrorAsError="true" />
   </Target>
 </Project>

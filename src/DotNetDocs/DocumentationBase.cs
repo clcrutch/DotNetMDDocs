@@ -15,6 +15,7 @@
 // along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 // </copyright>
 
+using System;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -27,6 +28,7 @@ namespace DotNetDocs
     /// </summary>
     public abstract class DocumentationBase
     {
+        private string declaration;
         private string safeName;
 
         /// <summary>
@@ -45,7 +47,11 @@ namespace DotNetDocs
         /// <summary>
         /// Gets or sets the code declaration for the current member.
         /// </summary>
-        public virtual string Declaration { get; protected set; }
+        public virtual string Declaration
+        {
+            get => this.declaration;
+            protected set => this.declaration = this.TrimAndCombine(value, Environment.NewLine);
+        }
 
         /// <summary>
         /// Gets the full name of the current member.
@@ -60,12 +66,12 @@ namespace DotNetDocs
         /// <summary>
         /// Gets the remarks for the current member.
         /// </summary>
-        public virtual string Remarks => XElement?.Descendants().FirstOrDefault(x => x.Name == "remarks")?.Value?.Trim();
+        public virtual string Remarks => TrimAndCombine(XElement?.Descendants().FirstOrDefault(x => x.Name == "remarks")?.Value, " ");
 
         /// <summary>
         /// Gets the summary for the current member.
         /// </summary>
-        public virtual string Summary => XElement?.Descendants().FirstOrDefault(x => x.Name == "summary")?.Value?.Trim();
+        public virtual string Summary => TrimAndCombine(XElement?.Descendants().FirstOrDefault(x => x.Name == "summary")?.Value, " ");
 
         /// <summary>
         /// Gets the Markdown and file system safe name for the current member.
@@ -123,5 +129,21 @@ namespace DotNetDocs
         /// Gets the XML element that represents the XML comments for the current member.
         /// </summary>
         protected XElement XElement { get; private set; }
+
+        /// <summary>
+        /// Takes an input, splits it on <see cref="Environment.NewLine"/>, trims whitespace, then combines again using the <paramref name="separator"/>.
+        /// </summary>
+        /// <param name="input">The input to split and combine.</param>
+        /// <param name="separator">The separator used to perform the combine.</param>
+        /// <returns>The combined string.</returns>
+        protected string TrimAndCombine(string input, string separator)
+        {
+            var split = input.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            var trimmed = from s in split
+                          where !string.IsNullOrWhiteSpace(s)
+                          select s.Trim();
+
+            return string.Join(separator, trimmed);
+        }
     }
 }

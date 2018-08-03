@@ -77,6 +77,8 @@ namespace DotNetMDDocs
                 using (var stream = File.CreateText(Path.Combine(rootDir.FullName, $"{typeDocumentation.SafeName}.md")))
                 {
                     await stream.WriteAsync(typeDocBuilder.Generate());
+
+                    await stream.FlushAsync();
                 }
 
                 // Constructors
@@ -106,6 +108,8 @@ namespace DotNetMDDocs
                 using (var stream = File.CreateText(Path.Combine(docDir.FullName, $"{documentation.SafeName}.md")))
                 {
                     await stream.WriteAsync(docBuilder.Generate());
+
+                    await stream.FlushAsync();
                 }
             }
         }

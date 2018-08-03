@@ -138,6 +138,11 @@ namespace DotNetDocs
         /// <returns>The combined string.</returns>
         protected string TrimAndCombine(string input, string separator)
         {
+            if (input == null)
+            {
+                return null;
+            }
+
             var split = input.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
             var trimmed = from s in split
                           where !string.IsNullOrWhiteSpace(s)

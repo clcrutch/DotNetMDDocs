@@ -17,7 +17,9 @@
 
 using System;
 using System.Linq;
+using System.Xml;
 using System.Xml.Linq;
+using DotNetDocs.Extensions;
 using Mono.Cecil;
 
 namespace DotNetDocs
@@ -48,7 +50,7 @@ namespace DotNetDocs
         public virtual string Declaration
         {
             get => this.declaration;
-            protected set => this.declaration = this.TrimAndCombine(value, Environment.NewLine);
+            protected set => this.declaration = value.TrimAndCombine(Environment.NewLine);
         }
 
         /// <summary>
@@ -64,12 +66,12 @@ namespace DotNetDocs
         /// <summary>
         /// Gets the remarks for the current member.
         /// </summary>
-        public virtual string Remarks => TrimAndCombine(XElement?.Descendants().FirstOrDefault(x => x.Name == "remarks")?.Value, " ");
+        public virtual XmlElement Remarks => XElement?.Descendants().FirstOrDefault(x => x.Name == "remarks").ToXmlElement();
 
         /// <summary>
         /// Gets the summary for the current member.
         /// </summary>
-        public virtual string Summary => TrimAndCombine(XElement?.Descendants().FirstOrDefault(x => x.Name == "summary")?.Value, " ");
+        public virtual XmlElement Summary => XElement?.Descendants().FirstOrDefault(x => x.Name == "summary").ToXmlElement();
 
         /// <summary>
         /// Gets the Type which declares this field.
@@ -85,26 +87,5 @@ namespace DotNetDocs
         /// Gets the XML element that represents the XML comments for the current member.
         /// </summary>
         protected XElement XElement { get; private set; }
-
-        /// <summary>
-        /// Takes an input, splits it on <see cref="Environment.NewLine"/> or '\n', trims whitespace, then combines again using the <paramref name="separator"/>.
-        /// </summary>
-        /// <param name="input">The input to split and combine.</param>
-        /// <param name="separator">The separator used to perform the combine.</param>
-        /// <returns>Null if <paramref name="input"/> is null else, the combined string.</returns>
-        protected string TrimAndCombine(string input, string separator)
-        {
-            if (input == null)
-            {
-                return null;
-            }
-
-            var split = input.Replace(Environment.NewLine, "\n").Split('\n');
-            var trimmed = from s in split
-                          where !string.IsNullOrWhiteSpace(s)
-                          select s.Trim();
-
-            return string.Join(separator, trimmed);
-        }
     }
 }

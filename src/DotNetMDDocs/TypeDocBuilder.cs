@@ -135,7 +135,7 @@ namespace DotNetMDDocs
                 });
                 row.Cells.Add(new MDText
                 {
-                    Text = item.Summary,
+                    Text = item.Summary.Value,
                 });
                 table.Rows.Add(row);
             }

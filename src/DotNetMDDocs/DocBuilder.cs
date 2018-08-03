@@ -46,11 +46,11 @@ namespace DotNetMDDocs
                 Text = this.GetHeader(),
             });
 
-            if (!string.IsNullOrEmpty(this.Documentation.Summary))
+            if (!string.IsNullOrEmpty(this.Documentation.Summary.Value))
             {
                 md.AddElement(new MDQuote
                 {
-                    Quote = this.Documentation.Summary,
+                    Quote = this.Documentation.Summary.Value,
                 });
             }
 
@@ -91,7 +91,7 @@ namespace DotNetMDDocs
 
             this.OnBeforeRemarks(md);
 
-            if (!string.IsNullOrWhiteSpace(this.Documentation.Remarks))
+            if (!string.IsNullOrWhiteSpace(this.Documentation.Remarks.Value))
             {
                 md.AddElement(new MDH2
                 {
@@ -100,7 +100,7 @@ namespace DotNetMDDocs
 
                 md.AddElement(new MDText
                 {
-                    Text = this.Documentation.Remarks,
+                    Text = this.Documentation.Remarks.Value,
                 });
             }
 

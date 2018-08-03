@@ -131,11 +131,11 @@ namespace DotNetDocs
         protected XElement XElement { get; private set; }
 
         /// <summary>
-        /// Takes an input, splits it on <see cref="Environment.NewLine"/>, trims whitespace, then combines again using the <paramref name="separator"/>.
+        /// Takes an input, splits it on <see cref="Environment.NewLine"/> or '\n', trims whitespace, then combines again using the <paramref name="separator"/>.
         /// </summary>
         /// <param name="input">The input to split and combine.</param>
         /// <param name="separator">The separator used to perform the combine.</param>
-        /// <returns>The combined string.</returns>
+        /// <returns>Null if <paramref name="input"/> is null else, the combined string.</returns>
         protected string TrimAndCombine(string input, string separator)
         {
             if (input == null)
@@ -143,7 +143,7 @@ namespace DotNetDocs
                 return null;
             }
 
-            var split = input.Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+            var split = input.Replace(Environment.NewLine, "\n").Split('\n');
             var trimmed = from s in split
                           where !string.IsNullOrWhiteSpace(s)
                           select s.Trim();

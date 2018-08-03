@@ -16,7 +16,6 @@
 // </copyright>
 
 using System;
-using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Mono.Cecil;
@@ -29,7 +28,6 @@ namespace DotNetDocs
     public abstract class DocumentationBase
     {
         private string declaration;
-        private string safeName;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DocumentationBase"/> class.
@@ -72,48 +70,6 @@ namespace DotNetDocs
         /// Gets the summary for the current member.
         /// </summary>
         public virtual string Summary => TrimAndCombine(XElement?.Descendants().FirstOrDefault(x => x.Name == "summary")?.Value, " ");
-
-        /// <summary>
-        /// Gets the Markdown and file system safe name for the current member.
-        /// </summary>
-        public string SafeName
-        {
-            get
-            {
-                if (!string.IsNullOrWhiteSpace(this.safeName))
-                {
-                    return this.safeName;
-                }
-
-                this.safeName = this.Name;
-
-                // Windows breaks if we don't keep the file name short.
-                if (this.safeName.Length > 50)
-                {
-                    int hash = 0;
-                    foreach (var c in this.safeName.ToCharArray())
-                    {
-                        hash += c;
-                    }
-
-                    hash %= 99999;
-
-                    // Take the first part of the string so that we can recognize it.
-                    // Hope that the hash is enough to make it unique.
-                    this.safeName = $"{this.safeName.Substring(0, 45)}{hash}";
-                }
-
-                foreach (var invalid in Path.GetInvalidFileNameChars())
-                {
-                    this.safeName = this.safeName.Replace(invalid, '_');
-                }
-
-                this.safeName = this.safeName.Replace('(', '_');
-                this.safeName = this.safeName.Replace(')', '_');
-
-                return this.safeName;
-            }
-        }
 
         /// <summary>
         /// Gets the Type which declares this field.

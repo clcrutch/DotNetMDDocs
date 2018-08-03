@@ -21,6 +21,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using DotNetDocs;
+using DotNetMDDocs.Extensions;
 using DotNetMDDocs.Markdown;
 using Mono.Cecil;
 
@@ -130,7 +131,7 @@ namespace DotNetMDDocs
                 row.Cells.Add(new MDLink
                 {
                     Text = item.Name,
-                    Url = $"/{path}/{HttpUtility.UrlEncode(item.SafeName).Replace("+", "%20")}.md",
+                    Url = $"/{path}/{HttpUtility.UrlEncode(item.GetSafeName()).Replace("+", "%20")}.md",
                 });
                 row.Cells.Add(new MDText
                 {

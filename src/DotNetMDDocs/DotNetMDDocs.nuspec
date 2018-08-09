@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>DotNetMDDocs</id>
-    <version>0.10</version>
+    <version>0.111</version>
     <description>Creates Markdown documents from assembly documentation.</description>
     <authors>clcrutch</authors>
   </metadata>

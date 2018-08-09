@@ -77,9 +77,16 @@ namespace DotNetMDDocs
                 var typeDocBuilder = new TypeDocBuilder(typeDocumentation, assemblyDocumentation, docs.Name);
                 using (var stream = File.CreateText(Path.Combine(rootDir.FullName, $"{typeDocumentation.GetSafeName()}.md")))
                 {
-                    await stream.WriteAsync(typeDocBuilder.Generate());
+                    try
+                    {
+                        await stream.WriteAsync(typeDocBuilder.Generate());
 
-                    await stream.FlushAsync();
+                        await stream.FlushAsync();
+                    }
+                    catch (System.IO.IOException)
+                    {
+                        // Failure to write.
+                    }
                 }
 
                 // Constructors
@@ -105,12 +112,19 @@ namespace DotNetMDDocs
             var docDir = Directory.CreateDirectory(Path.Combine(typeDir.FullName, dirName));
             foreach (var documentation in documentations)
             {
-                var docBuilder = (TBuilder)Activator.CreateInstance(typeof(TBuilder), documentation, typeDocumentation, assemblyDocumentation);
-                using (var stream = File.CreateText(Path.Combine(docDir.FullName, $"{documentation.GetSafeName()}.md")))
+                try
                 {
-                    await stream.WriteAsync(docBuilder.Generate());
+                    var docBuilder = (TBuilder)Activator.CreateInstance(typeof(TBuilder), documentation, typeDocumentation, assemblyDocumentation);
+                    using (var stream = File.CreateText(Path.Combine(docDir.FullName, $"{documentation.GetSafeName()}.md")))
+                    {
+                        await stream.WriteAsync(docBuilder.Generate());
 
-                    await stream.FlushAsync();
+                        await stream.FlushAsync();
+                    }
+                }
+                catch (System.IO.IOException)
+                {
+                    // Failure to write.
                 }
             }
         }

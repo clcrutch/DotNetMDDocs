@@ -29,9 +29,9 @@ namespace DotNetMDDocs.Markdown
         {
             var stringBuilder = new StringBuilder();
 
-            stringBuilder.AppendLine($"~~~~{this.Language}");
+            stringBuilder.AppendLine($"```{this.Language}");
             stringBuilder.AppendLine(this.Code);
-            stringBuilder.AppendLine("~~~~");
+            stringBuilder.AppendLine("```");
 
             return stringBuilder.ToString();
         }

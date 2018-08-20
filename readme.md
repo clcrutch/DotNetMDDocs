@@ -8,5 +8,5 @@ PM> Install-Package DotNetMDDocs
 ~~~~
 .NET CLI
 ~~~~
-> dot net add package DotNetMDDocs
+> dotnet add package DotNetMDDocs
 ~~~~

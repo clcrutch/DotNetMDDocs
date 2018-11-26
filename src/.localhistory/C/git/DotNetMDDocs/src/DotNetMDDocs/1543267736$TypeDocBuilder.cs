@@ -60,7 +60,7 @@ namespace DotNetMDDocs
 
         protected override string GetHeader()
         {
-            return $"{this.TypeDocumentation.Name} {this.GetDeclarationType()}";
+            return $"{this.TypeDocumentation.Name} {((this.TypeDocumentation.TypeAttributes & System.Reflection.TypeAttributes.Interface) == System.Reflection.TypeAttributes.Interface ? "Interface" : "Class")}";
         }
 
         protected override void OnBeforeSyntax(MDDocument md)

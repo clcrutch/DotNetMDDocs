@@ -62,8 +62,6 @@ Task("Publish-Application")
          Framework = "netcoreapp2.1",
          Configuration = "Release",
          OutputDirectory = "./artifacts/",
-         SelfContained = true,
-         Runtime = "win-x86"
      };
 
      DotNetCorePublish("./src/DotNetMDDocs/DotNetMDDocs.csproj", settings);

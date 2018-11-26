@@ -17,6 +17,6 @@
   </PropertyGroup>
 
   <Target Name="GenerateDocumentation" AfterTargets="Build" Condition=" '$(GenerateMarkdownApiDocs)' == 'true' ">
-    <Exec Command="$(MSBuildThisFileDirectory)..\..\tools\DotNetMDDocs.exe --assembly-path $(TargetPath) --document-path $(DocumentationRootFolder)" LogStandardErrorAsError="true" />
+    <Exec Command="dotnet $(MSBuildThisFileDirectory)..\..\tools\DotNetMDDocs.dll --assembly-path $(TargetPath) --document-path $(DocumentationRootFolder)" LogStandardErrorAsError="true" />
   </Target>
 </Project>

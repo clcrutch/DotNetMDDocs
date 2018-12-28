@@ -1,6 +1,6 @@
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
 
-#addin Cake.GitVersioning
+#addin Cake.GitVersioning&version=2.2.13
 #addin Cake.Git
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS

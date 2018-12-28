@@ -82,6 +82,7 @@ Task("Package-Nuget")
 
 Task("Push-Nuget")
     .WithCriteria(() => !string.IsNullOrWhiteSpace(EnvironmentVariable("NuGetApiKey")))
+    .WithCriteria(() => GitBranchCurrent(".").FriendlyName == "master")
     .IsDependentOn("Package-Nuget")
     .Does(() =>
 {

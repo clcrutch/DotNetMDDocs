@@ -39,27 +39,15 @@
   <ItemGroup>
     <ProjectReference Include="..\ICSharpCode.Decompiler\ICSharpCode.Decompiler.csproj" />
   </ItemGroup>
-  
+
   <PropertyGroup>
-    <GenerateMarkdownApiDocs Condition=" '$(GenerateMarkdownApiDocs)' == '' ">true</GenerateMarkdownApiDocs>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="$(DocumentationRootFolder) == ''">
-    <DocumentationRootFolder Condition="$(OutputPath) != ''">$(OutputPath)docs</DocumentationRootFolder>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(OutputPath)|$(DocumentationRootFolder)' == '|'">
-    <DocumentationRootFolder>bin\$(Configuration)\</DocumentationRootFolder>
-
-    <DocumentationRootFolder Condition="$(AppendTargetFrameworkToOutputPath) != 'false'">$(DocumentationRootFolder)$(TargetFramework)\</DocumentationRootFolder>
-
-    <DocumentationRootFolder>$(DocumentationRootFolder)docs</DocumentationRootFolder>
-
+    <GenerateMarkdownApiDocs>true</GenerateMarkdownApiDocs>
     <DocumentationRootFolder>$(SolutionDir)..\docs</DocumentationRootFolder>
+    <DocGeneratorDll>$(SolutionDir)DotNetMDDocs\bin\$(Configuration)\netcoreapp2.1\DotNetMDDocs.dll</DocGeneratorDll>
   </PropertyGroup>
-
+  
   <Target Name="GenerateDocumentation" AfterTargets="Build" Condition=" '$(GenerateMarkdownApiDocs)' == 'true' ">
-    <Exec Command="dotnet $(SolutionDir)DotNetMDDocs\bin\$(Configuration)\netcoreapp2.1\DotNetMDDocs.dll --assembly-path $(TargetPath) --document-path $(DocumentationRootFolder)" LogStandardErrorAsError="true" />
+    <Exec Condition="Exists('$(DocGeneratorDll)')" Command="dotnet $(DocGeneratorDll) --assembly-path $(TargetPath) --document-path $(DocumentationRootFolder)" LogStandardErrorAsError="true" />
   </Target>
 
 </Project>

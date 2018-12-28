@@ -40,9 +40,27 @@ namespace DotNetMDDocs
             this.rootName = rootName;
         }
 
+        protected string GetDeclarationType()
+        {
+            if ((this.TypeDocumentation.TypeAttributes & System.Reflection.TypeAttributes.Interface) == System.Reflection.TypeAttributes.Interface)
+            {
+                return "Interface";
+            }
+            else if ((this.TypeDocumentation.TypeAttributes & System.Reflection.TypeAttributes.Class) == System.Reflection.TypeAttributes.Class)
+            {
+                return "Class";
+            }
+            else if (this.TypeDocumentation.TypeDefinition.IsEnum)
+            {
+                return "Enum";
+            }
+
+            return "Unknown";
+        }
+
         protected override string GetHeader()
         {
-            return $"{this.TypeDocumentation.Name} {((this.TypeDocumentation.TypeAttributes & System.Reflection.TypeAttributes.Interface) == System.Reflection.TypeAttributes.Interface ? "Interface" : "Class")}";
+            return $"{this.TypeDocumentation.Name} {this.GetDeclarationType()}";
         }
 
         protected override void OnBeforeSyntax(MDDocument md)

@@ -1,5 +1,6 @@
 #tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
 
+#addin Cake.GitVersioning
 #addin Cake.Git
 //////////////////////////////////////////////////////////////////////
 // ARGUMENTS
@@ -16,6 +17,8 @@ var configuration = Argument("configuration", "Release");
 var buildDir = Directory("./src/DotNetMDDocs/DotNetMDDocs/bin") + Directory(configuration);
 var artifactsDir = Directory("./artifacts");
 var nugetDir = Directory("./nuget");
+
+var version = GitVersioningGetVersion();
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -59,8 +62,6 @@ Task("Publish-Application")
          Framework = "netcoreapp2.1",
          Configuration = "Release",
          OutputDirectory = "./artifacts/",
-         SelfContained = true,
-         Runtime = "win-x86"
      };
 
      DotNetCorePublish("./src/DotNetMDDocs/DotNetMDDocs.csproj", settings);
@@ -72,7 +73,8 @@ Task("Package-Nuget")
 {
     var settings = new NuGetPackSettings 
     {
-        OutputDirectory = "./nuget"
+        OutputDirectory = "./nuget",
+        Version = version.SemVer1,
     };
 
     NuGetPack("./src/DotNetMDDocs/DotNetMDDocs.nuspec", settings);

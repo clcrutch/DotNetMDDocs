@@ -50,7 +50,9 @@ namespace DotNetDocs
         public virtual string Declaration
         {
             get => this.declaration;
-            protected set => this.declaration = value.TrimAndCombine(Environment.NewLine);
+            protected set => this.declaration =
+                value.TrimAndCombine(Environment.NewLine)
+                .Replace("[System.Runtime.CompilerServices.CompilerGenerated]", string.Empty);
         }
 
         /// <summary>

@@ -124,12 +124,45 @@ namespace DotNetDocs
         /// <summary>
         /// Gets the summary for the current member.
         /// </summary>
-        public virtual XmlElement SummaryElement => XElement?.Descendants().FirstOrDefault(x => x.Name == "summary").ToXmlElement();
+        public virtual XmlElement SummaryElement
+        {
+            get
+            {
+                if (this.IsInheritedDoc)
+                {
+                    return this.FindBaseDocumentation()?.SummaryElement;
+                }
+
+                return this.XElement?.Descendants().FirstOrDefault(x => x.Name == "summary").ToXmlElement();
+            }
+        }
 
         /// <summary>
         /// Gets the Type which declares this field.
         /// </summary>
         protected TypeDocumentation DeclaringType { get; private set; }
+
+        protected bool IsInheritedDoc
+        {
+            get
+            {
+                var firstNode = this.XElement?.FirstNode;
+
+                if (firstNode == null)
+                {
+                    return false;
+                }
+
+                var firstElement = firstNode as XElement;
+
+                if (firstElement == null)
+                {
+                    return false;
+                }
+
+                return firstElement.Name == "inheritdoc";
+            }
+        }
 
         /// <summary>
         /// Gets the underlying <see cref="IMemberDefinition"/> for the current member.
@@ -140,5 +173,50 @@ namespace DotNetDocs
         /// Gets the XML element that represents the XML comments for the current member.
         /// </summary>
         protected XElement XElement { get; private set; }
+
+        private DocumentationBase FindBaseDocumentation()
+        {
+            var baseType = this.DeclaringType.BaseType;
+
+            // Method
+            if (this is MethodDocumentation)
+            {
+                var methodDocumentation = this as MethodDocumentation;
+
+                var paramTypeNames = methodDocumentation.ParameterDocumentations.Select(x => x.TypeName).ToArray();
+                if (methodDocumentation.IsConstructor)
+                {
+                    return (from m in baseType.ConstructorDocumentations
+                            where m.Name == methodDocumentation.Name &&
+                             !m.ParameterDocumentations.Select(x => x.TypeName).Except(paramTypeNames).Any()
+                            select m).Single();
+                }
+                else
+                {
+                    return (from m in baseType.MethodDocumentations
+                            where m.Name == methodDocumentation.Name &&
+                             !m.ParameterDocumentations.Select(x => x.TypeName).Except(paramTypeNames).Any()
+                            select m).Single();
+                }
+            }
+            else if (this is PropertyDocumentation)
+            {
+                var propertyDocumentation = this as PropertyDocumentation;
+
+                return (from p in baseType.PropertyDocumentations
+                        where p.Name == propertyDocumentation.Name
+                        select p).Single();
+            }
+            else if (this is FieldDocumentation)
+            {
+                var fieldDocumentation = this as FieldDocumentation;
+
+                return (from f in baseType.FieldDocumentations
+                        where f.Name == fieldDocumentation.Name
+                        select f).Single();
+            }
+
+            throw new NotImplementedException();
+        }
     }
 }

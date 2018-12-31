@@ -22,4 +22,4 @@ public class ReturnValueDocumentation : DotNetDocs.MethodInputOutputDocumentatio
 ## Properties
 |Name|Description|
 |---|---|
-|[TypeName](/docs/DotNetDocs/ReturnValueDocumentation/Properties/TypeName.md)||
+|[TypeName](/docs/DotNetDocs/ReturnValueDocumentation/Properties/TypeName.md)|Gets the type name for the current member.|

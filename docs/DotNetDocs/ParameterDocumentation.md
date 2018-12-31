@@ -23,4 +23,4 @@ public class ParameterDocumentation : DotNetDocs.MethodInputOutputDocumentation
 |Name|Description|
 |---|---|
 |[Name](/docs/DotNetDocs/ParameterDocumentation/Properties/Name.md)|Gets the name for the current parameter.|
-|[TypeName](/docs/DotNetDocs/ParameterDocumentation/Properties/TypeName.md)||
+|[TypeName](/docs/DotNetDocs/ParameterDocumentation/Properties/TypeName.md)|Gets the type name for the current member.|

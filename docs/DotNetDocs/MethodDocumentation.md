@@ -23,7 +23,7 @@ public class MethodDocumentation : DotNetDocs.DocumentationBase
 |Name|Description|
 |---|---|
 |[IsConstructor](/docs/DotNetDocs/MethodDocumentation/Properties/IsConstructor.md)|Gets a value indicating whether the current method is a constructor.|
-|[Name](/docs/DotNetDocs/MethodDocumentation/Properties/Name.md)||
+|[Name](/docs/DotNetDocs/MethodDocumentation/Properties/Name.md)|Gets the name for the current member.|
 |[ParameterDocumentations](/docs/DotNetDocs/MethodDocumentation/Properties/ParameterDocumentations.md)|Gets a list of the parameters this method takes.|
 |[ReturnValueDocumentation](/docs/DotNetDocs/MethodDocumentation/Properties/ReturnValueDocumentation.md)|Gets the return type of this method.|
 |[MethodDefinition](/docs/DotNetDocs/MethodDocumentation/Properties/MethodDefinition.md)|Gets the underlying [DotNetDocs.MethodDocumentation.MethodDefinition](https://www.google.com/search?q=DotNetDocs.MethodDocumentation.MethodDefinition&btnI=) for the current documentation.|

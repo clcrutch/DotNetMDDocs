@@ -5,11 +5,11 @@
 
 **Assembly:** DotNetDocs (in DotNetDocs.dll)
 ## Inheritance Hierarchy
-[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Object](https://www.google.com/search?q=System.Object&btnI=)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[System.Object](https://www.google.com/search?q=System.Object&btnI=)
 
-[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DotNetDocs.DocumentationBase](https://www.google.com/search?q=DotNetDocs.DocumentationBase&btnI=)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DotNetDocs.DocumentationBase](https://www.google.com/search?q=DotNetDocs.DocumentationBase&btnI=)
 
-[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DotNetDocs.FieldDocumentation](https://www.google.com/search?q=DotNetDocs.FieldDocumentation&btnI=)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DotNetDocs.FieldDocumentation](https://www.google.com/search?q=DotNetDocs.FieldDocumentation&btnI=)
 
 ## Syntax
 ```csharp

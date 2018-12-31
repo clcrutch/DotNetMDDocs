@@ -21,6 +21,7 @@ using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using DotNetDocs;
 using DotNetMDDocs.Extensions;
 using McMaster.Extensions.CommandLineUtils;
@@ -59,6 +60,11 @@ namespace DotNetMDDocs
             var assemblyDocumentation = AssemblyDocumentation.Parse(dllPath, xmlPath);
 
             var docs = Directory.CreateDirectory(this.DocumentPath);
+
+            foreach (var typeDocumentation in assemblyDocumentation.Types)
+            {
+                UrlHelper.AddType(typeDocumentation.FullName, $"{docs.Name}/{HttpUtility.UrlEncode(typeDocumentation.GetSafeName()).Replace("+", "%20")}.md");
+            }
 
             foreach (var typeDocumentation in assemblyDocumentation.Types)
             {

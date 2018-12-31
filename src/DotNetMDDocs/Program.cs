@@ -64,7 +64,7 @@ namespace DotNetMDDocs
             foreach (var typeDocumentation in assemblyDocumentation.Types)
             {
                 var path = $"{docs.Name}/{typeDocumentation.FullName.Replace(".", "/")}";
-                UrlHelper.AddType(typeDocumentation.FullName, $"{path}/{HttpUtility.UrlEncode(typeDocumentation.GetSafeName()).Replace("+", "%20")}.md");
+                UrlHelper.AddType(typeDocumentation.FullName, $"/{path}/{HttpUtility.UrlEncode(typeDocumentation.GetSafeName()).Replace("+", "%20")}.md");
             }
 
             foreach (var typeDocumentation in assemblyDocumentation.Types)

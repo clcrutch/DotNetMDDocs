@@ -7,9 +7,9 @@
 ## Inheritance Hierarchy
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[System.Object](https://www.google.com/search?q=System.Object&btnI=)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DotNetDocs.DocumentationBase](docs/DotNetDocs/DocumentationBase/DocumentationBase.md)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DotNetDocs.DocumentationBase](/docs/DotNetDocs/DocumentationBase/DocumentationBase.md)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DotNetDocs.TypeDocumentation](docs/DotNetDocs/TypeDocumentation/TypeDocumentation.md)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DotNetDocs.TypeDocumentation](/docs/DotNetDocs/TypeDocumentation/TypeDocumentation.md)
 
 ## Syntax
 ```csharp
@@ -18,7 +18,7 @@ public class TypeDocumentation : DotNetDocs.DocumentationBase
 ## Constructors
 |Name|Description|
 |---|---|
-|[.ctor(TypeDefinition, XElement, AssemblyDocumentation)](/docs/DotNetDocs/TypeDocumentation/Constructors/.ctor_TypeDefinition%2c%20XElement%2c%20AssemblyDocum5174.md)|Initializes a new instance of the [DotNetDocs.TypeDocumentation](docs/DotNetDocs/TypeDocumentation/TypeDocumentation.md) class.|
+|[.ctor(TypeDefinition, XElement, AssemblyDocumentation)](/docs/DotNetDocs/TypeDocumentation/Constructors/.ctor_TypeDefinition%2c%20XElement%2c%20AssemblyDocum5174.md)|Initializes a new instance of the [DotNetDocs.TypeDocumentation](/docs/DotNetDocs/TypeDocumentation/TypeDocumentation.md) class.|
 ## Properties
 |Name|Description|
 |---|---|

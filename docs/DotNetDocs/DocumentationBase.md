@@ -7,7 +7,7 @@
 ## Inheritance Hierarchy
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[System.Object](https://www.google.com/search?q=System.Object&btnI=)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DotNetDocs.DocumentationBase](docs/DotNetDocs/DocumentationBase/DocumentationBase.md)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DotNetDocs.DocumentationBase](/docs/DotNetDocs/DocumentationBase/DocumentationBase.md)
 
 ## Syntax
 ```csharp
@@ -16,7 +16,7 @@ public abstract class DocumentationBase
 ## Constructors
 |Name|Description|
 |---|---|
-|[.ctor(IMemberDefinition, XElement, TypeDocumentation)](/docs/DotNetDocs/DocumentationBase/Constructors/.ctor_IMemberDefinition%2c%20XElement%2c%20TypeDocume5015.md)|Initializes a new instance of the [DotNetDocs.DocumentationBase](docs/DotNetDocs/DocumentationBase/DocumentationBase.md) class.|
+|[.ctor(IMemberDefinition, XElement, TypeDocumentation)](/docs/DotNetDocs/DocumentationBase/Constructors/.ctor_IMemberDefinition%2c%20XElement%2c%20TypeDocume5015.md)|Initializes a new instance of the [DotNetDocs.DocumentationBase](/docs/DotNetDocs/DocumentationBase/DocumentationBase.md) class.|
 ## Properties
 |Name|Description|
 |---|---|

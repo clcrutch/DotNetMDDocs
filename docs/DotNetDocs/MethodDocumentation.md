@@ -7,9 +7,9 @@
 ## Inheritance Hierarchy
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[System.Object](https://www.google.com/search?q=System.Object&btnI=)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DotNetDocs.DocumentationBase](docs/DotNetDocs/DocumentationBase/DocumentationBase.md)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DotNetDocs.DocumentationBase](/docs/DotNetDocs/DocumentationBase/DocumentationBase.md)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DotNetDocs.MethodDocumentation](docs/DotNetDocs/MethodDocumentation/MethodDocumentation.md)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DotNetDocs.MethodDocumentation](/docs/DotNetDocs/MethodDocumentation/MethodDocumentation.md)
 
 ## Syntax
 ```csharp
@@ -18,7 +18,7 @@ public class MethodDocumentation : DotNetDocs.DocumentationBase
 ## Constructors
 |Name|Description|
 |---|---|
-|[.ctor(MethodDefinition, XElement, EntityHandle, TypeDocumentation)](/docs/DotNetDocs/MethodDocumentation/Constructors/.ctor_MethodDefinition%2c%20XElement%2c%20EntityHandl6252.md)|Initializes a new instance of the [DotNetDocs.MethodDocumentation](docs/DotNetDocs/MethodDocumentation/MethodDocumentation.md) class.|
+|[.ctor(MethodDefinition, XElement, EntityHandle, TypeDocumentation)](/docs/DotNetDocs/MethodDocumentation/Constructors/.ctor_MethodDefinition%2c%20XElement%2c%20EntityHandl6252.md)|Initializes a new instance of the [DotNetDocs.MethodDocumentation](/docs/DotNetDocs/MethodDocumentation/MethodDocumentation.md) class.|
 ## Properties
 |Name|Description|
 |---|---|

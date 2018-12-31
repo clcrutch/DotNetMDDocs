@@ -98,9 +98,11 @@ namespace DotNetMDDocs
 
             this.currInheritanceLevel++;
 
-            md.AddElement(new MDText
+            var typeName = $"{stringBuilder.ToString()}{typeDefinition.FullName}";
+            md.AddElement(new MDLink
             {
-                Text = $"{stringBuilder.ToString()}{typeDefinition.FullName}",
+                Url = UrlHelper.GetType(typeName),
+                Text = typeName,
             });
             md.AddElement(new MDText
             {
@@ -151,10 +153,7 @@ namespace DotNetMDDocs
                     Text = item.Name,
                     Url = $"/{path}/{HttpUtility.UrlEncode(item.GetSafeName()).Replace("+", "%20")}.md",
                 });
-                row.Cells.Add(new MDText
-                {
-                    Text = item.Summary?.InnerText?.Trim(),
-                });
+                row.Cells.Add(item.Summary?.ConvertToMDGroup());
                 table.Rows.Add(row);
             }
 

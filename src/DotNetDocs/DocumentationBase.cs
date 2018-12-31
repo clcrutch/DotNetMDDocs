@@ -16,9 +16,12 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
+using DotNetDocs.CommentBlockElements;
 using DotNetDocs.Extensions;
 using Mono.Cecil;
 
@@ -70,10 +73,58 @@ namespace DotNetDocs
         /// </summary>
         public virtual XmlElement Remarks => XElement?.Descendants().FirstOrDefault(x => x.Name == "remarks").ToXmlElement();
 
+        public virtual IEnumerable<ICommentBlockElement> Summary
+        {
+            get
+            {
+                var @return = new List<ICommentBlockElement>();
+
+                if (this.SummaryElement?.ChildNodes == null)
+                {
+                    return null;
+                }
+
+                foreach (var node in this.SummaryElement.ChildNodes)
+                {
+                    if (node is XmlText)
+                    {
+                        var xmlText = (XmlText)node;
+
+                        @return.Add(new StringCommentBlockElement
+                        {
+                            Content = xmlText.InnerText,
+                        });
+                    }
+                    else if (node is XmlElement)
+                    {
+                        var xmlElement = (XmlElement)node;
+
+                        switch (xmlElement.Name)
+                        {
+                            case "see":
+                                @return.Add(new SeeCommentBlockElement
+                                {
+                                    TypeName = xmlElement.GetAttribute("cref").Substring(2),
+                                });
+                                break;
+                            default:
+                                throw new NotImplementedException();
+                        }
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
+
+                return @return;
+            }
+        }
+
         /// <summary>
         /// Gets the summary for the current member.
         /// </summary>
-        public virtual XmlElement Summary => XElement?.Descendants().FirstOrDefault(x => x.Name == "summary").ToXmlElement();
+        public virtual XmlElement SummaryElement => XElement?.Descendants().FirstOrDefault(x => x.Name == "summary").ToXmlElement();
 
         /// <summary>
         /// Gets the Type which declares this field.

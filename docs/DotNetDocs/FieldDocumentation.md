@@ -5,11 +5,11 @@
 
 **Assembly:** DotNetDocs (in DotNetDocs.dll)
 ## Inheritance Hierarchy
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Object
+[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Object](https://www.google.com/search?q=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Object&btnI=)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DotNetDocs.DocumentationBase
+[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DotNetDocs.DocumentationBase](https://www.google.com/search?q=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DotNetDocs.DocumentationBase&btnI=)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DotNetDocs.FieldDocumentation
+[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DotNetDocs.FieldDocumentation](https://www.google.com/search?q=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DotNetDocs.FieldDocumentation&btnI=)
 
 ## Syntax
 ```csharp
@@ -18,4 +18,4 @@ public class FieldDocumentation : DotNetDocs.DocumentationBase
 ## Constructors
 |Name|Description|
 |---|---|
-|[.ctor(FieldDefinition, XElement, EntityHandle, TypeDocumentation)](/docs/DotNetDocs/FieldDocumentation/Constructors/.ctor_FieldDefinition%2c%20XElement%2c%20EntityHandle6127.md)|Initializes a new instance of the  class.|
+|[.ctor(FieldDefinition, XElement, EntityHandle, TypeDocumentation)](/docs/DotNetDocs/FieldDocumentation/Constructors/.ctor_FieldDefinition%2c%20XElement%2c%20EntityHandle6127.md)|Initializes a new instance of the [DotNetDocs.FieldDocumentation](https://www.google.com/search?q=DotNetDocs.FieldDocumentation&btnI=) class.|

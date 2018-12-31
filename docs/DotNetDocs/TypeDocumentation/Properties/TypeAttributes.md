@@ -1,5 +1,5 @@
 # TypeDocumentation.TypeAttributes Property
-> Gets the  for the current type.
+> Gets the [DotNetDocs.TypeDocumentation.TypeAttributes](https://www.google.com/search?q=DotNetDocs.TypeDocumentation.TypeAttributes&btnI=) for the current type.
 
 **Namespace:** DotNetDocs
 

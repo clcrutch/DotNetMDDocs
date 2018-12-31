@@ -52,7 +52,7 @@ namespace DotNetMDDocs.Markdown
                 stringBuilder.Append("|");
                 foreach (var cell in row.Cells)
                 {
-                    stringBuilder.Append(cell.Generate());
+                    stringBuilder.Append(cell?.Generate());
                     stringBuilder.Append("|");
                 }
 

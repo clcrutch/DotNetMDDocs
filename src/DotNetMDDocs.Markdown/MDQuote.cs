@@ -21,11 +21,11 @@ namespace DotNetMDDocs.Markdown
 {
     public class MDQuote : IMDElement
     {
-        public string Quote { get; set; }
+        public IMDElement Quote { get; set; }
 
         public string Generate()
         {
-            return $"> {this.Quote}{Environment.NewLine}{Environment.NewLine}";
+            return $"> {this.Quote.Generate()}{Environment.NewLine}{Environment.NewLine}";
         }
     }
 }

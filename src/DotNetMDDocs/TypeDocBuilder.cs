@@ -98,11 +98,10 @@ namespace DotNetMDDocs
 
             this.currInheritanceLevel++;
 
-            var typeName = $"{stringBuilder.ToString()}{typeDefinition.FullName}";
             md.AddElement(new MDLink
             {
-                Url = UrlHelper.GetType(typeName),
-                Text = typeName,
+                Url = UrlHelper.GetType(typeDefinition.FullName),
+                Text = $"{stringBuilder.ToString()}{typeDefinition.FullName}",
             });
             md.AddElement(new MDText
             {

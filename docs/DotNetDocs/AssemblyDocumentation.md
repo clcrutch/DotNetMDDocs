@@ -7,7 +7,7 @@
 ## Inheritance Hierarchy
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[System.Object](https://www.google.com/search?q=System.Object&btnI=)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DotNetDocs.AssemblyDocumentation](docs/AssemblyDocumentation.md)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DotNetDocs.AssemblyDocumentation](/docs/AssemblyDocumentation.md)
 
 ## Syntax
 ```csharp
@@ -16,7 +16,7 @@ public class AssemblyDocumentation : System.IDisposable
 ## Constructors
 |Name|Description|
 |---|---|
-|[.ctor(AssemblyDefinition, PEFile, XDocument, FileInfo)](/docs/DotNetDocs/AssemblyDocumentation/Constructors/.ctor_AssemblyDefinition%2c%20PEFile%2c%20XDocument%2c%204892.md)|Initializes a new instance of the [DotNetDocs.AssemblyDocumentation](docs/AssemblyDocumentation.md) class.|
+|[.ctor(AssemblyDefinition, PEFile, XDocument, FileInfo)](/docs/DotNetDocs/AssemblyDocumentation/Constructors/.ctor_AssemblyDefinition%2c%20PEFile%2c%20XDocument%2c%204892.md)|Initializes a new instance of the [DotNetDocs.AssemblyDocumentation](/docs/AssemblyDocumentation.md) class.|
 ## Properties
 |Name|Description|
 |---|---|

@@ -7,7 +7,7 @@
 ## Inheritance Hierarchy
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[System.Object](https://www.google.com/search?q=System.Object&btnI=)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DotNetDocs.MethodInputOutputDocumentation](docs/MethodInputOutputDocumentation.md)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DotNetDocs.MethodInputOutputDocumentation](/docs/MethodInputOutputDocumentation.md)
 
 ## Syntax
 ```csharp
@@ -16,7 +16,7 @@ public abstract class MethodInputOutputDocumentation
 ## Constructors
 |Name|Description|
 |---|---|
-|[.ctor(XElement)](/docs/DotNetDocs/MethodInputOutputDocumentation/Constructors/.ctor_XElement_.md)|Initializes a new instance of the [DotNetDocs.MethodInputOutputDocumentation](docs/MethodInputOutputDocumentation.md) class.|
+|[.ctor(XElement)](/docs/DotNetDocs/MethodInputOutputDocumentation/Constructors/.ctor_XElement_.md)|Initializes a new instance of the [DotNetDocs.MethodInputOutputDocumentation](/docs/MethodInputOutputDocumentation.md) class.|
 ## Properties
 |Name|Description|
 |---|---|

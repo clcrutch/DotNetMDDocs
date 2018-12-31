@@ -63,7 +63,7 @@ namespace DotNetMDDocs
 
             foreach (var typeDocumentation in assemblyDocumentation.Types)
             {
-                UrlHelper.AddType(typeDocumentation.FullName, $"{docs.Name}/{HttpUtility.UrlEncode(typeDocumentation.GetSafeName()).Replace("+", "%20")}.md");
+                UrlHelper.AddType(typeDocumentation.FullName, $"/{docs.Name}/{HttpUtility.UrlEncode(typeDocumentation.GetSafeName()).Replace("+", "%20")}.md");
             }
 
             foreach (var typeDocumentation in assemblyDocumentation.Types)

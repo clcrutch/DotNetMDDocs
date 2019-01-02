@@ -1,4 +1,4 @@
-﻿// <copyright file="MDEmpty.cs" company="Chris Crutchfield">
+﻿// <copyright file="ICommentBlockElement.cs" company="Chris Crutchfield">
 // Copyright (C) 2017  Chris Crutchfield
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,26 +15,12 @@
 // along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 // </copyright>
 
-namespace DotNetMDDocs.Markdown
+namespace DotNetDocs.CommentBlockElements
 {
     /// <summary>
-    /// Represents a completely markdown empty element.
+    /// Represents a comment block element.
     /// </summary>
-    public class MDEmpty : IMDElement
+    public interface ICommentBlockElement
     {
-        private MDEmpty()
-        {
-        }
-
-        /// <summary>
-        /// Gets an instance of the empty element.
-        /// </summary>
-        public static MDEmpty Empty { get; } = new MDEmpty();
-
-        /// <inheritdoc />
-        public string Generate()
-        {
-            return string.Empty;
-        }
     }
 }

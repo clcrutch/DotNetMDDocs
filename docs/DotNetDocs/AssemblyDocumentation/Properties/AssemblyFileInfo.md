@@ -1,5 +1,5 @@
 # AssemblyDocumentation.AssemblyFileInfo Property
-> Gets the  for the underlying assembly.
+> Gets the [System.IO.FileInfo](https://www.google.com/search?q=System.IO.FileInfo&btnI=) for the underlying assembly.
 
 **Namespace:** DotNetDocs
 

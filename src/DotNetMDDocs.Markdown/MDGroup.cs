@@ -1,4 +1,4 @@
-﻿// <copyright file="MDEmpty.cs" company="Chris Crutchfield">
+﻿// <copyright file="MDGroup.cs" company="Chris Crutchfield">
 // Copyright (C) 2017  Chris Crutchfield
 //
 // This program is free software: you can redistribute it and/or modify
@@ -15,26 +15,38 @@
 // along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 // </copyright>
 
+using System.Collections.Generic;
+using System.Text;
+
 namespace DotNetMDDocs.Markdown
 {
     /// <summary>
-    /// Represents a completely markdown empty element.
+    /// Represents a group of markdown elements.
     /// </summary>
-    public class MDEmpty : IMDElement
+    public class MDGroup : IMDElement
     {
-        private MDEmpty()
-        {
-        }
+        private readonly List<IMDElement> elements = new List<IMDElement>();
 
         /// <summary>
-        /// Gets an instance of the empty element.
+        /// Adds an element to the group.
         /// </summary>
-        public static MDEmpty Empty { get; } = new MDEmpty();
+        /// <param name="element">The element to add.</param>
+        public void AddElement(IMDElement element)
+        {
+            this.elements.Add(element);
+        }
 
         /// <inheritdoc />
         public string Generate()
         {
-            return string.Empty;
+            var stringBuilder = new StringBuilder();
+
+            foreach (var element in this.elements)
+            {
+                stringBuilder.Append(element.Generate());
+            }
+
+            return stringBuilder.ToString().Trim();
         }
     }
 }

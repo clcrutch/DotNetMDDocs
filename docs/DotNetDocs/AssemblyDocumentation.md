@@ -5,9 +5,9 @@
 
 **Assembly:** DotNetDocs (in DotNetDocs.dll)
 ## Inheritance Hierarchy
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.Object
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[System.Object](https://www.google.com/search?q=System.Object&btnI=)
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DotNetDocs.AssemblyDocumentation
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DotNetDocs.AssemblyDocumentation](/docs/DotNetDocs/AssemblyDocumentation.md)
 
 ## Syntax
 ```csharp
@@ -16,7 +16,7 @@ public class AssemblyDocumentation : System.IDisposable
 ## Constructors
 |Name|Description|
 |---|---|
-|[.ctor(AssemblyDefinition, PEFile, XDocument, FileInfo)](/docs/DotNetDocs/AssemblyDocumentation/Constructors/.ctor_AssemblyDefinition%2c%20PEFile%2c%20XDocument%2c%204892.md)|Initializes a new instance of the  class.|
+|[.ctor(AssemblyDefinition, PEFile, XDocument, FileInfo)](/docs/DotNetDocs/AssemblyDocumentation/Constructors/.ctor_AssemblyDefinition%2c%20PEFile%2c%20XDocument%2c%204892.md)|Initializes a new instance of the [DotNetDocs.AssemblyDocumentation](/docs/DotNetDocs/AssemblyDocumentation.md) class.|
 ## Properties
 |Name|Description|
 |---|---|
@@ -26,7 +26,7 @@ public class AssemblyDocumentation : System.IDisposable
 |[PEFile](/docs/DotNetDocs/AssemblyDocumentation/Properties/PEFile.md)|Gets a representation of the underlying assembly from System.Reflection.Metadata.|
 |[Types](/docs/DotNetDocs/AssemblyDocumentation/Properties/Types.md)|Gets a list of all of the documented types.|
 |[AssemblyDefinition](/docs/DotNetDocs/AssemblyDocumentation/Properties/AssemblyDefinition.md)|Gets the representation of the underlying assembly from Mono.Cecil.|
-|[AssemblyFileInfo](/docs/DotNetDocs/AssemblyDocumentation/Properties/AssemblyFileInfo.md)|Gets the  for the underlying assembly.|
+|[AssemblyFileInfo](/docs/DotNetDocs/AssemblyDocumentation/Properties/AssemblyFileInfo.md)|Gets the [System.IO.FileInfo](https://www.google.com/search?q=System.IO.FileInfo&btnI=) for the underlying assembly.|
 ## Methods
 |Name|Description|
 |---|---|

@@ -17,6 +17,7 @@
 
 using System;
 using DotNetDocs;
+using DotNetMDDocs.Extensions;
 using DotNetMDDocs.Markdown;
 
 namespace DotNetMDDocs
@@ -46,11 +47,12 @@ namespace DotNetMDDocs
                 Text = this.GetHeader(),
             });
 
-            if (!string.IsNullOrEmpty(this.Documentation.Summary?.InnerText))
+            var summaryGroup = this.Documentation.Summary?.ConvertToMDGroup();
+            if (summaryGroup != null)
             {
                 md.AddElement(new MDQuote
                 {
-                    Quote = this.Documentation.Summary?.InnerText?.Trim(),
+                    Quote = summaryGroup,
                 });
             }
 

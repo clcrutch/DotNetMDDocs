@@ -41,7 +41,7 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <GenerateMarkdownApiDocs>true</GenerateMarkdownApiDocs>
+    <GenerateMarkdownApiDocs>false</GenerateMarkdownApiDocs>
     <DocumentationRootFolder>$(SolutionDir)..\docs</DocumentationRootFolder>
     <DocGeneratorDll>$(SolutionDir)DotNetMDDocs\bin\$(Configuration)\netcoreapp2.1\DotNetMDDocs.dll</DocGeneratorDll>
   </PropertyGroup>

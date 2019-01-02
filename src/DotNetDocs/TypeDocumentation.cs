@@ -15,6 +15,7 @@
 // along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 // </copyright>
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
 using System.Xml.Linq;
@@ -32,6 +33,8 @@ namespace DotNetDocs
     /// </summary>
     public class TypeDocumentation : DocumentationBase
     {
+        private static Dictionary<string, TypeDocumentation> typeMap = new Dictionary<string, TypeDocumentation>();
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeDocumentation"/> class.
         /// </summary>
@@ -60,7 +63,14 @@ namespace DotNetDocs
             this.Declaration = this.DeclaringAssembly.Decompiler.DecompileTypeAsString(name);
             this.Declaration = this.Declaration.Substring(this.Declaration.IndexOf('{') + 1);
             this.Declaration = this.Declaration.Substring(0, this.Declaration.IndexOf('{')).Trim();
+
+            typeMap.Add(typeDefinition.FullName, this);
         }
+
+        /// <summary>
+        /// Gets the base type for the type.
+        /// </summary>
+        public TypeDocumentation BaseType => typeMap[this.TypeDefinition.BaseType.FullName];
 
         /// <summary>
         /// Gets the underlying <see cref="TypeDefinition"/>.

@@ -104,7 +104,7 @@ namespace DotNetMDDocs
             });
             md.AddElement(new MDLink
             {
-                Url = UrlHelper.GetType(typeDefinition.FullName),
+                Url = UrlHelper.GetUrl(typeDefinition.FullName),
                 Text = typeDefinition.FullName,
             });
             md.AddElement(new MDText

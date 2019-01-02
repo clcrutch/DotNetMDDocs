@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
@@ -73,6 +72,9 @@ namespace DotNetDocs
         /// </summary>
         public virtual XmlElement Remarks => XElement?.Descendants().FirstOrDefault(x => x.Name == "remarks").ToXmlElement();
 
+        /// <summary>
+        /// Gets the summary from the XmlElement.
+        /// </summary>
         public virtual IEnumerable<ICommentBlockElement> Summary
         {
             get
@@ -142,6 +144,9 @@ namespace DotNetDocs
         /// </summary>
         protected TypeDocumentation DeclaringType { get; private set; }
 
+        /// <summary>
+        /// Gets a value indicating whether the documentation is a <inheritdoc /> node.
+        /// </summary>
         protected bool IsInheritedDoc
         {
             get
@@ -178,7 +183,6 @@ namespace DotNetDocs
         {
             var baseType = this.DeclaringType.BaseType;
 
-            // Method
             if (this is MethodDocumentation)
             {
                 var methodDocumentation = this as MethodDocumentation;

@@ -67,6 +67,9 @@ namespace DotNetDocs
             typeMap.Add(typeDefinition.FullName, this);
         }
 
+        /// <summary>
+        /// Gets the base type for the type.
+        /// </summary>
         public TypeDocumentation BaseType => typeMap[this.TypeDefinition.BaseType.FullName];
 
         /// <summary>

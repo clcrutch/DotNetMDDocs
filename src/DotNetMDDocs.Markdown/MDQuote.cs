@@ -19,10 +19,17 @@ using System;
 
 namespace DotNetMDDocs.Markdown
 {
+    /// <summary>
+    /// Represents a markdown quote element.
+    /// </summary>
     public class MDQuote : IMDElement
     {
+        /// <summary>
+        /// Gets or sets the element that is within the quote.
+        /// </summary>
         public IMDElement Quote { get; set; }
 
+        /// <inheritdoc />
         public string Generate()
         {
             return $"> {this.Quote.Generate()}{Environment.NewLine}{Environment.NewLine}";

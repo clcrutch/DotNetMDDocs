@@ -17,14 +17,21 @@
 
 namespace DotNetMDDocs.Markdown
 {
+    /// <summary>
+    /// Represents a completely markdown empty element.
+    /// </summary>
     public class MDEmpty : IMDElement
     {
         private MDEmpty()
         {
         }
 
+        /// <summary>
+        /// Gets an instance of the empty element.
+        /// </summary>
         public static MDEmpty Empty { get; } = new MDEmpty();
 
+        /// <inheritdoc />
         public string Generate()
         {
             return string.Empty;

@@ -50,8 +50,7 @@ Task("Run-Unit-Tests")
         NoResults = true
     });
 
-    Information(GitBranchCurrent(".").FriendlyName == "master");
-    Information(!string.IsNullOrWhiteSpace(EnvironmentVariable("NuGetApiKey")));
+    Information(GitBranchCurrent(".").FriendlyName);
 });
 
 Task("Push-Nuget")

@@ -10,6 +10,7 @@
     <Authors>clcrutch</Authors>
     <Company>clcrutch</Company>
     <Description>Creates Markdown documents from assembly documentation.</Description>
+    <PackageProjectUrl>https://github.com/clcrutch/DotNetMDDocs</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

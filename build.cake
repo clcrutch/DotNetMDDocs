@@ -63,7 +63,7 @@ Task("Push-Nuget")
         ApiKey = EnvironmentVariable("NuGetApiKey")
     };
 
-    NuGetPush(GetFiles("./**/*.nupkg"), settings);
+    NuGetPush(GetFiles("./src/**/*.nupkg"), settings);
 });
 
 //////////////////////////////////////////////////////////////////////

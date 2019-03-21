@@ -60,13 +60,11 @@ Task("Run-Unit-Tests")
     NUnit3("./src/**/bin/" + configuration + "/*.Tests.dll", new NUnit3Settings {
         NoResults = true
     });
-
-    Information(GetBranchName());
 });
 
 Task("Push-Nuget")
     .WithCriteria(() => !string.IsNullOrWhiteSpace(EnvironmentVariable("NuGetApiKey")))
-    .WithCriteria(() => GitBranchCurrent(".").FriendlyName == "master")
+    .WithCriteria(() => GetBranchName() == "master")
     .IsDependentOn("Run-Unit-Tests")
     .Does(() =>
 {

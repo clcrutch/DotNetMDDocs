@@ -23,6 +23,17 @@ var version = GitVersioningGetVersion();
 // TASKS
 //////////////////////////////////////////////////////////////////////
 
+string GetBranchName()
+{
+    var appveyorBranchName = EnvironmentVariable("APPVEYOR_REPO_BRANCH")
+    if (!string.IsNullOrWhiteSpace(appveyorBranchName))
+    {
+        return appveyorBranchName;
+    }
+
+    return GitBranchCurrent(".").FriendlyName;
+}
+
 Task("Clean")
     .Does(() =>
 {
@@ -50,7 +61,7 @@ Task("Run-Unit-Tests")
         NoResults = true
     });
 
-    Information(GitBranchCurrent(".").FriendlyName);
+    Information(GetBranchName());
 });
 
 Task("Push-Nuget")

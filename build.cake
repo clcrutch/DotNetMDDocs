@@ -25,7 +25,7 @@ var version = GitVersioningGetVersion();
 
 string GetBranchName()
 {
-    var appveyorBranchName = EnvironmentVariable("APPVEYOR_REPO_BRANCH")
+    var appveyorBranchName = EnvironmentVariable("APPVEYOR_REPO_BRANCH");
     if (!string.IsNullOrWhiteSpace(appveyorBranchName))
     {
         return appveyorBranchName;

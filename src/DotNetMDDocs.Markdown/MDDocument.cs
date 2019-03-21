@@ -20,15 +20,26 @@ using System.Text;
 
 namespace DotNetMDDocs.Markdown
 {
+    /// <summary>
+    /// Represetns a markdown document.
+    /// </summary>
     public class MDDocument
     {
         private readonly List<IMDElement> elements = new List<IMDElement>();
 
+        /// <summary>
+        /// Adds an element to the end of the document.
+        /// </summary>
+        /// <param name="element">The element to add.</param>
         public void AddElement(IMDElement element)
         {
             this.elements.Add(element);
         }
 
+        /// <summary>
+        /// Generates a string representing the document.
+        /// </summary>
+        /// <returns>A string representing the document.</returns>
         public string Generate()
         {
             var stringBuilder = new StringBuilder();

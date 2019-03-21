@@ -1,5 +1,5 @@
 # TypeDocumentation.TypeDefinition Property
-> Gets the underlying .
+> Gets the underlying [DotNetDocs.TypeDocumentation.TypeDefinition](https://www.google.com/search?q=DotNetDocs.TypeDocumentation.TypeDefinition&btnI=).
 
 **Namespace:** DotNetDocs
 

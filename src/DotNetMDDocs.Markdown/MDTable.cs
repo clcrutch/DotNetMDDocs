@@ -20,12 +20,22 @@ using System.Text;
 
 namespace DotNetMDDocs.Markdown
 {
+    /// <summary>
+    /// Represents a markdown table element.
+    /// </summary>
     public class MDTable : IMDElement
     {
+        /// <summary>
+        /// Gets the header row of the table.
+        /// </summary>
         public MDTableRow Header { get; } = new MDTableRow();
 
+        /// <summary>
+        /// Gets the rows of the table.
+        /// </summary>
         public List<MDTableRow> Rows { get; } = new List<MDTableRow>();
 
+        /// <inheritdoc />
         public string Generate()
         {
             var stringBuilder = new StringBuilder();
@@ -52,7 +62,7 @@ namespace DotNetMDDocs.Markdown
                 stringBuilder.Append("|");
                 foreach (var cell in row.Cells)
                 {
-                    stringBuilder.Append(cell.Generate());
+                    stringBuilder.Append(cell?.Generate());
                     stringBuilder.Append("|");
                 }
 

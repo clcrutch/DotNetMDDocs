@@ -100,7 +100,12 @@ namespace DotNetMDDocs
 
             md.AddElement(new MDText
             {
-                Text = $"{stringBuilder.ToString()}{typeDefinition.FullName}",
+                Text = stringBuilder.ToString(),
+            });
+            md.AddElement(new MDLink
+            {
+                Url = UrlHelper.GetUrl(typeDefinition.FullName),
+                Text = typeDefinition.FullName,
             });
             md.AddElement(new MDText
             {
@@ -151,10 +156,7 @@ namespace DotNetMDDocs
                     Text = item.Name,
                     Url = $"/{path}/{HttpUtility.UrlEncode(item.GetSafeName()).Replace("+", "%20")}.md",
                 });
-                row.Cells.Add(new MDText
-                {
-                    Text = item.Summary?.InnerText?.Trim(),
-                });
+                row.Cells.Add(item.Summary?.ConvertToMDGroup());
                 table.Rows.Add(row);
             }
 

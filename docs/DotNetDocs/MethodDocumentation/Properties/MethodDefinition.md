@@ -1,5 +1,5 @@
 # MethodDocumentation.MethodDefinition Property
-> Gets the underlying  for the current documentation.
+> Gets the underlying [DotNetDocs.MethodDocumentation.MethodDefinition](https://www.google.com/search?q=DotNetDocs.MethodDocumentation.MethodDefinition&btnI=) for the current documentation.
 
 **Namespace:** DotNetDocs
 

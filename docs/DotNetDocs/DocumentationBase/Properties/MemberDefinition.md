@@ -1,5 +1,5 @@
 # DocumentationBase.MemberDefinition Property
-> Gets the underlying  for the current member.
+> Gets the underlying [Mono.Cecil.IMemberDefinition](https://www.google.com/search?q=Mono.Cecil.IMemberDefinition&btnI=) for the current member.
 
 **Namespace:** DotNetDocs
 

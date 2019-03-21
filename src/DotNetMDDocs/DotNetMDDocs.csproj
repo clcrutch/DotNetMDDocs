@@ -5,6 +5,11 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <LangVersion>latest</LangVersion>
     <NoWarn>1701;1702;SA0001</NoWarn>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackAsTool>true</PackAsTool>
+    <Authors>clcrutch</Authors>
+    <Company>clcrutch</Company>
+    <Description>Creates Markdown documents from assembly documentation.</Description>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -33,7 +38,8 @@
 
   <ItemGroup>
     <None Update="DotNetMDDocs.targets">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>true</Pack>
+      <PackagePath>build\net45;build\netstandard1.0</PackagePath>
     </None>
   </ItemGroup>
 

@@ -14,8 +14,7 @@ var configuration = Argument("configuration", "Release");
 //////////////////////////////////////////////////////////////////////
 
 // Define directories.
-var buildDir = Directory("./src/DotNetMDDocs/DotNetMDDocs/bin") + Directory(configuration);
-var artifactsDir = Directory("./artifacts");
+var buildDir = Directory("./src/DotNetMDDocs/bin") + Directory(configuration);
 var nugetDir = Directory("./nuget");
 
 var version = GitVersioningGetVersion();
@@ -28,7 +27,6 @@ Task("Clean")
     .Does(() =>
 {
     CleanDirectory(buildDir);
-    CleanDirectory(artifactsDir);
     CleanDirectory(nugetDir);
 });
 
@@ -50,40 +48,13 @@ Task("Run-Unit-Tests")
 {
     NUnit3("./src/**/bin/" + configuration + "/*.Tests.dll", new NUnit3Settings {
         NoResults = true
-        });
-});
-
-Task("Publish-Application")
-    .IsDependentOn("Run-Unit-Tests")
-    .Does(() =>
-{
-     var settings = new DotNetCorePublishSettings
-     {
-         Framework = "netcoreapp2.1",
-         Configuration = "Release",
-         OutputDirectory = "./artifacts/",
-     };
-
-     DotNetCorePublish("./src/DotNetMDDocs/DotNetMDDocs.csproj", settings);
-});
-
-Task("Package-Nuget")
-    .IsDependentOn("Publish-Application")
-    .Does(() =>
-{
-    var settings = new NuGetPackSettings 
-    {
-        OutputDirectory = "./nuget",
-        Version = version.SemVer1,
-    };
-
-    NuGetPack("./src/DotNetMDDocs/DotNetMDDocs.nuspec", settings);
+    });
 });
 
 Task("Push-Nuget")
     .WithCriteria(() => !string.IsNullOrWhiteSpace(EnvironmentVariable("NuGetApiKey")))
     .WithCriteria(() => GitBranchCurrent(".").FriendlyName == "master")
-    .IsDependentOn("Package-Nuget")
+    .IsDependentOn("Run-Unit-Tests")
     .Does(() =>
 {
     var settings = new NuGetPushSettings
@@ -92,7 +63,7 @@ Task("Push-Nuget")
         ApiKey = EnvironmentVariable("NuGetApiKey")
     };
 
-    NuGetPush(GetFiles("./nuget/*.nupkg"), settings);
+    NuGetPush(GetFiles("./**/*.nupkg"), settings);
 });
 
 //////////////////////////////////////////////////////////////////////

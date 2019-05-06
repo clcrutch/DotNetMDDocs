@@ -40,6 +40,6 @@ namespace DotNetDocs
         }
 
         /// <inheritdoc />
-        public override string TypeName => methodReturnType.ReturnType.Name;
+        public override string TypeName => this.methodReturnType.ReturnType.Name;
     }
 }

@@ -75,7 +75,7 @@ namespace DotNetDocs
         /// <summary>
         /// Gets the underlying <see cref="TypeDefinition"/>.
         /// </summary>
-        public TypeDefinition TypeDefinition => (TypeDefinition)MemberDefinition;
+        public TypeDefinition TypeDefinition => (TypeDefinition)this.MemberDefinition;
 
         /// <summary>
         /// Gets a list of constructors for the current type.
@@ -100,7 +100,7 @@ namespace DotNetDocs
         /// <summary>
         /// Gets the namespace for the current type.
         /// </summary>
-        public string Namespace => TypeDefinition.Namespace;
+        public string Namespace => this.TypeDefinition.Namespace;
 
         /// <summary>
         /// Gets a list of the properties for the current type.
@@ -115,7 +115,7 @@ namespace DotNetDocs
         /// <summary>
         /// Gets the <see cref="TypeAttributes"/> for the current type.
         /// </summary>
-        public TypeAttributes TypeAttributes => (TypeAttributes)TypeDefinition.Attributes;
+        public TypeAttributes TypeAttributes => (TypeAttributes)this.TypeDefinition.Attributes;
 
         private MethodDocumentation[] GetConstructorDocumentations(TypeDefinition typeDefinition, XDocument xDocument) =>
             (from m in typeDefinition.Methods

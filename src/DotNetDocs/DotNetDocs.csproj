@@ -31,13 +31,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mono.Cecil" Version="0.10.0" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" />
+    <PackageReference Include="ICSharpCode.Decompiler" Version="4.0.0.4521" />
+    <PackageReference Include="Mono.Cecil" Version="0.10.3" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="System.Reflection.Metadata" Version="1.6.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\ICSharpCode.Decompiler\ICSharpCode.Decompiler.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

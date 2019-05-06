@@ -24,7 +24,9 @@ public abstract class DocumentationBase
 |[FullName](/docs/DotNetDocs/DocumentationBase/Properties/FullName.md)|Gets the full name of the current member.|
 |[Name](/docs/DotNetDocs/DocumentationBase/Properties/Name.md)|Gets the name for the current member.|
 |[Remarks](/docs/DotNetDocs/DocumentationBase/Properties/Remarks.md)|Gets the remarks for the current member.|
+|[Summary](/docs/DotNetDocs/DocumentationBase/Properties/Summary.md)|Gets the summary from the XmlElement.|
 |[SummaryElement](/docs/DotNetDocs/DocumentationBase/Properties/SummaryElement.md)|Gets the summary for the current member.|
 |[DeclaringType](/docs/DotNetDocs/DocumentationBase/Properties/DeclaringType.md)|Gets the Type which declares this field.|
+|[IsInheritedDoc](/docs/DotNetDocs/DocumentationBase/Properties/IsInheritedDoc.md)|Gets a value indicating whether the documentation is a <inheritdoc /> node.|
 |[MemberDefinition](/docs/DotNetDocs/DocumentationBase/Properties/MemberDefinition.md)|Gets the underlying [Mono.Cecil.IMemberDefinition](https://www.google.com/search?q=Mono.Cecil.IMemberDefinition&btnI=) for the current member.|
 |[XElement](/docs/DotNetDocs/DocumentationBase/Properties/XElement.md)|Gets the XML element that represents the XML comments for the current member.|

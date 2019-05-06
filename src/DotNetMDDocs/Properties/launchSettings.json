@@ -2,7 +2,7 @@
   "profiles": {
     "DotNetMDDocs": {
       "commandName": "Project",
-      "commandLineArgs": "--assembly-path \"C:\\git\\DotNetMDDocs\\src\\DotNetDocs\\bin\\Debug\\netstandard2.0\\DotNetDocs.dll\" --document-path C:\\git\\DotNetMDDocs\\docs"
+      "commandLineArgs": "--assembly-path C:\\git\\DotNetMDDocs\\src\\DotNetDocs\\bin\\Debug\\netstandard2.0\\DotNetDocs.dll --document-path C:\\git\\DotNetMDDocs\\src\\..\\docs"
     }
   }
 }

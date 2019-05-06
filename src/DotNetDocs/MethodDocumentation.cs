@@ -51,7 +51,7 @@ namespace DotNetDocs
         /// <summary>
         /// Gets a value indicating whether the current method is a constructor.
         /// </summary>
-        public bool IsConstructor => MethodDefinition?.IsConstructor ?? false;
+        public bool IsConstructor => this.MethodDefinition?.IsConstructor ?? false;
 
         /// <inheritdoc />
         public override string Name
@@ -78,7 +78,7 @@ namespace DotNetDocs
         /// <summary>
         /// Gets the underlying <see cref="MethodDefinition"/> for the current documentation.
         /// </summary>
-        protected MethodDefinition MethodDefinition => (MethodDefinition)MemberDefinition;
+        protected MethodDefinition MethodDefinition => (MethodDefinition)this.MemberDefinition;
 
         private ParameterDocumentation[] GetParameterDocumentations(MethodDefinition methodDefinition, XElement xElement) =>
             (from p in methodDefinition.Parameters

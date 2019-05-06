@@ -22,6 +22,7 @@ public class TypeDocumentation : DotNetDocs.DocumentationBase
 ## Properties
 |Name|Description|
 |---|---|
+|[BaseType](/docs/DotNetDocs/TypeDocumentation/Properties/BaseType.md)|Gets the base type for the type.|
 |[TypeDefinition](/docs/DotNetDocs/TypeDocumentation/Properties/TypeDefinition.md)|Gets the underlying [DotNetDocs.TypeDocumentation.TypeDefinition](https://www.google.com/search?q=DotNetDocs.TypeDocumentation.TypeDefinition&btnI=).|
 |[ConstructorDocumentations](/docs/DotNetDocs/TypeDocumentation/Properties/ConstructorDocumentations.md)|Gets a list of constructors for the current type.|
 |[DeclaringAssembly](/docs/DotNetDocs/TypeDocumentation/Properties/DeclaringAssembly.md)|Gets the assembly that declares the current type.|

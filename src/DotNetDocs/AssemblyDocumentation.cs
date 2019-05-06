@@ -64,12 +64,12 @@ namespace DotNetDocs
         /// <summary>
         /// Gets the file name for the underlying assembly file.
         /// </summary>
-        public string FileName => AssemblyFileInfo?.Name;
+        public string FileName => this.AssemblyFileInfo?.Name;
 
         /// <summary>
         /// Gets the assembly name.
         /// </summary>
-        public string Name => AssemblyDefinition?.Name?.Name;
+        public string Name => this.AssemblyDefinition?.Name?.Name;
 
         /// <summary>
         /// Gets a representation of the underlying assembly from System.Reflection.Metadata.

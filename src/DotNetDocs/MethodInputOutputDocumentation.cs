@@ -36,7 +36,7 @@ namespace DotNetDocs
         /// <summary>
         /// Gets the summary for the current member.
         /// </summary>
-        public virtual string Summary => XElement?.Value;
+        public virtual string Summary => this.XElement?.Value;
 
         /// <summary>
         /// Gets the type name for the current member.

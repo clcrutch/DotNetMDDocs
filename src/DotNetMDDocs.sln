@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetMDDocs.Markdown", "Do
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetDocs", "DotNetDocs\DotNetDocs.csproj", "{A064F727-C167-4547-8529-6004776C4321}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ICSharpCode.Decompiler", "ICSharpCode.Decompiler\ICSharpCode.Decompiler.csproj", "{C45F0EE3-2A68-41F3-A71F-7C4DD040ABE0}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{A064F727-C167-4547-8529-6004776C4321}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A064F727-C167-4547-8529-6004776C4321}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A064F727-C167-4547-8529-6004776C4321}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C45F0EE3-2A68-41F3-A71F-7C4DD040ABE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C45F0EE3-2A68-41F3-A71F-7C4DD040ABE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C45F0EE3-2A68-41F3-A71F-7C4DD040ABE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C45F0EE3-2A68-41F3-A71F-7C4DD040ABE0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

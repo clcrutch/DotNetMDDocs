@@ -60,17 +60,17 @@ namespace DotNetDocs
         /// <summary>
         /// Gets the full name of the current member.
         /// </summary>
-        public virtual string FullName => MemberDefinition?.FullName;
+        public virtual string FullName => this.MemberDefinition?.FullName;
 
         /// <summary>
         /// Gets the name for the current member.
         /// </summary>
-        public virtual string Name => MemberDefinition?.Name;
+        public virtual string Name => this.MemberDefinition?.Name;
 
         /// <summary>
         /// Gets the remarks for the current member.
         /// </summary>
-        public virtual XmlElement Remarks => XElement?.Descendants().FirstOrDefault(x => x.Name == "remarks").ToXmlElement();
+        public virtual XmlElement Remarks => this.XElement?.Descendants().FirstOrDefault(x => x.Name == "remarks").ToXmlElement();
 
         /// <summary>
         /// Gets the summary from the XmlElement.
@@ -145,7 +145,7 @@ namespace DotNetDocs
         protected TypeDocumentation DeclaringType { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating whether the documentation is a <inheritdoc /> node.
+        /// Gets a value indicating whether the documentation is a &#60;inheritdoc /&#62; node.
         /// </summary>
         protected bool IsInheritedDoc
         {

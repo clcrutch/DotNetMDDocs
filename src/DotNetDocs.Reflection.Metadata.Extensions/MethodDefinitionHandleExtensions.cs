@@ -1,4 +1,20 @@
-﻿using System;
+﻿// <copyright file="MethodDefinitionHandleExtensions.cs" company="Chris Crutchfield">
+// Copyright (C) 2017  Chris Crutchfield
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
+// </copyright>
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
@@ -8,6 +24,9 @@ using ICSharpCode.Decompiler.Metadata;
 
 namespace DotNetDocs.Reflection.Metadata.Extensions
 {
+    /// <summary>
+    /// Extensions to <see cref="MethodDefinitionHandle"/>.
+    /// </summary>
     public static class MethodDefinitionHandleExtensions
     {
         private static readonly Regex GenericTypeParameterRegex = new Regex(@"<(.+)>", RegexOptions.Compiled);
@@ -32,8 +51,12 @@ namespace DotNetDocs.Reflection.Metadata.Extensions
         };
 
         /// <summary>
-        /// Gets a string representing the <see cref="MethodDefinition"/>.
+        /// Gets a string representing the <see cref="MethodDefinitionHandle"/>.
         /// </summary>
+        /// <param name="methodDefinitionHandle">The <see cref="MethodDefinitionHandle"/> to represent as a string.</param>
+        /// <param name="peFile">The <see cref="PEFile"/> which to find <paramref name="methodDefinitionHandle"/> in.</param>
+        /// <param name="decompiler">An instance of <see cref="CSharpDecompiler"/> used for finding method parameters.</param>
+        /// <returns>A string repsentation of <paramref name="methodDefinitionHandle"/>.</returns>
         public static string ToMethodString(this MethodDefinitionHandle methodDefinitionHandle, PEFile peFile, CSharpDecompiler decompiler)
         {
             var methodDefinition = peFile.Metadata.GetMethodDefinition(methodDefinitionHandle);

@@ -79,9 +79,10 @@ namespace DotNetMDDocs.DocumentationGenerators
                 Text = "Assembly:",
             });
 
+            var assemblyVersion = this.AssemblyDocumentation.AssemblyDefinition.Name.Version;
             group.AddElement(new MDText
             {
-                Text = $" {this.AssemblyDocumentation.Name} (in {this.AssemblyDocumentation.FileName}){Environment.NewLine}",
+                Text = $" {this.AssemblyDocumentation.Name} (in {this.AssemblyDocumentation.FileName} v{assemblyVersion.Major}.{assemblyVersion.Minor}.{assemblyVersion.Revision}){Environment.NewLine}",
             });
 
             return group;

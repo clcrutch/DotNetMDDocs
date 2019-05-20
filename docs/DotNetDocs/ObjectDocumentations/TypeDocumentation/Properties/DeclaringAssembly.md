@@ -3,7 +3,7 @@
 
 **Namespace:** DotNetDocs.ObjectDocumentations
 
-**Assembly:** DotNetDocs (in DotNetDocs.dll)
+**Assembly:** DotNetDocs (in DotNetDocs.dll v1.0.0)
 ## Syntax
 ```csharp
 public DotNetDocs.ContainerDocumentations.AssemblyDocumentation DeclaringAssembly

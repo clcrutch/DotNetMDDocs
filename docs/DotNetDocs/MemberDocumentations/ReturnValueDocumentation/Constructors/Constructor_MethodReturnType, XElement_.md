@@ -1,7 +1,7 @@
 # ReturnValueDocumentation.Constructor(MethodReturnType, XElement) Constructor
 **Namespace:** DotNetDocs.MemberDocumentations
 
-**Assembly:** DotNetDocs (in DotNetDocs.dll)
+**Assembly:** DotNetDocs (in DotNetDocs.dll v1.0.0)
 ## Syntax
 ```csharp
 internal ReturnValueDocumentation(Mono.Cecil.MethodReturnType methodReturnType, System.Xml.Linq.XElement xElement);

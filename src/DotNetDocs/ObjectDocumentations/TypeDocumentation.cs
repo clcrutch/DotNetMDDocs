@@ -209,7 +209,8 @@ namespace DotNetDocs.ObjectDocumentations
 
         private FieldDocumentation[] GetFieldDocumentations(TypeDefinition typeDefinition, XDocument xDocument) =>
             (from f in typeDefinition.Fields
-             where !f.IsPrivate
+             where !f.IsPrivate &&
+                !f.IsSpecialName
              select new FieldDocumentation(
                  f,
                  f.ToXElement(xDocument),

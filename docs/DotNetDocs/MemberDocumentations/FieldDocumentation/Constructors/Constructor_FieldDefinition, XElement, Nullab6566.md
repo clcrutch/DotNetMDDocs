@@ -1,7 +1,7 @@
 # FieldDocumentation.Constructor(FieldDefinition, XElement, Nullable`1, TypeDocumentation) Constructor
 **Namespace:** DotNetDocs.MemberDocumentations
 
-**Assembly:** DotNetDocs (in DotNetDocs.dll)
+**Assembly:** DotNetDocs (in DotNetDocs.dll v1.0.0)
 ## Syntax
 ```csharp
 protected internal FieldDocumentation(Mono.Cecil.FieldDefinition fieldDefinition, System.Xml.Linq.XElement xElement, System.Reflection.Metadata.EntityHandle? handle, DotNetDocs.ObjectDocumentations.TypeDocumentation declaringType);

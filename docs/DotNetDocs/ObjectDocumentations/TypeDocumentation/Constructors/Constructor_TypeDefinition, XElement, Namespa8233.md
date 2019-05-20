@@ -1,7 +1,7 @@
 # TypeDocumentation.Constructor(TypeDefinition, XElement, NamespaceDocumentation, AssemblyDocumentation) Constructor
 **Namespace:** DotNetDocs.ObjectDocumentations
 
-**Assembly:** DotNetDocs (in DotNetDocs.dll)
+**Assembly:** DotNetDocs (in DotNetDocs.dll v1.0.0)
 ## Syntax
 ```csharp
 protected internal TypeDocumentation(Mono.Cecil.TypeDefinition typeDefinition, System.Xml.Linq.XElement xElement, DotNetDocs.ContainerDocumentations.NamespaceDocumentation namespaceDocumentation, DotNetDocs.ContainerDocumentations.AssemblyDocumentation declaringAssembly);

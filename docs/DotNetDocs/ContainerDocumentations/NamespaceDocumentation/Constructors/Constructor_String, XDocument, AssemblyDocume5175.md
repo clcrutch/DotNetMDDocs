@@ -1,7 +1,7 @@
 # NamespaceDocumentation.Constructor(String, XDocument, AssemblyDocumentation) Constructor
 **Namespace:** DotNetDocs.ContainerDocumentations
 
-**Assembly:** DotNetDocs (in DotNetDocs.dll)
+**Assembly:** DotNetDocs (in DotNetDocs.dll v1.0.0)
 ## Syntax
 ```csharp
 internal NamespaceDocumentation(string @namespace, System.Xml.Linq.XDocument xDocument, DotNetDocs.ContainerDocumentations.AssemblyDocumentation declaringAssembly);

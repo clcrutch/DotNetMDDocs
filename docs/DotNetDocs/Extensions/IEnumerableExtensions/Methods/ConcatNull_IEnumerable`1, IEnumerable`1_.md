@@ -1,7 +1,7 @@
 # IEnumerableExtensions.ConcatNull(IEnumerable`1, IEnumerable`1) Method
 **Namespace:** DotNetDocs.Extensions
 
-**Assembly:** DotNetDocs (in DotNetDocs.dll)
+**Assembly:** DotNetDocs (in DotNetDocs.dll v1.0.0)
 ## Syntax
 ```csharp
 public static System.Collections.Generic.IEnumerable<T> ConcatNull<T>(this System.Collections.Generic.IEnumerable<T> first, System.Collections.Generic.IEnumerable<T> second);

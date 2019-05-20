@@ -1,7 +1,7 @@
 # MemberDocumentation.Constructor(IMemberDefinition, XElement, TypeDocumentation, IDeclarationProvider) Constructor
 **Namespace:** DotNetDocs.MemberDocumentations
 
-**Assembly:** DotNetDocs (in DotNetDocs.dll)
+**Assembly:** DotNetDocs (in DotNetDocs.dll v1.0.0)
 ## Syntax
 ```csharp
 protected MemberDocumentation(Mono.Cecil.IMemberDefinition memberDefinition, System.Xml.Linq.XElement xElement, DotNetDocs.ObjectDocumentations.TypeDocumentation declaringType, DotNetDocs.Mixins.Contracts.IDeclarationProvider declarationProvider);

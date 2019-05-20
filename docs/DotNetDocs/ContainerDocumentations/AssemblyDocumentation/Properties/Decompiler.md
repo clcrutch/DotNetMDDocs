@@ -3,7 +3,7 @@
 
 **Namespace:** DotNetDocs.ContainerDocumentations
 
-**Assembly:** DotNetDocs (in DotNetDocs.dll)
+**Assembly:** DotNetDocs (in DotNetDocs.dll v1.0.0)
 ## Syntax
 ```csharp
 protected internal ICSharpCode.Decompiler.CSharp.CSharpDecompiler Decompiler

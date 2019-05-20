@@ -64,6 +64,11 @@ namespace DotNetDocs.ContainerDocumentations
             this.DocumentationsToDispose = new List<AssemblyDocumentation>();
         }
 
+        /// <summary>
+        /// Gets the representation of the underlying assembly from Mono.Cecil.
+        /// </summary>
+        public AssemblyDefinition AssemblyDefinition { get; private set; }
+
         /// <inheritdoc />
         public override IEnumerable<IDocumentation> Children => this.Namespaces;
 
@@ -100,11 +105,6 @@ namespace DotNetDocs.ContainerDocumentations
         /// Gets a list of the namespaces contained within the assembly.
         /// </summary>
         public NamespaceDocumentation[] Namespaces { get; private set; }
-
-        /// <summary>
-        /// Gets the representation of the underlying assembly from Mono.Cecil.
-        /// </summary>
-        protected internal AssemblyDefinition AssemblyDefinition { get; private set; }
 
         /// <summary>
         /// Gets an instance of the C# decompiler used to generate the declarations.

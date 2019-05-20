@@ -1,7 +1,7 @@
 # ParameterDocumentation.Constructor(ParameterDefinition, XElement) Constructor
 **Namespace:** DotNetDocs.MemberDocumentations
 
-**Assembly:** DotNetDocs (in DotNetDocs.dll)
+**Assembly:** DotNetDocs (in DotNetDocs.dll v1.0.0)
 ## Syntax
 ```csharp
 internal ParameterDocumentation(Mono.Cecil.ParameterDefinition parameterDefinition, System.Xml.Linq.XElement xElement);

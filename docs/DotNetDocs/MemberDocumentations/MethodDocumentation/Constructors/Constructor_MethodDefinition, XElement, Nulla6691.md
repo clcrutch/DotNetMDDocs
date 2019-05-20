@@ -1,7 +1,7 @@
 # MethodDocumentation.Constructor(MethodDefinition, XElement, Nullable`1, TypeDocumentation) Constructor
 **Namespace:** DotNetDocs.MemberDocumentations
 
-**Assembly:** DotNetDocs (in DotNetDocs.dll)
+**Assembly:** DotNetDocs (in DotNetDocs.dll v1.0.0)
 ## Syntax
 ```csharp
 protected internal MethodDocumentation(Mono.Cecil.MethodDefinition methodDefinition, System.Xml.Linq.XElement xElement, System.Reflection.Metadata.EntityHandle? handle, DotNetDocs.ObjectDocumentations.TypeDocumentation declaringType);

@@ -3,7 +3,7 @@
 
 **Namespace:** DotNetDocs.Mixins.Contracts
 
-**Assembly:** DotNetDocs (in DotNetDocs.dll)
+**Assembly:** DotNetDocs (in DotNetDocs.dll v1.0.0)
 ## Inheritance Hierarchy
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[DotNetDocs.Mixins.Contracts.IObjectDocumentation](/docs/DotNetDocs/Mixins/Contracts/IObjectDocumentation.md)
 

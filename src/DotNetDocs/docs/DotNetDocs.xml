@@ -53,6 +53,11 @@
             <param name="xDocument">The reference to the XML document that represents the XML comment documentation for the assembly.</param>
             <param name="disposeAssemblyDefinition">Indicates if <paramref name="assemblyDefinition"/> should be disposed with this object is disposed.</param>
         </member>
+        <member name="P:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.AssemblyDefinition">
+            <summary>
+            Gets the representation of the underlying assembly from Mono.Cecil.
+            </summary>
+        </member>
         <member name="P:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.Children">
             <inheritdoc />
         </member>
@@ -77,11 +82,6 @@
         <member name="P:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.Namespaces">
             <summary>
             Gets a list of the namespaces contained within the assembly.
-            </summary>
-        </member>
-        <member name="P:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.AssemblyDefinition">
-            <summary>
-            Gets the representation of the underlying assembly from Mono.Cecil.
             </summary>
         </member>
         <member name="P:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.Decompiler">

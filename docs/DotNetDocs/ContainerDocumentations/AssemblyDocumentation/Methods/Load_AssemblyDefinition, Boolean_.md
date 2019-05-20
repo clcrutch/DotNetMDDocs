@@ -1,7 +1,7 @@
 # AssemblyDocumentation.Load(AssemblyDefinition, Boolean) Method
 **Namespace:** DotNetDocs.ContainerDocumentations
 
-**Assembly:** DotNetDocs (in DotNetDocs.dll)
+**Assembly:** DotNetDocs (in DotNetDocs.dll v1.0.0)
 ## Syntax
 ```csharp
 public static DotNetDocs.ContainerDocumentations.AssemblyDocumentation Load(Mono.Cecil.AssemblyDefinition assemblyDefinition, bool disposeAssemblyDefinition = false);

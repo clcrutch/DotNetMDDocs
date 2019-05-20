@@ -1,0 +1,13 @@
+# ContainerDocumentation.Children Property
+> Gets the children for the current container.
+
+**Namespace:** DotNetDocs.ContainerDocumentations
+
+**Assembly:** DotNetDocs (in DotNetDocs.dll)
+## Syntax
+```csharp
+public abstract System.Collections.Generic.IEnumerable<DotNetDocs.Mixins.Contracts.IDocumentation> Children
+{
+get;
+}
+```

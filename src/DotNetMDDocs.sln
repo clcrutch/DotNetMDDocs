@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2035
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetMDDocs", "DotNetMDDocs\DotNetMDDocs.csproj", "{5F41EF40-3E04-4C52-9063-D9627E1F5598}"
 EndProject
@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetMDDocs.Markdown", "Do
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetDocs", "DotNetDocs\DotNetDocs.csproj", "{A064F727-C167-4547-8529-6004776C4321}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ICSharpCode.Decompiler", "ICSharpCode.Decompiler\ICSharpCode.Decompiler.csproj", "{C45F0EE3-2A68-41F3-A71F-7C4DD040ABE0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDocs.Mono.Cecil.Extensions", "DotNetDocs.Mono.Cecil.Extensions\DotNetDocs.Mono.Cecil.Extensions.csproj", "{171E8A93-9973-44CE-A659-180E8C0D3179}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetDocs.Reflection.Metadata.Extensions", "DotNetDocs.Reflection.Metadata.Extensions\DotNetDocs.Reflection.Metadata.Extensions.csproj", "{4479BB28-A7B4-4677-AD81-2F8887D4AA4D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +31,14 @@ Global
 		{A064F727-C167-4547-8529-6004776C4321}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A064F727-C167-4547-8529-6004776C4321}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A064F727-C167-4547-8529-6004776C4321}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C45F0EE3-2A68-41F3-A71F-7C4DD040ABE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C45F0EE3-2A68-41F3-A71F-7C4DD040ABE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C45F0EE3-2A68-41F3-A71F-7C4DD040ABE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C45F0EE3-2A68-41F3-A71F-7C4DD040ABE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{171E8A93-9973-44CE-A659-180E8C0D3179}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{171E8A93-9973-44CE-A659-180E8C0D3179}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{171E8A93-9973-44CE-A659-180E8C0D3179}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{171E8A93-9973-44CE-A659-180E8C0D3179}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4479BB28-A7B4-4677-AD81-2F8887D4AA4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4479BB28-A7B4-4677-AD81-2F8887D4AA4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4479BB28-A7B4-4677-AD81-2F8887D4AA4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4479BB28-A7B4-4677-AD81-2F8887D4AA4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

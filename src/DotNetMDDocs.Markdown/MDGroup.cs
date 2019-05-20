@@ -36,6 +36,15 @@ namespace DotNetMDDocs.Markdown
             this.elements.Add(element);
         }
 
+        /// <summary>
+        /// Adds a range of elements to the group.
+        /// </summary>
+        /// <param name="elements">The elements to add.</param>
+        public void AddElementRange(IEnumerable<IMDElement> elements)
+        {
+            this.elements.AddRange(elements);
+        }
+
         /// <inheritdoc />
         public string Generate()
         {
@@ -43,10 +52,10 @@ namespace DotNetMDDocs.Markdown
 
             foreach (var element in this.elements)
             {
-                stringBuilder.Append(element.Generate());
+                stringBuilder.Append(element?.Generate());
             }
 
-            return stringBuilder.ToString().Trim();
+            return stringBuilder.ToString();
         }
     }
 }

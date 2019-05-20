@@ -1,0 +1,834 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DotNetDocs</name>
+    </assembly>
+    <members>
+        <member name="T:DotNetDocs.CommentBlockElements.ICommentBlockElement">
+            <summary>
+            Represents a comment block element.
+            </summary>
+        </member>
+        <member name="T:DotNetDocs.CommentBlockElements.ParamRefCommentBlockElement">
+            <summary>
+            Represents a paramref comment block.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.CommentBlockElements.ParamRefCommentBlockElement.ParameterName">
+            <summary>
+            Gets or sets the parameter name for the xml comment block.
+            </summary>
+        </member>
+        <member name="T:DotNetDocs.CommentBlockElements.SeeCommentBlockElement">
+            <summary>
+            Represents a "see" comment block element.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.CommentBlockElements.SeeCommentBlockElement.TypeName">
+            <summary>
+            Gets or sets the type name to reference.
+            </summary>
+        </member>
+        <member name="T:DotNetDocs.CommentBlockElements.StringCommentBlockElement">
+            <summary>
+            Represents a plain text comment block element.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.CommentBlockElements.StringCommentBlockElement.Content">
+            <summary>
+            Gets or sets the content of the comment block element.
+            </summary>
+        </member>
+        <member name="T:DotNetDocs.ContainerDocumentations.AssemblyDocumentation">
+            <summary>
+            Parses a *.dll or *.exe file and generates it's documentation.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.#ctor(Mono.Cecil.AssemblyDefinition,ICSharpCode.Decompiler.Metadata.PEFile,System.Xml.Linq.XDocument,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.ContainerDocumentations.AssemblyDocumentation"/> class.
+            </summary>
+            <param name="assemblyDefinition">The reference to the <see cref="P:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.AssemblyDefinition"/> that the instance of <see cref="T:DotNetDocs.ContainerDocumentations.AssemblyDocumentation"/> documents.</param>
+            <param name="peFile">The reference to the <see cref="P:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.PEFile"/> that the instance of <see cref="T:DotNetDocs.ContainerDocumentations.AssemblyDocumentation"/> documents.</param>
+            <param name="xDocument">The reference to the XML document that represents the XML comment documentation for the assembly.</param>
+            <param name="disposeAssemblyDefinition">Indicates if <paramref name="assemblyDefinition"/> should be disposed with this object is disposed.</param>
+        </member>
+        <member name="P:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.Children">
+            <inheritdoc />
+        </member>
+        <member name="P:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.FileName">
+            <summary>
+            Gets the file name for the underlying assembly file.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.FilePath">
+            <summary>
+            Gets the file path to the documented assembly.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.FullName">
+            <inheritdoc />
+        </member>
+        <member name="P:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.Name">
+            <summary>
+            Gets the assembly name.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.Namespaces">
+            <summary>
+            Gets a list of the namespaces contained within the assembly.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.AssemblyDefinition">
+            <summary>
+            Gets the representation of the underlying assembly from Mono.Cecil.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.Decompiler">
+            <summary>
+            Gets an instance of the C# decompiler used to generate the declarations.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.DocumentationsToDispose">
+            <summary>
+            Gets a lists of the assembly documentations to dispose.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.PEFile">
+            <summary>
+            Gets a representation of the underlying assembly from System.Reflection.Metadata.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.Parse(System.String)">
+            <summary>
+            Parses the assembly given its assembly and XML paths.
+            </summary>
+            <param name="assemblyPath">The path to the assembly in the file system.</param>
+            <returns>The instance of <see cref="T:DotNetDocs.ContainerDocumentations.AssemblyDocumentation"/> that represents the assembly.</returns>
+        </member>
+        <member name="M:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.Load(Mono.Cecil.AssemblyDefinition,System.Boolean)">
+            <summary>
+            Creates an <see cref="T:DotNetDocs.ContainerDocumentations.AssemblyDocumentation"/> using <paramref name="assemblyDefinition"/>.
+            </summary>
+            <param name="assemblyDefinition">The Mono.Cecil representation of the assembly.</param>
+            <param name="disposeAssemblyDefinition">Indicates if <paramref name="assemblyDefinition"/> should be disposed with the returned <see cref="T:DotNetDocs.ContainerDocumentations.AssemblyDocumentation"/>.</param>
+            <returns>A new instance of <see cref="T:DotNetDocs.ContainerDocumentations.AssemblyDocumentation"/> based off of <paramref name="assemblyDefinition"/>.</returns>
+        </member>
+        <member name="M:DotNetDocs.ContainerDocumentations.AssemblyDocumentation.Dispose">
+            <summary>
+            Disposes of the current instance.
+            </summary>
+        </member>
+        <member name="T:DotNetDocs.ContainerDocumentations.ContainerDocumentation">
+            <summary>
+            Represents a container documentation.  This includes assemblies, namespaces, and types.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.ContainerDocumentations.ContainerDocumentation.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.ContainerDocumentations.ContainerDocumentation"/> class.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ContainerDocumentations.ContainerDocumentation.Children">
+            <summary>
+            Gets the children for the current container.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ContainerDocumentations.ContainerDocumentation.ContainerDocumentationMixin">
+            <summary>
+            Gets the <see cref="P:DotNetDocs.ContainerDocumentations.ContainerDocumentation.ContainerDocumentationMixin"/> which backs the current container.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ContainerDocumentations.ContainerDocumentation.Item(System.String)">
+            <summary>
+            Gets the object represented by <paramref name="fullName"/>.
+            </summary>
+            <param name="fullName">The key to use to get the object from the container.</param>
+            <returns>The object represented by the <paramref name="fullName"/>.</returns>
+        </member>
+        <member name="M:DotNetDocs.ContainerDocumentations.ContainerDocumentation.Contains(System.String)">
+            <summary>
+            Get a value indicating if the current container contains an object represented by <paramref name="fullName"/>.
+            </summary>
+            <param name="fullName">The key to use to check if the object is in the container.</param>
+            <returns>A value indicating if the current container contains an object represented by <paramref name="fullName"/>.</returns>
+        </member>
+        <member name="T:DotNetDocs.ContainerDocumentations.NamespaceDocumentation">
+            <summary>
+            Documentation for a namespace.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.ContainerDocumentations.NamespaceDocumentation.#ctor(System.String,System.Xml.Linq.XDocument,DotNetDocs.ContainerDocumentations.AssemblyDocumentation)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.ContainerDocumentations.NamespaceDocumentation"/> class.
+            </summary>
+            <param name="namespace">The namespace to document.</param>
+            <param name="xDocument">The entire XML document for the assembly.</param>
+            <param name="declaringAssembly">The <see cref="T:Mono.Cecil.AssemblyDefinition"/> which contains the namespace.</param>
+        </member>
+        <member name="P:DotNetDocs.ContainerDocumentations.NamespaceDocumentation.Children">
+            <inheritdoc />
+        </member>
+        <member name="P:DotNetDocs.ContainerDocumentations.NamespaceDocumentation.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:DotNetDocs.ContainerDocumentations.NamespaceDocumentation.FullName">
+            <inheritdoc />
+        </member>
+        <member name="P:DotNetDocs.ContainerDocumentations.NamespaceDocumentation.Namespaces">
+            <summary>
+            Gets a list of namespaces contained under the current namespace.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ContainerDocumentations.NamespaceDocumentation.Types">
+            <summary>
+            Gets a list of all of the documented types in the namespace.
+            </summary>
+        </member>
+        <member name="T:DotNetDocs.Documentation">
+            <summary>
+            Represents a generic documentation.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.Documentation.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.Documentation"/> class.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Documentation.FullName">
+            <summary>
+            Gets the full name of the current member.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Documentation.Name">
+            <summary>
+            Gets the name for the current member.
+            </summary>
+        </member>
+        <member name="T:DotNetDocs.Extensions.IEnumerableExtensions">
+            <summary>
+            Extensions to <see cref="T:System.Collections.Generic.IEnumerable`1"/>.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.Extensions.IEnumerableExtensions.ConcatNull``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Almost exactly the same as Linq's <see cref="M:System.Linq.Enumerable.Concat``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})"/>, except <paramref name="second"/> cannot be null.
+            </summary>
+            <typeparam name="T">The type of the <see cref="T:System.Collections.Generic.IEnumerable`1"/>.</typeparam>
+            <param name="first">The first <see cref="T:System.Collections.Generic.IEnumerable`1"/> to return.  This cannot be null.</param>
+            <param name="second">The second <see cref="T:System.Collections.Generic.IEnumerable`1"/> to return.  This can be null.</param>
+            <returns>If <paramref name="second"/> is null, then just <paramref name="first"/>, else <paramref name="first"/> + <paramref name="second"/>.</returns>
+        </member>
+        <member name="T:DotNetDocs.Extensions.ModuleDefinitionExtensions">
+            <summary>
+            Extensions for <see cref="T:Mono.Cecil.ModuleDefinition"/>.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.Extensions.ModuleDefinitionExtensions.GetNamespaces(Mono.Cecil.ModuleDefinition)">
+            <summary>
+            Gets a list of all namespaces for <paramref name="moduleDefinition"/>..
+            </summary>
+            <param name="moduleDefinition">The module to get namespaces for.</param>
+            <returns>A list of all namespaces for <paramref name="moduleDefinition"/>.</returns>
+        </member>
+        <member name="M:DotNetDocs.Extensions.ModuleDefinitionExtensions.GetRootNamespaces(Mono.Cecil.ModuleDefinition)">
+            <summary>
+            Gets the root namespaces for <paramref name="moduleDefinition"/>.
+            </summary>
+            <param name="moduleDefinition">The module to get root namespaces for.</param>
+            <returns>A list of the root namespaces for <paramref name="moduleDefinition"/>.</returns>
+        </member>
+        <member name="T:DotNetDocs.Extensions.StringExtensions">
+            <summary>
+            Collection of extension methods to String.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.Extensions.StringExtensions.TrimAndCombine(System.String,System.String)">
+            <summary>
+            Takes an input, splits it on <see cref="P:System.Environment.NewLine"/> or '\n', trims whitespace, then combines again using the <paramref name="separator"/>.
+            </summary>
+            <param name="input">The input to split and combine.</param>
+            <param name="separator">The separator used to perform the combine.</param>
+            <returns>Null if <paramref name="input"/> is null else, the combined string.</returns>
+        </member>
+        <member name="T:DotNetDocs.Extensions.XElementExtensions">
+            <summary>
+            Collection of extension methods to XElement.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.Extensions.XElementExtensions.ToXmlElement(System.Xml.Linq.XElement)">
+            <summary>
+            Convert the current <see cref="T:System.Xml.Linq.XElement"/> to a <see cref="T:System.Xml.XmlElement"/>.
+            </summary>
+            <param name="this">The <see cref="T:System.Xml.Linq.XElement"/> to convert.</param>
+            <returns>The resulting <see cref="T:System.Xml.XmlElement"/>.</returns>
+        </member>
+        <member name="T:DotNetDocs.MemberDocumentations.FieldDocumentation">
+            <summary>
+            Parses a field.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.MemberDocumentations.FieldDocumentation.#ctor(Mono.Cecil.FieldDefinition,System.Xml.Linq.XElement,System.Nullable{System.Reflection.Metadata.EntityHandle},DotNetDocs.ObjectDocumentations.TypeDocumentation)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.MemberDocumentations.FieldDocumentation"/> class.
+            </summary>
+            <param name="fieldDefinition">The <see cref="T:Mono.Cecil.FieldDefinition"/> which to document.</param>
+            <param name="xElement">The XML element representing the XML comments for the current member.</param>
+            <param name="handle">The <see cref="T:System.Reflection.Metadata.EntityHandle"/> that represents the member to document.</param>
+            <param name="declaringType">The type which declares this member.</param>
+        </member>
+        <member name="T:DotNetDocs.MemberDocumentations.MemberDocumentation">
+            <summary>
+            Documentation for a member.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.MemberDocumentations.MemberDocumentation.#ctor(Mono.Cecil.IMemberDefinition,System.Xml.Linq.XElement,DotNetDocs.ObjectDocumentations.TypeDocumentation,DotNetDocs.Mixins.Contracts.IDeclarationProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.MemberDocumentations.MemberDocumentation"/> class.
+            </summary>
+            <param name="memberDefinition">The member to document.</param>
+            <param name="xElement">The XML element to use for documentation.</param>
+            <param name="declaringType">The <see cref="T:DotNetDocs.ObjectDocumentations.TypeDocumentation"/> which contains the current member.</param>
+            <param name="declarationProvider">The declaration provider used to generate the declarationg for the current member.</param>
+        </member>
+        <member name="T:DotNetDocs.MemberDocumentations.MethodDocumentation">
+            <summary>
+            Parses a method.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.MemberDocumentations.MethodDocumentation.#ctor(Mono.Cecil.MethodDefinition,System.Xml.Linq.XElement,System.Nullable{System.Reflection.Metadata.EntityHandle},DotNetDocs.ObjectDocumentations.TypeDocumentation)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.MemberDocumentations.MethodDocumentation"/> class.
+            </summary>
+            <param name="methodDefinition">The <see cref="P:DotNetDocs.MemberDocumentations.MethodDocumentation.MethodDefinition"/> which to document.</param>
+            <param name="xElement">The XML element representing the XML comments for the current member.</param>
+            <param name="handle">The <see cref="T:System.Reflection.Metadata.EntityHandle"/> that represents the member to document.</param>
+            <param name="declaringType">The type which declares this member.</param>
+        </member>
+        <member name="P:DotNetDocs.MemberDocumentations.MethodDocumentation.IsConstructor">
+            <summary>
+            Gets a value indicating whether the current method is a constructor.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.MemberDocumentations.MethodDocumentation.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:DotNetDocs.MemberDocumentations.MethodDocumentation.ParameterDocumentations">
+            <summary>
+            Gets a list of the parameters this method takes.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.MemberDocumentations.MethodDocumentation.ReturnValueDocumentation">
+            <summary>
+            Gets the return type of this method.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.MemberDocumentations.MethodDocumentation.MethodDefinition">
+            <summary>
+            Gets the underlying <see cref="P:DotNetDocs.MemberDocumentations.MethodDocumentation.MethodDefinition"/> for the current documentation.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.MemberDocumentations.MethodDocumentation.ToMethodString">
+            <summary>
+            Converts the current <see cref="T:DotNetDocs.MemberDocumentations.MethodDocumentation"/> to a string.
+            </summary>
+            <returns>A string representing the current method.</returns>
+        </member>
+        <member name="T:DotNetDocs.MemberDocumentations.MethodInputOutputDocumentationBase">
+            <summary>
+            The base class for parameters and return values for a method.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.MemberDocumentations.MethodInputOutputDocumentationBase.#ctor(System.Xml.Linq.XElement)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.MemberDocumentations.MethodInputOutputDocumentationBase"/> class.
+            </summary>
+            <param name="xElement">The XML element representing the XML comments for the current member.</param>
+        </member>
+        <member name="P:DotNetDocs.MemberDocumentations.MethodInputOutputDocumentationBase.Summary">
+            <summary>
+            Gets the summary for the current member.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.MemberDocumentations.MethodInputOutputDocumentationBase.TypeName">
+            <summary>
+            Gets the type name for the current member.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.MemberDocumentations.MethodInputOutputDocumentationBase.XElement">
+            <summary>
+            Gets the XML element that represents the XML comments for the current member.
+            </summary>
+        </member>
+        <member name="T:DotNetDocs.MemberDocumentations.ParameterDocumentation">
+            <summary>
+            Parses a parameter.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.MemberDocumentations.ParameterDocumentation.#ctor(Mono.Cecil.ParameterDefinition,System.Xml.Linq.XElement)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.MemberDocumentations.ParameterDocumentation"/> class.
+            </summary>
+            <param name="parameterDefinition">The <see cref="T:Mono.Cecil.ParameterDefinition"/> which to document.</param>
+            <param name="xElement">The XML element representing the XML comments for the current member.</param>
+        </member>
+        <member name="P:DotNetDocs.MemberDocumentations.ParameterDocumentation.Name">
+            <summary>
+            Gets the name for the current parameter.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.MemberDocumentations.ParameterDocumentation.TypeName">
+            <inheritdoc />
+        </member>
+        <member name="T:DotNetDocs.MemberDocumentations.PropertyDocumentation">
+            <summary>
+            Parses a property.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.MemberDocumentations.PropertyDocumentation.#ctor(Mono.Cecil.PropertyDefinition,System.Xml.Linq.XElement,System.Nullable{System.Reflection.Metadata.EntityHandle},DotNetDocs.ObjectDocumentations.TypeDocumentation)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.MemberDocumentations.PropertyDocumentation"/> class.
+            </summary>
+            <param name="propertyDefinition">The <see cref="T:Mono.Cecil.PropertyDefinition"/> which to document.</param>
+            <param name="xElement">The XML element representing the XML comments for the current member.</param>
+            <param name="handle">The <see cref="T:System.Reflection.Metadata.EntityHandle"/> that represents the member to document.</param>
+            <param name="declaringType">The type which declares this member.</param>
+        </member>
+        <member name="T:DotNetDocs.MemberDocumentations.ReturnValueDocumentation">
+            <summary>
+            Parses a return value.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.MemberDocumentations.ReturnValueDocumentation.#ctor(Mono.Cecil.MethodReturnType,System.Xml.Linq.XElement)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.MemberDocumentations.ReturnValueDocumentation"/> class.
+            </summary>
+            <param name="methodReturnType">The <see cref="T:Mono.Cecil.MethodReturnType"/> which to document.</param>
+            <param name="xElement">The XML element representing the XML comments for the current member.</param>
+        </member>
+        <member name="P:DotNetDocs.MemberDocumentations.ReturnValueDocumentation.TypeName">
+            <inheritdoc />
+        </member>
+        <member name="T:DotNetDocs.Mixins.ContainerDocumentationMixin">
+            <summary>
+            Represents a mixin for containers.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.Mixins.ContainerDocumentationMixin.#ctor(DotNetDocs.Mixins.Contracts.IContainerDocumentation)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.Mixins.ContainerDocumentationMixin"/> class.
+            </summary>
+            <param name="self">A reference to an implementation of <see cref="T:DotNetDocs.Mixins.Contracts.IContainerDocumentation"/>.</param>
+        </member>
+        <member name="P:DotNetDocs.Mixins.ContainerDocumentationMixin.Children">
+            <summary>
+            Gets the children of the container.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Mixins.ContainerDocumentationMixin.FullName">
+            <summary>
+            Gets the full name of the container.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Mixins.ContainerDocumentationMixin.Name">
+            <summary>
+            Gets the name of the container.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Mixins.ContainerDocumentationMixin.Item(System.String)">
+            <summary>
+            Gets the documentation referenced by <paramref name="fullName"/>.
+            </summary>
+            <param name="fullName">The full name to use when finding the documentation.</param>
+            <returns>The documentation referenced by <paramref name="fullName"/>.</returns>
+        </member>
+        <member name="M:DotNetDocs.Mixins.ContainerDocumentationMixin.Contains(System.String)">
+            <summary>
+            Gets a value indicating whether the container contains a documenation referenced by <paramref name="fullName"/>.
+            </summary>
+            <param name="fullName">The full name to use when checking for the documentation.</param>
+            <returns>A value indicating whether the container contains a documentation referenced by <paramref name="fullName"/>.</returns>
+        </member>
+        <member name="T:DotNetDocs.Mixins.Contracts.IContainerDocumentation">
+            <summary>
+            Represents a documentation container such as an Assembly, Namespace, or Type.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Mixins.Contracts.IContainerDocumentation.Children">
+            <summary>
+            Gets a list of the children documentations.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Mixins.Contracts.IContainerDocumentation.Item(System.String)">
+            <summary>
+            Gets the object representing the object referenced by <paramref name="fullName"/>.
+            </summary>
+            <param name="fullName">The object to get.</param>
+            <returns>The object representing the object referenced by <paramref name="fullName"/>.</returns>
+        </member>
+        <member name="M:DotNetDocs.Mixins.Contracts.IContainerDocumentation.Contains(System.String)">
+            <summary>
+            Gets a value indicating if the object referenced by <paramref name="fullName"/> is contained within this container.
+            </summary>
+            <param name="fullName">The object to check for.</param>
+            <returns>A value indicating if the object referenced by <paramref name="fullName"/> is contained within this container.</returns>
+        </member>
+        <member name="T:DotNetDocs.Mixins.Contracts.IDeclarationProvider">
+            <summary>
+            Represents a provider for declaration strings.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.Mixins.Contracts.IDeclarationProvider.GetDeclaration">
+            <summary>
+            Gets a code declaration.
+            </summary>
+            <returns>A code declaration.</returns>
+        </member>
+        <member name="T:DotNetDocs.Mixins.Contracts.IDocumentation">
+            <summary>
+            Represents a generic documentation.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Mixins.Contracts.IDocumentation.FullName">
+            <summary>
+            Gets the full name of the item being documented.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Mixins.Contracts.IDocumentation.Name">
+            <summary>
+            Gets the name of the item being documentated.
+            </summary>
+        </member>
+        <member name="T:DotNetDocs.Mixins.Contracts.IMemberDocumentation">
+            <summary>
+            Represents a member documentation.
+            </summary>
+        </member>
+        <member name="T:DotNetDocs.Mixins.Contracts.IObjectDocumentation">
+            <summary>
+            Represents an object documentation such as a type or member.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Mixins.Contracts.IObjectDocumentation.Declaration">
+            <summary>
+            Gets the code declaration for the current member.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Mixins.Contracts.IObjectDocumentation.DeclaringType">
+            <summary>
+            Gets the <see cref="T:DotNetDocs.ObjectDocumentations.TypeDocumentation"/> which contains the current documentation.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Mixins.Contracts.IObjectDocumentation.Remarks">
+            <summary>
+            Gets the remarks for the current member.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Mixins.Contracts.IObjectDocumentation.Summary">
+            <summary>
+            Gets the summary from the XmlElement.
+            </summary>
+        </member>
+        <member name="T:DotNetDocs.Mixins.DeclarationProvider">
+            <summary>
+            Represetns a generic declaration provider.
+            </summary>
+        </member>
+        <member name="F:DotNetDocs.Mixins.DeclarationProvider.DecompilerLock">
+            <summary>
+            The lock for the decompiler.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.Mixins.DeclarationProvider.#ctor(ICSharpCode.Decompiler.CSharp.CSharpDecompiler)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.Mixins.DeclarationProvider"/> class.
+            </summary>
+            <param name="decompiler">The <see cref="N:ICSharpCode"/> to use for decompiling.</param>
+        </member>
+        <member name="P:DotNetDocs.Mixins.DeclarationProvider.Decompiler">
+            <summary>
+            Gets the decompiler for the declaration provider.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.Mixins.DeclarationProvider.GetDeclaration">
+            <summary>
+            In a extended type, returns a string declaration for using the current provider.
+            </summary>
+            <returns>A string representing the declaration.</returns>
+        </member>
+        <member name="M:DotNetDocs.Mixins.DeclarationProvider.PrettyifyDeclaration(System.String)">
+            <summary>
+            Cleans up the decompiled <paramref name="declaration"/>.
+            </summary>
+            <param name="declaration">The declaration to cleanup.</param>
+            <returns>The cleaner <paramref name="declaration"/>.</returns>
+        </member>
+        <member name="T:DotNetDocs.Mixins.FieldDeclarationProvider">
+            <summary>
+            A declaration provider for fields that trims '=' from generated declarations.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.Mixins.FieldDeclarationProvider.#ctor(ICSharpCode.Decompiler.CSharp.CSharpDecompiler,System.Nullable{System.Reflection.Metadata.EntityHandle})">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.Mixins.FieldDeclarationProvider"/> class.
+            </summary>
+            <param name="decompiler">An instance of the <see cref="T:ICSharpCode.Decompiler.CSharp.CSharpDecompiler"/> to use for generating declarations.</param>
+            <param name="entityHandle">The entity handle of the member to pass to <paramref name="decompiler"/>, used to decompile generate the declaration.</param>
+        </member>
+        <member name="M:DotNetDocs.Mixins.FieldDeclarationProvider.GetDeclaration">
+            <inheritdoc />
+        </member>
+        <member name="T:DotNetDocs.Mixins.MemberDocumentationMixin">
+            <summary>
+            Represents a mixin for members.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.Mixins.MemberDocumentationMixin.#ctor(Mono.Cecil.IMemberDefinition,System.Xml.Linq.XElement,DotNetDocs.ObjectDocumentations.TypeDocumentation,DotNetDocs.Mixins.Contracts.IDeclarationProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.Mixins.MemberDocumentationMixin"/> class.
+            </summary>
+            <param name="memberDefinition">The member to document.</param>
+            <param name="xElement">The XML element to use for documentation.</param>
+            <param name="declaringType">The <see cref="T:DotNetDocs.ObjectDocumentations.TypeDocumentation"/> which contains the current member.</param>
+            <param name="declarationProvider">The provider to use for generating the declaration for the member.</param>
+        </member>
+        <member name="P:DotNetDocs.Mixins.MemberDocumentationMixin.Remarks">
+            <summary>
+            Gets objects representing the remarks comment.  Handles inheritdoc elements as well.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Mixins.MemberDocumentationMixin.Summary">
+            <summary>
+            Gets objects representing the summary comment.  Handles inheritdoc elements as well.
+            </summary>
+        </member>
+        <member name="T:DotNetDocs.Mixins.ObjectDocumentationMixin">
+            <summary>
+            Represents a mixin for objects such as types and members.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.Mixins.ObjectDocumentationMixin.#ctor(Mono.Cecil.IMemberDefinition,System.Xml.Linq.XElement,DotNetDocs.ObjectDocumentations.TypeDocumentation,DotNetDocs.Mixins.Contracts.IDeclarationProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.Mixins.ObjectDocumentationMixin"/> class.
+            </summary>
+            <param name="memberDefinition">The member to document.</param>
+            <param name="xElement">The XML element to use for documentation.</param>
+            <param name="declaringType">The <see cref="T:DotNetDocs.ObjectDocumentations.TypeDocumentation"/> which contains the current object.</param>
+            <param name="declarationProvider">The provider to use for generating the declaration for the object.</param>
+        </member>
+        <member name="P:DotNetDocs.Mixins.ObjectDocumentationMixin.Declaration">
+            <summary>
+            Gets the declaration for the member.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Mixins.ObjectDocumentationMixin.DeclaringType">
+            <summary>
+            Gets the <see cref="T:DotNetDocs.ObjectDocumentations.TypeDocumentation"/> which contains the current documentation.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Mixins.ObjectDocumentationMixin.FullName">
+            <summary>
+            Gets the full name for the member.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Mixins.ObjectDocumentationMixin.Name">
+            <summary>
+            Gets the name for the member.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Mixins.ObjectDocumentationMixin.Remarks">
+            <summary>
+            Gets objects representing the remarks comments.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Mixins.ObjectDocumentationMixin.Summary">
+            <summary>
+            Gets objects representing the summary comment.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Mixins.ObjectDocumentationMixin.MemberDefinition">
+            <summary>
+            Gets the Mono.Cecil member definition.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.Mixins.ObjectDocumentationMixin.XElement">
+            <summary>
+            Gets the XML element for the object.
+            </summary>
+        </member>
+        <member name="T:DotNetDocs.Mixins.SimpleDeclarationProvider">
+            <summary>
+            A declaration provider for members that does not make significant modifications to the generated documentation.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.Mixins.SimpleDeclarationProvider.#ctor(ICSharpCode.Decompiler.CSharp.CSharpDecompiler,System.Nullable{System.Reflection.Metadata.EntityHandle})">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.Mixins.SimpleDeclarationProvider"/> class.
+            </summary>
+            <param name="decompiler">An instance of the <see cref="T:ICSharpCode.Decompiler.CSharp.CSharpDecompiler"/> to use for generating declarations.</param>
+            <param name="entityHandle">The entity handle of the member to pass to <paramref name="decompiler"/>, used to decompile generate the declaration.</param>
+        </member>
+        <member name="M:DotNetDocs.Mixins.SimpleDeclarationProvider.GetDeclaration">
+            <inheritdoc />
+        </member>
+        <member name="T:DotNetDocs.Mixins.TypeDeclarationProvider">
+            <summary>
+            A declaration provider for types.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.Mixins.TypeDeclarationProvider.#ctor(ICSharpCode.Decompiler.CSharp.CSharpDecompiler,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.Mixins.TypeDeclarationProvider"/> class.
+            </summary>
+            <param name="decompiler">An instance of the <see cref="T:ICSharpCode.Decompiler.CSharp.CSharpDecompiler"/> to use for generating declarations.</param>
+            <param name="typeName">The name of the type to pass to <paramref name="decompiler"/>, used to decompile generate the declaration.</param>
+        </member>
+        <member name="M:DotNetDocs.Mixins.TypeDeclarationProvider.GetDeclaration">
+            <inheritdoc />
+        </member>
+        <member name="T:DotNetDocs.ObjectDocumentations.ObjectDocumentation">
+            <summary>
+            Represents a object documentation.  This includes types and members.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.ObjectDocumentations.ObjectDocumentation.#ctor(Mono.Cecil.IMemberDefinition,System.Xml.Linq.XElement,DotNetDocs.ObjectDocumentations.TypeDocumentation,DotNetDocs.Mixins.Contracts.IDeclarationProvider)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.ObjectDocumentations.ObjectDocumentation"/> class.
+            </summary>
+            <param name="memberDefinition">The member to document.</param>
+            <param name="xElement">The XML element to use for documentation.</param>
+            <param name="declaringType">The <see cref="T:DotNetDocs.ObjectDocumentations.TypeDocumentation"/> which contains the current member.</param>
+            <param name="declarationProvider">The declaration provider used to generate the declarationg for the current object.</param>
+        </member>
+        <member name="M:DotNetDocs.ObjectDocumentations.ObjectDocumentation.#ctor(DotNetDocs.Mixins.ObjectDocumentationMixin)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.ObjectDocumentations.ObjectDocumentation"/> class.
+            </summary>
+            <param name="mixin">The instance of <see cref="P:DotNetDocs.ObjectDocumentations.ObjectDocumentation.ObjectDocumentationMixin"/> used for backing this object.</param>
+        </member>
+        <member name="M:DotNetDocs.ObjectDocumentations.ObjectDocumentation.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.ObjectDocumentations.ObjectDocumentation"/> class.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.ObjectDocumentation.Declaration">
+            <summary>
+            Gets the declaration for the current object.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.ObjectDocumentation.DeclaringType">
+            <summary>
+            Gets the <see cref="T:DotNetDocs.ObjectDocumentations.TypeDocumentation"/> which contains the current <see cref="T:DotNetDocs.ObjectDocumentations.ObjectDocumentation"/>.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.ObjectDocumentation.FullName">
+            <inheritdoc />
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.ObjectDocumentation.Name">
+            <inheritdoc />
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.ObjectDocumentation.Remarks">
+            <summary>
+            Gets objects representing the remarks comment.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.ObjectDocumentation.Summary">
+            <summary>
+            Gets objects representing the summary comment.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.ObjectDocumentation.ObjectDocumentationMixin">
+            <summary>
+            Gets or sets the <see cref="P:DotNetDocs.ObjectDocumentations.ObjectDocumentation.ObjectDocumentationMixin"/> that backs this type.
+            </summary>
+        </member>
+        <member name="T:DotNetDocs.ObjectDocumentations.TypeDocumentation">
+            <summary>
+            Parses a type.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.ObjectDocumentations.TypeDocumentation.#ctor(Mono.Cecil.TypeDefinition,System.Xml.Linq.XElement,DotNetDocs.ContainerDocumentations.NamespaceDocumentation,DotNetDocs.ContainerDocumentations.AssemblyDocumentation)">
+            <summary>
+            Initializes a new instance of the <see cref="T:DotNetDocs.ObjectDocumentations.TypeDocumentation"/> class.
+            </summary>
+            <param name="typeDefinition">The <see cref="T:Mono.Cecil.TypeDefinition"/> which to document.</param>
+            <param name="xElement">The XML element representing the XML comments for the current type.</param>
+            <param name="namespaceDocumentation">The parent <see cref="P:DotNetDocs.ObjectDocumentations.TypeDocumentation.NamespaceDocumentation"/> for the type.</param>
+            <param name="declaringAssembly">Type assembly which declares this type.</param>
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.TypeDocumentation.DotNetDocs#Mixins#Contracts#IContainerDocumentation#Children">
+            <summary>
+            Gets the children of the current type.  This includes fields, constructors, properties, and methods.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.TypeDocumentation.BaseType">
+            <summary>
+            Gets the base type for the type.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.TypeDocumentation.ConstructorDocumentations">
+            <summary>
+            Gets a list of constructors for the current type.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.TypeDocumentation.DeclaringAssembly">
+            <summary>
+            Gets the assembly that declares the current type.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.TypeDocumentation.FieldDocumentations">
+            <summary>
+            Gets a list of fields for the current type.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.TypeDocumentation.IsClass">
+            <summary>
+            Gets a value indicating whether the type is a class.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.TypeDocumentation.IsEnum">
+            <summary>
+            Gets a value indicating whether the type is a enum.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.TypeDocumentation.IsInterface">
+            <summary>
+            Gets a value indicating whether the type is an interface.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.TypeDocumentation.MethodDocumentations">
+            <summary>
+            Gets a list of methods for the current type.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.TypeDocumentation.NamespaceDocumentation">
+            <summary>
+            Gets the parent namespace.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.TypeDocumentation.PropertyDocumentations">
+            <summary>
+            Gets a list of the properties for the current type.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.TypeDocumentation.ReflectionTypeDefinition">
+            <summary>
+            Gets the underlying <see cref="T:System.Reflection.Metadata.TypeDefinition"/> for the type.
+            </summary>
+        </member>
+        <member name="P:DotNetDocs.ObjectDocumentations.TypeDocumentation.Item(System.String)">
+            <summary>
+            Gets the member referenced by <paramref name="fullName"/>.
+            </summary>
+            <param name="fullName">The full name of the member to return.</param>
+            <returns>The member referenced by <paramref name="fullName"/>.</returns>
+        </member>
+        <member name="M:DotNetDocs.ObjectDocumentations.TypeDocumentation.Contains(System.String)">
+            <summary>
+            Gets a value indicating whether this type contains a member referenced by <paramref name="fullName"/>.
+            </summary>
+            <param name="fullName">The full name of the member to find.</param>
+            <returns>A value indicating if the type contains the member referenced by <paramref name="fullName"/>.</returns>
+        </member>
+    </members>
+</doc>

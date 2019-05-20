@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DotNetDocs.Reflection.Metadata.Extensions</name>
+    </assembly>
+    <members>
+        <member name="M:DotNetDocs.Reflection.Metadata.Extensions.MethodDefinitionHandleExtensions.ToMethodString(System.Reflection.Metadata.MethodDefinitionHandle,ICSharpCode.Decompiler.Metadata.PEFile,ICSharpCode.Decompiler.CSharp.CSharpDecompiler)">
+            <summary>
+            Gets a string representing the <see cref="T:System.Reflection.Metadata.MethodDefinition"/>.
+            </summary>
+        </member>
+    </members>
+</doc>

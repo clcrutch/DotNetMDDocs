@@ -24,11 +24,11 @@ namespace DotNetMDDocs
     /// </summary>
     public static class UrlHelper
     {
-        private static Dictionary<string, string> urlMap;
+        private static readonly Dictionary<string, string> UrlMap;
 
         static UrlHelper()
         {
-            urlMap = new Dictionary<string, string>();
+            UrlMap = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -38,7 +38,12 @@ namespace DotNetMDDocs
         /// <param name="url">The URL that matches the type.</param>
         public static void AddType(string type, string url)
         {
-            urlMap.Add(type, url);
+            if (UrlMap.ContainsKey(type))
+            {
+                return;
+            }
+
+            UrlMap.Add(type, url);
         }
 
         /// <summary>
@@ -48,7 +53,7 @@ namespace DotNetMDDocs
         /// <returns>Either the Url previously inserted, or the Google I'm feeling lucky results if unknown.</returns>
         public static string GetUrl(string type)
         {
-            if (urlMap.TryGetValue(type, out string url))
+            if (UrlMap.TryGetValue(type, out string url))
             {
                 return url;
             }

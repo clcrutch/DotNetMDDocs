@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DotNetDocs.Mono.Cecil.Extensions</name>
+    </assembly>
+    <members>
+        <member name="T:DotNetDocs.Mono.Cecil.Extensions.FieldDefinitionExtensions">
+            <summary>
+            Extensions to <see cref="T:Mono.Cecil.FieldDefinition"/>.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.Mono.Cecil.Extensions.FieldDefinitionExtensions.ToEntityHandle(Mono.Cecil.FieldDefinition,ICSharpCode.Decompiler.Metadata.PEFile)">
+            <summary>
+            Convert to <see cref="T:System.Reflection.Metadata.EntityHandle"/> to use with ICSharpCode.Decompiler.
+            </summary>
+            <param name="fieldDefinition">The <see cref="T:Mono.Cecil.FieldDefinition"/> to convert to an entity handle.</param>
+            <param name="peFile">The <see cref="T:ICSharpCode.Decompiler.Metadata.PEFile"/> which to find <paramref name="fieldDefinition"/> in.</param>
+            <returns>A reference to the entity handle for <paramref name="fieldDefinition"/>.</returns>
+        </member>
+        <member name="M:DotNetDocs.Mono.Cecil.Extensions.FieldDefinitionExtensions.ToXElement(Mono.Cecil.FieldDefinition,System.Xml.Linq.XDocument)">
+            <summary>
+            Gets the <see cref="T:System.Xml.Linq.XElement"/> for <paramref name="fieldDefinition"/>.
+            </summary>
+            <param name="fieldDefinition">The <see cref="T:Mono.Cecil.FieldDefinition"/> to find the <see cref="T:System.Xml.Linq.XElement"/> for.</param>
+            <param name="xDocument">The document to find <paramref name="fieldDefinition"/> in.</param>
+            <returns>The document <see cref="T:System.Xml.Linq.XElement"/> which represents <paramref name="fieldDefinition"/>.</returns>
+        </member>
+        <member name="T:DotNetDocs.Mono.Cecil.Extensions.MethodDefinitionExtensions">
+            <summary>
+            Extensions to <see cref="T:Mono.Cecil.MethodDefinition"/>.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.Mono.Cecil.Extensions.MethodDefinitionExtensions.ToEntityHandle(Mono.Cecil.MethodDefinition,ICSharpCode.Decompiler.Metadata.PEFile,ICSharpCode.Decompiler.CSharp.CSharpDecompiler)">
+            <summary>
+            Convert to <see cref="T:System.Reflection.Metadata.EntityHandle"/> to use with ICSharpCode.Decompiler.
+            </summary>
+            <param name="methodDefinition">The <see cref="T:Mono.Cecil.MethodDefinition"/> to convert to an entity handle.</param>
+            <param name="peFile">The <see cref="T:ICSharpCode.Decompiler.Metadata.PEFile"/> which to find <paramref name="methodDefinition"/> in.</param>
+            <param name="decompiler">An instance of <see cref="T:ICSharpCode.Decompiler.CSharp.CSharpDecompiler"/> used for finding method parameters.</param>
+            <returns>A reference to the entity handle for <paramref name="methodDefinition"/>.</returns>
+        </member>
+        <member name="M:DotNetDocs.Mono.Cecil.Extensions.MethodDefinitionExtensions.ToMethodString(Mono.Cecil.MethodDefinition)">
+            <summary>
+            Gets a string representing the <see cref="T:Mono.Cecil.MethodDefinition"/>.
+            </summary>
+            <param name="methodDefinition">The <see cref="T:Mono.Cecil.MethodDefinition"/> to represent as a string.</param>
+            <returns>A string repsentation of <paramref name="methodDefinition"/>.</returns>
+        </member>
+        <member name="M:DotNetDocs.Mono.Cecil.Extensions.MethodDefinitionExtensions.ToXelement(Mono.Cecil.MethodDefinition,System.Xml.Linq.XDocument)">
+            <summary>
+            Gets the <see cref="T:System.Xml.Linq.XElement"/> for <paramref name="methodDefinition"/>.
+            </summary>
+            <param name="methodDefinition">The <see cref="T:Mono.Cecil.MethodDefinition"/> to find the <see cref="T:System.Xml.Linq.XElement"/> for.</param>
+            <param name="xDocument">The document to find <paramref name="methodDefinition"/> in.</param>
+            <returns>The document <see cref="T:System.Xml.Linq.XElement"/> which represents <paramref name="methodDefinition"/>.</returns>
+        </member>
+        <member name="T:DotNetDocs.Mono.Cecil.Extensions.PropertyDefinitionExtensions">
+            <summary>
+            Extensions to <see cref="T:Mono.Cecil.PropertyDefinition"/>.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.Mono.Cecil.Extensions.PropertyDefinitionExtensions.ToEntityHandle(Mono.Cecil.PropertyDefinition,ICSharpCode.Decompiler.Metadata.PEFile)">
+            <summary>
+            Convert to <see cref="T:System.Reflection.Metadata.EntityHandle"/> to use with ICSharpCode.Decompiler.
+            </summary>
+            <param name="propertyDefinition">The <see cref="T:Mono.Cecil.PropertyDefinition"/> to convert to an entity handle.</param>
+            <param name="peFile">The <see cref="T:ICSharpCode.Decompiler.Metadata.PEFile"/> which to find <paramref name="propertyDefinition"/> in.</param>
+            <returns>A reference to the entity handle for <paramref name="propertyDefinition"/>.</returns>
+        </member>
+        <member name="M:DotNetDocs.Mono.Cecil.Extensions.PropertyDefinitionExtensions.ToXElement(Mono.Cecil.PropertyDefinition,System.Xml.Linq.XDocument)">
+            <summary>
+            Gets the <see cref="T:System.Xml.Linq.XElement"/> for <paramref name="propertyDefinition"/>.
+            </summary>
+            <param name="propertyDefinition">The <see cref="T:Mono.Cecil.PropertyDefinition"/> to find the <see cref="T:System.Xml.Linq.XElement"/> for.</param>
+            <param name="xDocument">The document to find <paramref name="propertyDefinition"/> in.</param>
+            <returns>The document <see cref="T:System.Xml.Linq.XElement"/> which represents <paramref name="propertyDefinition"/>.</returns>
+        </member>
+        <member name="T:DotNetDocs.Mono.Cecil.Extensions.TypeDefinitionExtensions">
+            <summary>
+            Extensions to <see cref="T:Mono.Cecil.TypeDefinition"/>.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.Mono.Cecil.Extensions.TypeDefinitionExtensions.ToEntityHandle(Mono.Cecil.TypeDefinition,ICSharpCode.Decompiler.Metadata.PEFile)">
+            <summary>
+            Convert to <see cref="T:System.Reflection.Metadata.EntityHandle"/> to use with ICSharpCode.Decompiler.
+            </summary>
+            <param name="typeDefinition">The <see cref="T:Mono.Cecil.TypeDefinition"/> to convert to an entity handle.</param>
+            <param name="peFile">The <see cref="T:ICSharpCode.Decompiler.Metadata.PEFile"/> which to find <paramref name="typeDefinition"/> in.</param>
+            <returns>A reference to the entity handle for <paramref name="typeDefinition"/>.</returns>
+        </member>
+        <member name="M:DotNetDocs.Mono.Cecil.Extensions.TypeDefinitionExtensions.ToTypeString(Mono.Cecil.TypeDefinition)">
+            <summary>
+            Converts <paramref name="typeDefinition"/> to a string compatible with XML documentations.
+            </summary>
+            <param name="typeDefinition">The <see cref="T:Mono.Cecil.TypeDefinition"/> to convert.</param>
+            <returns>A documentation compatible type string.</returns>
+        </member>
+        <member name="T:DotNetDocs.Mono.Cecil.Extensions.TypeReferenceExtensions">
+            <summary>
+            Extensions to <see cref="T:Mono.Cecil.TypeReference"/>.
+            </summary>
+        </member>
+        <member name="M:DotNetDocs.Mono.Cecil.Extensions.TypeReferenceExtensions.ToTypeString(Mono.Cecil.TypeReference)">
+            <summary>
+            Converts <paramref name="typeReference"/> to a string compatible with XML documentations.
+            </summary>
+            <param name="typeReference">The <see cref="T:Mono.Cecil.TypeReference"/> to convert.</param>
+            <returns>A documentation compatible type string.</returns>
+        </member>
+    </members>
+</doc>

@@ -35,21 +35,26 @@ namespace DotNetMDDocs.Extensions
 
             foreach (var item in @this)
             {
-                if (item is StringCommentBlockElement)
+                if (item is StringCommentBlockElement stringComment)
                 {
                     markdownGroup.AddElement(new MDText
                     {
-                        Text = ((StringCommentBlockElement)item).Content,
+                        Text = stringComment.Content.Trim(),
                     });
                 }
-                else if (item is SeeCommentBlockElement)
+                else if (item is SeeCommentBlockElement see)
                 {
-                    var see = item as SeeCommentBlockElement;
-
                     markdownGroup.AddElement(new MDLink
                     {
                         Text = see.TypeName,
                         Url = UrlHelper.GetUrl(see.TypeName),
+                    });
+                }
+                else if (item is ParamRefCommentBlockElement paramRef)
+                {
+                    markdownGroup.AddElement(new MDText
+                    {
+                        Text = paramRef.ParameterName,
                     });
                 }
             }

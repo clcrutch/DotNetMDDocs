@@ -15,16 +15,13 @@
 // along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 // </copyright>
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
-using DotNetDocs;
-using DotNetMDDocs.Extensions;
+using DotNetDocs.ContainerDocumentations;
+using DotNetMDDocs.DocumentationGenerators;
 using McMaster.Extensions.CommandLineUtils;
+using Serilog;
 
 namespace DotNetMDDocs
 {
@@ -37,103 +34,29 @@ namespace DotNetMDDocs
         [Option(Description = "Path to the documents folder.")]
         public string DocumentPath { get; set; } = "docs";
 
-        public static async Task<int> Main(string[] args)
+        [Option(Description = "Clear the documents folder.")]
+        public bool Clean { get; set; }
+
+        public static Task<int> Main(string[] args) =>
+            CommandLineApplication.ExecuteAsync<Program>(args);
+
+        public Task OnExecuteAsync()
         {
-            var @return = await CommandLineApplication.ExecuteAsync<Program>(args);
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.Console()
+                .CreateLogger();
 
-#if DEBUG
-            if (!Console.IsInputRedirected)
-            {
-                Console.WriteLine("Press any key to continue...");
-                Console.ReadKey(true);
-            }
-#endif
-
-            return @return;
-        }
-
-        private async Task OnExecuteAsync()
-        {
             var dllPath = this.AssemblyPath;
-            var xmlPath = Path.Combine(Path.GetDirectoryName(this.AssemblyPath), $"{Path.GetFileNameWithoutExtension(this.AssemblyPath)}.xml");
-
-            var assemblyDocumentation = AssemblyDocumentation.Parse(dllPath, xmlPath);
+            var assemblyDocumentation = AssemblyDocumentation.Parse(dllPath);
 
             var docs = Directory.CreateDirectory(this.DocumentPath);
 
-            foreach (var typeDocumentation in assemblyDocumentation.Types)
+            if (this.Clean && docs.Exists)
             {
-                var path = $"{docs.Name}/{typeDocumentation.Namespace.Replace(".", "/")}";
-                UrlHelper.AddType(typeDocumentation.FullName, $"/{path}/{HttpUtility.UrlEncode(typeDocumentation.GetSafeName()).Replace("+", "%20")}.md");
+                docs.Delete(true);
             }
 
-            foreach (var typeDocumentation in assemblyDocumentation.Types)
-            {
-                Console.WriteLine($"Generating docs for {typeDocumentation.FullName}...");
-
-                var rootDir = Directory.CreateDirectory(Path.Combine(docs.FullName, Path.Combine(typeDocumentation.Namespace.Split('.'))));
-                var typeDir = new DirectoryInfo(Path.Combine(rootDir.FullName, typeDocumentation.GetSafeName()));
-
-                if (typeDir.Exists)
-                {
-                    typeDir.Delete(true);
-                }
-
-                typeDir.Create();
-
-                var typeDocBuilder = new TypeDocBuilder(typeDocumentation, assemblyDocumentation, docs.Name);
-                using (var stream = File.CreateText(Path.Combine(rootDir.FullName, $"{typeDocumentation.GetSafeName()}.md")))
-                {
-                    try
-                    {
-                        await stream.WriteAsync(typeDocBuilder.Generate());
-
-                        await stream.FlushAsync();
-                    }
-                    catch (System.IO.IOException)
-                    {
-                        // Failure to write.
-                    }
-                }
-
-                // Constructors
-                var constructorsTask = this.GenerateDocsAsync<MethodDocBuilder>(typeDocumentation.ConstructorDocumentations, typeDocumentation, assemblyDocumentation, typeDir, "Constructors");
-
-                // Properties
-                var propertiesTask = this.GenerateDocsAsync<PropertyDocBuilder>(typeDocumentation.PropertyDocumentations, typeDocumentation, assemblyDocumentation, typeDir, "Properties");
-
-                // Methods
-                var methodsTask = this.GenerateDocsAsync<MethodDocBuilder>(typeDocumentation.MethodDocumentations, typeDocumentation, assemblyDocumentation, typeDir, "Methods");
-
-                // Fields
-                var fieldsTask = this.GenerateDocsAsync<FieldDocBuilder>(typeDocumentation.FieldDocumentations, typeDocumentation, assemblyDocumentation, typeDir, "Fields");
-
-                // Allow all the tasks to execute in parallel.
-                await Task.WhenAll(constructorsTask, propertiesTask, methodsTask, fieldsTask);
-            }
-        }
-
-        private async Task GenerateDocsAsync<TBuilder>(IEnumerable<DocumentationBase> documentations, TypeDocumentation typeDocumentation, AssemblyDocumentation assemblyDocumentation, DirectoryInfo typeDir, string dirName)
-            where TBuilder : DocBuilder
-        {
-            var docDir = Directory.CreateDirectory(Path.Combine(typeDir.FullName, dirName));
-            foreach (var documentation in documentations)
-            {
-                try
-                {
-                    var docBuilder = (TBuilder)Activator.CreateInstance(typeof(TBuilder), documentation, typeDocumentation, assemblyDocumentation);
-                    using (var stream = File.CreateText(Path.Combine(docDir.FullName, $"{documentation.GetSafeName()}.md")))
-                    {
-                        await stream.WriteAsync(docBuilder.Generate());
-
-                        await stream.FlushAsync();
-                    }
-                }
-                catch (System.IO.IOException)
-                {
-                    // Failure to write.
-                }
-            }
+            return new AssemblyDocumentationGenerator(assemblyDocumentation, docs).GenerateAsync();
         }
     }
 }

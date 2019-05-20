@@ -32,7 +32,7 @@ namespace DotNetMDDocs.Markdown
         /// <inheritdoc />
         public string Generate()
         {
-            return $"> {this.Quote.Generate()}{Environment.NewLine}{Environment.NewLine}";
+            return $"> {this.Quote.Generate().Trim()}{Environment.NewLine}{Environment.NewLine}";
         }
     }
 }

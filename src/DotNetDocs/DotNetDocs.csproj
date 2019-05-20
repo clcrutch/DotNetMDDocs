@@ -2,18 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>latest</LangVersion>
     <NoWarn>1701;1702;SA0001</NoWarn>
+    <DocumentationFile>.\docs\DotNetDocs.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <DocumentationFile>bin\Release\netstandard2.0\DotNetDocs.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.0\DotNetDocs.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,13 +26,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mono.Cecil" Version="0.10.0" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta008" />
+    <PackageReference Include="ICSharpCode.Decompiler" Version="4.0.0.4521" />
+    <PackageReference Include="Mono.Cecil" Version="0.10.3" />
+    <PackageReference Include="Serilog" Version="2.8.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="System.Reflection.Metadata" Version="1.6.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ICSharpCode.Decompiler\ICSharpCode.Decompiler.csproj" />
+    <ProjectReference Include="..\DotNetDocs.Mono.Cecil.Extensions\DotNetDocs.Mono.Cecil.Extensions.csproj" />
+    <ProjectReference Include="..\DotNetDocs.Reflection.Metadata.Extensions\DotNetDocs.Reflection.Metadata.Extensions.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -15,7 +15,6 @@
 // along with this program.  If not, see &lt;http://www.gnu.org/licenses/&gt;.
 // </copyright>
 
-using System;
 using System.Linq;
 using System.Xml.Linq;
 using DotNetDocs.Reflection.Metadata.Extensions;

@@ -45,7 +45,7 @@ namespace DotNetDocs.Mono.Cecil.Extensions
 
             try
             {
-                return typeReference.Resolve().ToTypeString();
+                return typeReference.Resolve()?.ToTypeString();
             }
             catch (AssemblyResolutionException)
             {
